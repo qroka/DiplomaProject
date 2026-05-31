@@ -46,8 +46,8 @@ const items = [
   { label: 'Главная', to: '/' },
   { label: 'О нас', to: '/about' },
   { label: 'Вакансии', to: '/vacancies' },
-  { label: 'Новости', to: '/news' },
   { label: 'Контакты', to: '/contacts' },
-  { label: 'Конкурсы', to: '/tenders' }
+  { label: 'Конкурсы', to: '/tenders' },
+  { label: 'Противодействие коррупции', to: '/anti-corruption' }
 ]
 </script>

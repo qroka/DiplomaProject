@@ -4,10 +4,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 
-from .models import Tender, Vacancy, StaffMember, WorkSchedule, RequiredExperience, JobType
+from .models import Tender, Vacancy, StaffMember, WorkSchedule, RequiredExperience, JobType, AntiCorruptionDocument, CorruptionReport
 from .serializers import (TenderSerializer, VacancySerializer, StaffMemberSerializer,
                           JobApplicationSerializer, WorkScheduleSerializer,
-                          RequiredExperienceSerializer, JobTypeSerializer)
+                          RequiredExperienceSerializer, JobTypeSerializer,
+                          AntiCorruptionDocumentSerializer, CorruptionReportSerializer)
 
 
 @api_view(['GET'])
@@ -86,6 +87,26 @@ def apply(request):
         serializer.save()
         return Response(
             {"message": "Заявка успешно отправлена!", "id": serializer.instance.id},
+            status=status.HTTP_201_CREATED
+        )
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def anti_corruption_documents(request):
+    items = AntiCorruptionDocument.objects.all()
+    serializer = AntiCorruptionDocumentSerializer(items, many=True, context={'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def submit_corruption_report(request):
+    serializer = CorruptionReportSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(
+            {"message": "Сообщение успешно отправлено!", "id": serializer.instance.id},
             status=status.HTTP_201_CREATED
         )
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

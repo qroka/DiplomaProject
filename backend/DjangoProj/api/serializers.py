@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Tender, StaffMember, Vacancy, JobApplication, Branch, WorkSchedule, RequiredExperience, JobType
+from .models import Tender, StaffMember, Vacancy, JobApplication, Branch, WorkSchedule, RequiredExperience, JobType, AntiCorruptionDocument, CorruptionReport
 
 
 class TenderSerializer(serializers.ModelSerializer):
@@ -81,5 +81,28 @@ class VacancySerializer(serializers.ModelSerializer):
 class JobApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobApplication
+        fields = '__all__'
+        read_only_fields = ['created_at']
+
+
+class AntiCorruptionDocumentSerializer(serializers.ModelSerializer):
+    file = serializers.SerializerMethodField()
+
+    class Meta:
+        model = AntiCorruptionDocument
+        fields = ['id', 'category', 'name', 'file', 'created_at']
+
+    def get_file(self, obj):
+        if obj.file:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.file.url)
+            return obj.file.url
+        return None
+
+
+class CorruptionReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CorruptionReport
         fields = '__all__'
         read_only_fields = ['created_at']

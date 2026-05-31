@@ -1,13 +1,7 @@
 <template>
   <UContainer class="py-8 lg:py-12">
     <!-- Breadcrumb -->
-    <NuxtLink
-      to="/vacancies"
-      class="inline-flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 mb-6 transition-colors"
-    >
-      <UIcon name="i-lucide-arrow-left" class="h-4 w-4" />
-      <span>Назад к вакансиям</span>
-    </NuxtLink>
+    <UBreadcrumb :items="breadcrumbItems" separator-icon="i-lucide-chevron-right" class="mb-6" />
 
     <!-- Loading State -->
     <div
@@ -121,6 +115,16 @@ const config = useRuntimeConfig()
 const vacancy = ref(null)
 const loading = ref(true)
 const error = ref(null)
+
+const breadcrumbItems = computed(() => {
+  const items = [
+    { label: 'Вакансии', icon: 'i-lucide-briefcase', to: '/vacancies' },
+  ]
+  if (vacancy.value) {
+    items.push({ label: vacancy.value.title })
+  }
+  return items
+})
 
 async function fetchVacancy() {
   loading.value = true

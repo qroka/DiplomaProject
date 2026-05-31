@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Tender, StaffMember, Vacancy, JobApplication, Branch, WorkSchedule, RequiredExperience, JobType, WorkingHours
+from .models import Tender, StaffMember, Vacancy, JobApplication, Branch, WorkSchedule, RequiredExperience, JobType, WorkingHours, AntiCorruptionDocument, CorruptionReport
 
 
 @admin.register(Branch)
@@ -65,3 +65,17 @@ class JobApplicationAdmin(admin.ModelAdmin):
     list_display = ['last_name', 'first_name', 'vacancy_title', 'email', 'phone', 'created_at']
     list_filter = ['vacancy_title', 'created_at', 'marital_status']
     search_fields = ['last_name', 'first_name', 'email', 'phone']
+
+
+@admin.register(AntiCorruptionDocument)
+class AntiCorruptionDocumentAdmin(admin.ModelAdmin):
+    list_display = ['name', 'category', 'created_at']
+    list_filter = ['category']
+    search_fields = ['name', 'category']
+
+
+@admin.register(CorruptionReport)
+class CorruptionReportAdmin(admin.ModelAdmin):
+    list_display = ['full_name', 'email', 'created_at']
+    list_filter = ['created_at']
+    search_fields = ['full_name', 'email']

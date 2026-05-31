@@ -131,6 +131,37 @@ class Vacancy(models.Model):
         return self.title
 
 
+class AntiCorruptionDocument(models.Model):
+    category = models.CharField('Категория', max_length=255)
+    name = models.CharField('Название', max_length=255)
+    file = models.FileField('Файл', upload_to='anti_corruption_docs/')
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Антикоррупционный документ'
+        verbose_name_plural = 'Антикоррупционные документы'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'[{self.category}] {self.name}'
+
+
+class CorruptionReport(models.Model):
+    full_name = models.CharField('ФИО нарушителя', max_length=255)
+    email = models.EmailField('Email')
+    message = models.TextField('Сообщение')
+    attachment = models.FileField('Вложение', upload_to='corruption_reports/', blank=True, null=True)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Репорт о коррупции'
+        verbose_name_plural = 'Репорты о коррупции'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.full_name} ({self.created_at.strftime("%d.%m.%Y")})'
+
+
 class JobApplication(models.Model):
     MARITAL_STATUS_CHOICES = [
         ('single', 'Холост/Не замужем'),
