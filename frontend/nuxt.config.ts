@@ -17,7 +17,8 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/ui',
     '@nuxt/content',
-    '@nuxt/fonts'
+    '@nuxt/fonts',
+    '@nuxt/a11y'
   ],
 
   vite: {
