@@ -137,6 +137,7 @@
                 :to="doc.file"
                 target="_blank"
                 external
+                :aria-label="'Скачать: ' + doc.name"
                 class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-500 text-gray-900 dark:text-white hover:bg-primary-600 transition-colors text-sm shrink-0"
               >
                 <UIcon name="i-lucide-download" class="h-4 w-4" />
@@ -158,6 +159,7 @@
 </template>
 
 <script setup lang="ts">
+useHead({ title: 'Противодействие коррупции' })
 import type { ListboxItem } from '@nuxt/ui'
 
 const config = useRuntimeConfig()

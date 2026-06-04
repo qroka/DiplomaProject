@@ -20,6 +20,7 @@
               :to="entry.link"
               target="_blank"
               external
+              :aria-label="'Скачать: ' + entry.name"
               class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-500 text-gray-900 dark:text-white hover:bg-primary-600 transition-colors text-sm"
             >
               <UIcon name="i-lucide-download" class="h-4 w-4" />

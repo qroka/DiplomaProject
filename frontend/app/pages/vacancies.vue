@@ -20,6 +20,7 @@
   </template>
 
 <script setup>
+useHead({ title: 'Вакансии' })
 import VacancyCards from '~/components/VacancyCards.vue'
 
 const config = useRuntimeConfig()

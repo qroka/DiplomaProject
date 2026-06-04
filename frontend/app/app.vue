@@ -10,3 +10,12 @@
     </div>
   </UApp>
 </template>
+
+<script setup lang="ts">
+useHead({
+  titleTemplate: '%s — Кадровый портал Сургутского района',
+  htmlAttrs: {
+    lang: 'ru'
+  }
+})
+</script>

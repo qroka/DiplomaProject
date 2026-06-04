@@ -73,6 +73,7 @@
       <div class="flex gap-3">
         <UButton
           label="Подробнее"
+          :aria-label="'Подробнее о вакансии: ' + vacancy.title"
           color="primary"
           variant="solid"
           class="bg-primary-500 text-gray-900 dark:text-white hover:bg-primary-600 flex-1"

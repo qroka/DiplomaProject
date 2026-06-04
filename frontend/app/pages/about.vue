@@ -1,4 +1,5 @@
 <script setup>
+useHead({ title: 'О районе' })
 const config = useRuntimeConfig()
 const { data: staffItems } = await useAsyncData('staff', () =>
   $fetch(`${config.public.apiBaseUrl}/api/staff/`), { server: false }

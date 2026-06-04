@@ -8,7 +8,6 @@ const columns: FooterColumn[] = [
       { label: 'Главная', to: '/' },
       { label: 'О нас', to: '/about' },
       { label: 'Вакансии', to: '/vacancies' },
-      { label: 'Новости', to: '/news' },
       { label: 'Контакты', to: '/contacts' },
       { label: 'Конкурсы', to: '/tenders' },
     ]
@@ -26,8 +25,7 @@ const columns: FooterColumn[] = [
     label: 'Документы',
     children: [
       { label: 'Политика конфиденциальности', to: '/privacy' },
-      { label: 'Анти-коррупционная политика', to: '/anti-corruption' },
-      { label: 'Обработка персональных данных', to: '/data-processing' }
+      { label: 'Анти-коррупционная политика', to: '/anti-corruption' }
     ]
   }
 ]

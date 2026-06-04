@@ -8,3 +8,7 @@
     <TabsTenders />
 </template>
 
+<script setup lang="ts">
+useHead({ title: 'Тендеры' })
+</script>
+

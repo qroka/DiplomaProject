@@ -15,7 +15,7 @@
             :label="buttonLabel"
             :to="buttonLink"
             size="xl"
-            class="mt-6 bg-primary-500 text-gray-900 dark:text-white hover:bg-primary-600"
+            class="mt-6 bg-primary-500 text-gray-900 dark:text-white hover:bg-primary-600 focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2"
           />
         </div>
       </template>

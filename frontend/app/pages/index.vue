@@ -19,7 +19,7 @@
 
   <!-- Листающиеся логотипы -->
   <!-- TODO: при маленком разрешении они стоят в ряд не шевелясь -->
-  <div class="group **:data-marquee:hover:[animation-play-state:paused]">
+  <div class="group **:data-marquee:hover:[animation-play-state:paused] **:data-marquee:focus-within:[animation-play-state:paused]">
     <UMarquee
       pause-on-hover
       :overlay="false"
@@ -35,7 +35,7 @@
         :key="index"
         :to="logo.url"
         target="_blank"
-        class="flex items-center justify-center px-6 mb-6"
+        class="flex items-center justify-center px-6 mb-6 focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2 focus-visible:rounded-lg"
       >
         <img :src="logo.image" :alt="logo.alt" class="h-12 w-12 opacity-75 hover:opacity-100 transition object-contain" />
       </NuxtLink>
@@ -108,6 +108,7 @@
 </template>
 
 <script setup>
+useHead({ title: 'Главная' })
 import VacancyCarousel from '~/components/VacancyCarousel.vue'
 
 const config = useRuntimeConfig()

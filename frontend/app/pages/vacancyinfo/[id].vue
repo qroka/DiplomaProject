@@ -44,7 +44,7 @@
             <div class="flex items-center gap-3 text-gray-500 dark:text-gray-400">
               <UIcon name="i-lucide-map-pin" class="h-5 w-5 shrink-0" />
               <div>
-                <p class="text-sm text-gray-400 dark:text-gray-500">Локация</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Локация</p>
                 <p class="text-gray-900 dark:text-white font-medium">{{ vacancy.location }}</p>
               </div>
             </div>
@@ -53,7 +53,7 @@
             <div class="flex items-center gap-3 text-green-600 dark:text-green-400">
               <UIcon name="i-lucide-wallet" class="h-5 w-5 shrink-0" />
               <div>
-                <p class="text-sm text-gray-400 dark:text-gray-500">Зарплата</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Зарплата</p>
                 <p class="text-gray-900 dark:text-white font-semibold">{{ vacancy.salary }}</p>
               </div>
             </div>
@@ -62,7 +62,7 @@
             <div class="flex items-center gap-3 text-gray-500 dark:text-gray-400">
               <UIcon name="i-lucide-award" class="h-5 w-5 shrink-0" />
               <div>
-                <p class="text-sm text-gray-400 dark:text-gray-500">Опыт</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Опыт</p>
                 <p class="text-gray-900 dark:text-white font-medium">{{ vacancy.experience || 'Не указан' }}</p>
               </div>
             </div>
@@ -98,6 +98,14 @@
             {{ vacancy.description }}
           </div>
         </UCard>
+        
+        <UButton
+          label="Откликнуться"
+          color="green"
+          variant="outline"
+          class="bg-primary-500 text-gray-900 dark:text-white hover:bg-primary-600 flex-1"
+          @click="$emit('apply', vacancy)"
+        />
 
         <!-- Created At -->
         <p class="text-sm text-gray-400 dark:text-gray-500">
@@ -109,6 +117,7 @@
 </template>
 
 <script setup>
+useHead({ title: 'Вакансия' })
 const route = useRoute()
 const config = useRuntimeConfig()
 
@@ -153,6 +162,8 @@ function formatDate(dateStr) {
     year: 'numeric'
   })
 }
+
+
 
 fetchVacancy()
 </script>

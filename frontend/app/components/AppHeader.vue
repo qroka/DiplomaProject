@@ -2,8 +2,8 @@
   <UHeader>
     <!-- LEFT: Logo + Company Name -->
     <template #left>
-      <NuxtLink to="/" class="flex items-center gap-3">
-        <NuxtImg src="/logos/surrailogo.png" class="h-8 w-auto" />
+      <NuxtLink to="/" class="flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2 focus-visible:rounded-lg">
+        <NuxtImg src="/logos/surrailogo.png" alt="На главную" class="h-8 w-auto" />
         <div class="font-semibold text-2xl tracking-tight">
           Кадровый портал
           <span class="text-sm text-gray-500 dark:text-gray-400 font-normal block -mt-1">Сургутского района</span>

@@ -27,5 +27,6 @@
 </template>
 
 <script setup>
+useHead({ title: 'Политика конфиденциальности' })
 // This is a placeholder privacy policy page
 </script>

@@ -1,4 +1,5 @@
 <script setup>
+useHead({ title: 'Доска почёта' })
 const config = useRuntimeConfig()
 const { data: staffItems } = await useAsyncData('staff', () =>
   $fetch(`${config.public.apiBaseUrl}/api/staff/?honorboard=true`), { server: false }

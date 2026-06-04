@@ -7,3 +7,7 @@
   />
     <ContactsTable />
   </template>
+
+<script setup lang="ts">
+useHead({ title: 'Контакты' })
+</script>
