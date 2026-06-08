@@ -10,12 +10,13 @@
   />
 
   <!-- Вот с кем мы работаем -->
-  <div>
-    <USeparator 
-      label="С нами работают" 
-      class="my-6"
-    />
-  </div>
+  <UContainer>
+    <div class="flex items-center gap-3 mb-6">
+      <div class="flex-1 h-px bg-gradient-brand"></div>
+      <span class="text-sm font-medium text-gray-500 dark:text-gray-400 shrink-0">С нами работают</span>
+      <div class="flex-1 h-px bg-gradient-brand"></div>
+    </div>
+  </UContainer>
 
   <!-- Листающиеся логотипы -->
   <!-- TODO: при маленком разрешении они стоят в ряд не шевелясь -->
@@ -42,16 +43,46 @@
     </UMarquee>
   </div>
 
+  <UContainer>
+    <div class="h-px bg-gradient-brand mb-6"></div>
+  </UContainer>
+
   <!-- Деятельность -->
-  <UContainer class="py-6 lg:py-12">
+  <UContainer class="py-6 lg:py-12 mb-6">
+    <!-- Header -->
+    <div class="max-w-2xl mb-6">
+      <h2 class="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+        Новости
+      </h2>
+      <p class="text-gray-500 dark:text-gray-400 text-lg">
+        Коротко о наших текущих мероприятиях
+      </p>
+    </div>
     <UBlogPosts
       class="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6"
-      :posts="posts"
-    />
+    >
+      <UBlogPost
+        v-for="post in posts"
+        :key="post.title"
+        :title="post.title"
+        :description="post.description"
+        :date="post.date"
+        :ui="{
+          root: 'bg-secondary-500',
+          title: 'text-white',
+          description: 'text-white/80',
+          date: 'text-white/60'
+        }"
+      />
+    </UBlogPosts>
+  </UContainer>
+ 
+  <UContainer>
+    <div class="h-px bg-gradient-brand"></div>
   </UContainer>
 
   <!-- Почему работать именно с нами -->
-  <UContainer class="py-6 lg:py-12">
+  <UContainer class="mb-6 py-6 lg:py-12">
     <!-- Header -->
     <div class="max-w-2xl mb-6">
       <h2 class="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
@@ -69,19 +100,37 @@
         :title="feature.title"
         :description="feature.description"
         :icon="feature.icon"
-        class="bg-white/60 dark:bg-gray-900/50 border-gray-200 dark:border-gray-800 backdrop-blur-sm"
+        :ui="{
+          root: 'bg-gradient-brand',
+          title: 'text-white',
+          description: 'text-white/80',
+          leadingIcon: 'text-white'
+        }"
       />
     </UPageGrid>
   </UContainer>
-    <VacancyCarousel
-      title="Последние вакансии"
-      subtitle="Актуальные предложения от работодателей"
-      :vacancies="vacanciesData ?? []"
-    />
+
+  <UContainer>
+    <div class="h-px bg-gradient-brand mb-6"></div>
+  </UContainer>
+
+  <VacancyCarousel
+    title="Последние вакансии"
+    subtitle="Актуальные предложения от работодателей"
+    :vacancies="vacanciesData ?? []"
+  />
+
+  <UContainer>
+    <div class="flex items-center gap-3 mb-6">
+      <div class="flex-1 h-px bg-gradient-brand"></div>
+      <span class="text-sm font-medium text-gray-500 dark:text-gray-400 shrink-0">С нами работают</span>
+      <div class="flex-1 h-px bg-gradient-brand"></div>
+    </div>
+  </UContainer>
 
   <UContainer class="py-6 lg:py-12">
     <!-- Header -->
-    <div class=" max-w-2xl mx-2 mb-2">
+    <div class=" max-w-2xl mx-2">
       <h2 class="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
         Часто Задаваемые <span class="text-green-600 dark:text-green-400">Вопросы</span>
       </h2>
@@ -104,7 +153,6 @@
       />
     </div>
   </UContainer>
-  
 </template>
 
 <script setup>
@@ -149,23 +197,20 @@ const features = [
 ]
 
 const posts = [
-  { 
-    title: 'Спортивный конкурс между отделами', 
-    description: 'Такого-то числа у нас проходит конкурс...', 
-    image: 'https://nuxt.com/assets/blog/nuxt-icon/cover.png', 
-    date: '2024-11-25' 
+  {
+    title: 'Спортивный конкурс между отделами',
+    description: 'Такого-то числа у нас проходит конкурс...',
+    date: '2024-11-25'
   },
-  { 
-    title: 'Время близится к первому декабря, заплатил налог?', 
-    description: 'Приходите в налоговую...', 
-    image: 'https://nuxt.com/assets/blog/v3.14.png', 
-    date: '2024-11-04' 
+  {
+    title: 'Время близится к первому декабря, заплатил налог?',
+    description: 'Приходите в налоговую...',
+    date: '2024-11-04'
   },
-  { 
-    title: 'Поздравляем с Днем госслужащего!', 
-    description: 'Глава нашего Сургутского района спешит вас поздравить...', 
-    image: 'https://nuxt.com/assets/blog/v3.13.png', 
-    date: '2024-08-22' 
+  {
+    title: 'Поздравляем с Днем госслужащего!',
+    description: 'Глава нашего Сургутского района спешит вас поздравить...',
+    date: '2024-08-22'
   }
 ]
 

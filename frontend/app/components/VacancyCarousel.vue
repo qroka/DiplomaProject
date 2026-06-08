@@ -7,7 +7,7 @@
       </template>
     </UModal>
 
-    <UContainer class="py-12 lg:py-20">
+    <UContainer class="pb-6 lg:pb-12">
       <!-- Header Section -->
       <div class="text-center mb-6">
         <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
