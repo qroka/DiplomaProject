@@ -5,6 +5,7 @@
         image="/images/office.png"
         image-alt="Office workspace"
     />
+    <TendersInfo />
     <TabsTenders />
 </template>
 

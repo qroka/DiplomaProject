@@ -1,14 +1,16 @@
+import time
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 
-from .models import Tender, Vacancy, StaffMember, WorkSchedule, RequiredExperience, JobType, AntiCorruptionDocument, CorruptionReport
+from .models import Tender, Vacancy, StaffMember, WorkSchedule, RequiredExperience, JobType, AntiCorruptionDocument, CorruptionReport, BranchesGlobal, Feedback
 from .serializers import (TenderSerializer, VacancySerializer, StaffMemberSerializer,
                           JobApplicationSerializer, WorkScheduleSerializer,
                           RequiredExperienceSerializer, JobTypeSerializer,
-                          AntiCorruptionDocumentSerializer, CorruptionReportSerializer)
+                          AntiCorruptionDocumentSerializer, CorruptionReportSerializer,
+                          BranchesGlobalSerializer, FeedbackSerializer)
 
 
 @api_view(['GET'])
@@ -25,10 +27,12 @@ def tenders(request):
 
 @api_view(['GET'])
 def staff_members(request):
-    items = StaffMember.objects.filter(is_active=True)
-
-    if request.query_params.get('honorboard'):
-        items = items.filter(show_on_honorboard=True)
+    if request.query_params.get('reserve'):
+        items = StaffMember.objects.filter(show_on_reserve=True)
+    else:
+        items = StaffMember.objects.filter(is_active=True, show_on_reserve=False)
+        if request.query_params.get('honorboard'):
+            items = items.filter(show_on_honorboard=True)
 
     serializer = StaffMemberSerializer(items, many=True, context={'request': request})
     return Response(serializer.data)
@@ -102,11 +106,78 @@ def anti_corruption_documents(request):
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
 def submit_corruption_report(request):
+    cooldown_seconds = 60
+
+    last_submit = request.COOKIES.get('corruption_cooldown')
+    if last_submit:
+        try:
+            last_time = float(last_submit)
+            if time.time() - last_time < cooldown_seconds:
+                remaining = int(cooldown_seconds - (time.time() - last_time))
+                return Response(
+                    {'error': f'Слишком частая отправка. Подождите {remaining} сек.'},
+                    status=status.HTTP_429_TOO_MANY_REQUESTS
+                )
+        except ValueError:
+            pass
+
     serializer = CorruptionReportSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(
+        response = Response(
             {"message": "Сообщение успешно отправлено!", "id": serializer.instance.id},
             status=status.HTTP_201_CREATED
         )
+        response.set_cookie(
+            'corruption_cooldown',
+            str(time.time()),
+            max_age=cooldown_seconds,
+            httponly=True,
+            samesite='Lax'
+        )
+        return response
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def branches_global(request):
+    items = BranchesGlobal.objects.all()
+    serializer = BranchesGlobalSerializer(items, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def submit_feedback(request):
+    cooldown_seconds = 60
+
+    last_submit = request.COOKIES.get('feedback_cooldown')
+    if last_submit:
+        try:
+            last_time = float(last_submit)
+            if time.time() - last_time < cooldown_seconds:
+                remaining = int(cooldown_seconds - (time.time() - last_time))
+                return Response(
+                    {'error': f'Слишком частая отправка. Подождите {remaining} сек.'},
+                    status=status.HTTP_429_TOO_MANY_REQUESTS
+                )
+        except ValueError:
+            pass
+
+    serializer = FeedbackSerializer(data=request.data)
+    if serializer.is_valid():
+        instance = serializer.save()
+
+        response = Response(
+            {"message": "Сообщение отправлено!", "id": instance.id},
+            status=status.HTTP_201_CREATED
+        )
+        response.set_cookie(
+            'feedback_cooldown',
+            str(time.time()),
+            max_age=cooldown_seconds,
+            httponly=True,
+            samesite='Lax'
+        )
+        return response
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

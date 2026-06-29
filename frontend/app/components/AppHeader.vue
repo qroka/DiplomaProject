@@ -18,8 +18,16 @@
       class="hidden md:flex"
     />
 
-    <!-- RIGHT: Action Button -->
+    <!-- RIGHT: Action Buttons -->
     <template #right>
+      <UButton
+        label="Фидбэк"
+        color="neutral"
+        variant="ghost"
+        size="sm"
+        to="/feedback"
+        class="ml-2"
+      />
       <UColorModeButton class="ml-2" />
     </template>
 
@@ -48,7 +56,6 @@ const items = [
   { label: 'Вакансии', to: '/vacancies' },
   { label: 'Контакты', to: '/contacts' },
   { label: 'Конкурсы', to: '/tenders' },
-  { label: 'Для молодежи', to: '/youth' },
   { label: 'Нет коррупции!', to: '/anti-corruption' }
 ]
 </script>

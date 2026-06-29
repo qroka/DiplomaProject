@@ -111,6 +111,15 @@
                 />
               </UFormField>
 
+              <UFormField label="Прикрепить изображение" name="image">
+                <UFileUpload
+                  v-model="formState.image"
+                  accept="image/*"
+                  label="Выберите изображение"
+                  description="JPG, PNG или GIF (макс. 5MB)"
+                />
+              </UFormField>
+
               <UButton
                 type="submit"
                 color="primary"
@@ -259,6 +268,7 @@ const formState = reactive({
   email: '',
   message: '',
   attachment: null as File | null,
+  image: null as File | null,
 })
 
 const formLoading = ref(false)
@@ -297,6 +307,9 @@ async function submitReport() {
     if (formState.attachment) {
       data.append('attachment', formState.attachment)
     }
+    if (formState.image) {
+      data.append('image', formState.image)
+    }
 
     await $fetch(`${config.public.apiBaseUrl}/api/submit-corruption-report/`, {
       method: 'POST',
@@ -308,8 +321,13 @@ async function submitReport() {
     formState.email = ''
     formState.message = ''
     formState.attachment = null
+    formState.image = null
   } catch (err: any) {
-    formError.value = err?.data?.message || 'Ошибка при отправке. Попробуйте позже.'
+    if (err?.data?.error) {
+      formError.value = err.data.error
+    } else {
+      formError.value = 'Ошибка при отправке. Попробуйте позже.'
+    }
   } finally {
     formLoading.value = false
   }

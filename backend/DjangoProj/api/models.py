@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 class Tender(models.Model):
@@ -11,6 +12,7 @@ class Tender(models.Model):
     category = models.CharField('Категория', max_length=20, choices=CATEGORY_CHOICES)
     name = models.CharField('Название', max_length=255)
     link = models.FileField('Файл', upload_to='tenders/')
+    show_on_main_page = models.BooleanField('Показывать на главной странице тендеров', default=False)
     created_at = models.DateTimeField('Дата создания', auto_now_add=True)
 
     class Meta:
@@ -48,12 +50,23 @@ class StaffMember(models.Model):
     order = models.PositiveIntegerField('Порядок', default=0)
     is_active = models.BooleanField('Активен', default=True)
     show_on_honorboard = models.BooleanField('Показывать на доске почёта', default=True)
+    show_on_reserve = models.BooleanField('Показывать в кадровом резерве', default=False)
     created_at = models.DateTimeField('Дата создания', auto_now_add=True)
 
     class Meta:
         verbose_name = 'Сотрудник'
         verbose_name_plural = 'Сотрудники'
         ordering = ['order']
+
+    def clean(self):
+        if self.is_active and self.show_on_reserve:
+            raise ValidationError(
+                'Сотрудник не может быть одновременно активным и в кадровом резерве'
+            )
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.surname} {self.name} {self.patronym or ""}'.strip()
@@ -104,23 +117,21 @@ class WorkingHours(models.Model):
 
 
 class Vacancy(models.Model):
-    # сюда идет дожность муниципальная или техническая (возможно)
-    title = models.CharField('Название', max_length=255) # нет 
-    # направлении профессии (внутренний фактор который не визуализируется на вакансии)
-    branch = models.CharField('Отдел', max_length=255, blank=True) # да
-    location = models.CharField('Локация', max_length=255) # нет
-    salary = models.CharField('Зарплата', max_length=255) # нет
-    employment_type = models.CharField('Тип занятости', max_length=100, blank=True) # нет
-    experience = models.CharField('Опыт', max_length=100, blank=True) # потом возможно
+    title = models.CharField('Название', max_length=255) 
+    branch = models.CharField('Отдел', max_length=255, blank=True) 
+    location = models.CharField('Локация', max_length=255) 
+    salary = models.CharField('Зарплата', max_length=255) 
+    employment_type = models.CharField('Тип занятости', max_length=100, blank=True) 
+    experience = models.CharField('Опыт', max_length=100, blank=True) 
     work_schedule = models.ForeignKey(WorkSchedule, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='График работы')
     required_experience = models.ForeignKey(RequiredExperience, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Требуемый опыт')
     job_type = models.ForeignKey(JobType, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Тип должности')
-    is_new = models.BooleanField('Новая вакансия', default=False) # нет
+    is_new = models.BooleanField('Новая вакансия', default=False) 
     description = models.TextField('Описание', blank=True)
-    skills = models.TextField('Навыки', blank=True, help_text='Каждый навык с новой строки') # возможно
+    skills = models.TextField('Навыки', blank=True, help_text='Каждый навык с новой строки') 
     working_hours = models.ForeignKey(WorkingHours, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Режим работы')
-    is_active = models.BooleanField('Активна', default=True) # отлетает
-    created_at = models.DateTimeField('Дата создания', auto_now_add=True) # отлетает
+    is_active = models.BooleanField('Активна', default=True)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
 
     class Meta:
         verbose_name = 'Вакансия'
@@ -129,6 +140,19 @@ class Vacancy(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class BranchesGlobal(models.Model):
+    name = models.CharField('Название', max_length=255)
+    link = models.CharField('Ссылка', max_length=500)
+
+    class Meta:
+        verbose_name = 'Отдел Администрации'
+        verbose_name_plural = 'Все отделы Администрации'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
 
 
 class AntiCorruptionDocument(models.Model):
@@ -151,6 +175,7 @@ class CorruptionReport(models.Model):
     email = models.EmailField('Email')
     message = models.TextField('Сообщение')
     attachment = models.FileField('Вложение', upload_to='corruption_reports/', blank=True, null=True)
+    image = models.ImageField('Изображение', upload_to='corruption_images/', blank=True, null=True)
     created_at = models.DateTimeField('Дата создания', auto_now_add=True)
 
     class Meta:
@@ -191,9 +216,42 @@ class JobApplication(models.Model):
     vacancy_source = models.TextField('Откуда узнал(а)', blank=True)
     created_at = models.DateTimeField('Дата подачи', auto_now_add=True)
 
+    # Required consent checkboxes (applicant must check all before submitting)
+    consent_false_info = models.BooleanField(
+        'Согласие с последствиями ложных сведений',
+        default=False
+        
+    )
+    consent_verification = models.BooleanField(
+        'Согласие на проверочные мероприятия',
+        default=False
+    )
+    consent_personal_data = models.BooleanField(
+        'Согласие на обработку персональных данных (152-ФЗ)',
+        default=False
+    )
+    consent_resume_forwarding = models.BooleanField(
+        'Согласие на направление анкеты в поселения и организации района',
+        default=False
+    )
+
     class Meta:
         verbose_name = 'Заявка на вакансию'
         verbose_name_plural = 'Заявки на вакансии'
 
     def __str__(self):
         return f'{self.last_name} {self.first_name} — {self.vacancy_title or "без вакансии"}'
+
+
+class Feedback(models.Model):
+    message = models.TextField('Сообщение')
+    photo = models.ImageField('Фото', upload_to='feedback_photos/', blank=True, null=True)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Обратная связь'
+        verbose_name_plural = 'Обратная связь'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'Обратная связь ({self.created_at.strftime("%d.%m.%Y %H:%M")})'

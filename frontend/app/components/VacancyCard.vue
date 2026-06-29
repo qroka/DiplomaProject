@@ -1,6 +1,7 @@
 <template>
+  <div class="rounded-xl bg-gradient-brand p-1 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/10">
   <UCard
-    class="bg-white/80 dark:bg-transparent backdrop-blur-sm ring-1 ring-gray-200 dark:ring-gray-800 hover:border-green-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/10"
+    class="bg-white dark:bg-gray-900"
     :ui="{
       root: 'h-full flex flex-col',
       body: 'flex-1 p-4 sm:p-6',
@@ -89,6 +90,7 @@
       </div>
     </template>
   </UCard>
+  </div>
 </template>
 
 <script setup>

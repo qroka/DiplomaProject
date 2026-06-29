@@ -7,6 +7,52 @@
     </div>
 
     <UForm :state="formState" :validate="validate" @submit="handleSubmit" @error="onError" class="space-y-6">
+      <!-- Required Consent Checkboxes Section -->
+      <div class="space-y-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white border-b border-amber-200 dark:border-amber-800 pb-2">Обязательные согласия</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Для подачи заявки необходимо отметить все согласия:</p>
+
+        <UFormField name="consentFalseInfo">
+          <UCheckbox v-model="formState.consentFalseInfo" :required="true">
+            <template #label>
+              <span class="text-sm text-gray-700 dark:text-gray-300">
+                Мне известно, что сообщение о себе в анкете заведомо ложных сведений и мое несоответствие квалификационным требованиям могут повлечь отказ в приеме на должность, поступлении на государственную гражданскую службу РФ или на муниципальную службу
+              </span>
+            </template>
+          </UCheckbox>
+        </UFormField>
+
+        <UFormField name="consentVerification">
+          <UCheckbox v-model="formState.consentVerification" :required="true">
+            <template #label>
+              <span class="text-sm text-gray-700 dark:text-gray-300">
+                На проведение в отношении меня проверочных мероприятий согласен (согласна)
+              </span>
+            </template>
+          </UCheckbox>
+        </UFormField>
+
+        <UFormField name="consentPersonalData">
+          <UCheckbox v-model="formState.consentPersonalData" :required="true">
+            <template #label>
+              <span class="text-sm text-gray-700 dark:text-gray-300">
+                Согласно Федеральному закону от 27.07.2006 № 152-ФЗ «О персональных данных» даю согласие на обработку и использование моих персональных данных в целях, связанных с возможным трудоустройством
+              </span>
+            </template>
+          </UCheckbox>
+        </UFormField>
+
+        <UFormField name="consentResumeForwarding">
+          <UCheckbox v-model="formState.consentResumeForwarding" :required="true">
+            <template #label>
+              <span class="text-sm text-gray-700 dark:text-gray-300">
+                На направление моей анкеты (резюме) в городские и сельские поселения Сургутского района, в муниципальные организации Сургутского района согласен (согласна)
+              </span>
+            </template>
+          </UCheckbox>
+        </UFormField>
+      </div>
+
       <!-- Personal Information Section -->
       <div class="space-y-4">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white border-b border-gray-300 dark:border-gray-800 pb-2">Личные данные</h3>
@@ -163,6 +209,12 @@ const validate = (state) => {
     errors.push({ name: 'resume', message: 'Загрузите резюме' })
   }
 
+  // Consent checkboxes validation
+  if (!state.consentFalseInfo) errors.push({ name: 'consentFalseInfo', message: 'Необходимо согласие' })
+  if (!state.consentVerification) errors.push({ name: 'consentVerification', message: 'Необходимо согласие' })
+  if (!state.consentPersonalData) errors.push({ name: 'consentPersonalData', message: 'Необходимо согласие' })
+  if (!state.consentResumeForwarding) errors.push({ name: 'consentResumeForwarding', message: 'Необходимо согласие' })
+
   return errors
 }
 
@@ -196,7 +248,12 @@ const formState = reactive({
   children: '',
   photo: null,
   resume: null,
-  vacancySource: ''
+  vacancySource: '',
+  // Required consent checkboxes
+  consentFalseInfo: false,
+  consentVerification: false,
+  consentPersonalData: false,
+  consentResumeForwarding: false
 })
 
 // Marital status options
@@ -221,6 +278,8 @@ const handleSubmit = async () => {
         formState[key] = ''
       } else if (key === 'photo' || key === 'resume') {
         formState[key] = null
+      } else if (key.startsWith('consent')) {
+        formState[key] = false
       } else {
         formState[key] = ''
       }

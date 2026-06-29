@@ -2,7 +2,9 @@
 useHead({ title: 'О районе' })
 const config = useRuntimeConfig()
 const { data: staffItems } = await useAsyncData('staff', () =>
-  $fetch(`${config.public.apiBaseUrl}/api/staff/`), { server: false }
+  $fetch(`${config.public.apiBaseUrl}/api/staff/`).then(data =>
+    data.filter(item => item.show_on_honorboard)
+  ), { server: false }
 )
 </script>
 
@@ -18,6 +20,10 @@ const { data: staffItems } = await useAsyncData('staff', () =>
     quote="Любой гражданин, который хотел бы стать муниципальным или госслужащим, должен понимать, что вступление в должность связано с жесткими антикоррупционными требованиями, с определенными ограничениями, которые человек обязан строго соблюдать"
     alt="Customer photo"
     author='Владимир Владимирович Путин'
+  />
+  <DepartmentsAccordion 
+    title="Все отделы Администрации" 
+    subtitle="Подробнее о нашей структуре"  
   />
   <StaffCard
     title="Наша команда"

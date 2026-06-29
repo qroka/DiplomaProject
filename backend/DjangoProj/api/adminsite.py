@@ -30,6 +30,10 @@ class CustomAdminSite(AdminSite):
                 'app_label': 'anticorruption_group',
                 'models': ['AntiCorruptionDocument', 'CorruptionReport'],
             },
+            'Отделы': {
+                'app_label': 'branches_group',
+                'models': ['BranchesGlobal'],
+            },
         }
 
         new_app_list = []

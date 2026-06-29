@@ -1,4 +1,3 @@
-<!-- This is how self-encapsulated, django database data fetching component call should look like inside the files from /pages/ folder -->
 <TabsTenders />
 <!-- This is how self-encapsulated, django database data fetching component code should look like. There is an example of the data fetching code structure and mechanisms, component mechanism could be different -->
 <template>

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Tender, StaffMember, Vacancy, JobApplication, Branch, WorkSchedule, RequiredExperience, JobType, AntiCorruptionDocument, CorruptionReport
+from .models import Tender, StaffMember, Vacancy, JobApplication, Branch, WorkSchedule, RequiredExperience, JobType, AntiCorruptionDocument, CorruptionReport, BranchesGlobal, Feedback
 
 
 class TenderSerializer(serializers.ModelSerializer):
@@ -7,7 +7,7 @@ class TenderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tender
-        fields = ['id', 'category', 'name', 'link', 'created_at']
+        fields = ['id', 'category', 'name', 'link', 'created_at', 'show_on_main_page']
 
     def get_link(self, obj):
         if obj.link:
@@ -26,7 +26,8 @@ class StaffMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = StaffMember
         fields = ['name', 'surname', 'patronym', 'phone', 'email', 'cabinet_number',
-                  'role', 'branch', 'branch_name', 'branch_address', 'description', 'image']
+                  'role', 'branch', 'branch_name', 'branch_address', 'description', 'image',
+                  'show_on_honorboard', 'show_on_reserve', 'order']
 
     def get_image(self, obj):
         if obj.image:
@@ -106,3 +107,15 @@ class CorruptionReportSerializer(serializers.ModelSerializer):
         model = CorruptionReport
         fields = '__all__'
         read_only_fields = ['created_at']
+
+
+class BranchesGlobalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BranchesGlobal
+        fields = '__all__'
+
+
+class FeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feedback
+        fields = '__all__'

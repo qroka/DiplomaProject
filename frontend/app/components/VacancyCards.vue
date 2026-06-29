@@ -53,6 +53,7 @@ const selectedVacancy = ref(null)
 
 const isSubmitting = ref(false)
 const submitStatus = ref(null) // null | 'success' | 'error'
+const toast = useToast()
 
 // Methods
 const openApplicationForm = (vacancy) => {
@@ -118,10 +119,29 @@ const handleFormSubmit = async (formData) => {
     })
 
     submitStatus.value = 'success'
+    toast.add({
+      title: 'Заявка отправлена',
+      description: 'Ваша заявка на вакансию успешно отправлена.',
+      color: 'success',
+      actions: [{
+        label: 'Отлично',
+        onSelect: () => toast.remove('apply-success')
+      }]
+    })
     setTimeout(() => closeApplicationForm(), 2000)
   } catch (error) {
     console.error('Server error:', error.data || error.message || error)
     submitStatus.value = 'error'
+    toast.add({
+      id: 'apply-error',
+      title: 'Произошла ошибка',
+      description: 'Попробуйте снова',
+      color: 'error',
+      actions: [{
+        label: 'Хорошо',
+        onSelect: () => toast.remove('apply-error')
+      }]
+    })
   } finally {
     isSubmitting.value = false
   }

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import hello, tenders, staff_members, vacancies, vacancy_detail, vacancy_filters, apply, anti_corruption_documents, submit_corruption_report
+from .views import hello, tenders, staff_members, vacancies, vacancy_detail, vacancy_filters, apply, anti_corruption_documents, submit_corruption_report, branches_global, submit_feedback
 
 urlpatterns = [
     path('hello/', hello),
@@ -11,4 +11,6 @@ urlpatterns = [
     path('apply/', apply),
     path('anti-corruption-documents/', anti_corruption_documents),
     path('submit-corruption-report/', submit_corruption_report),
+    path('branches-global/', branches_global),
+    path('submit-feedback/', submit_feedback),
 ]

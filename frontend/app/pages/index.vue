@@ -123,8 +123,6 @@
   <UContainer>
     <div class="flex items-center gap-3 mb-6">
       <div class="flex-1 h-px bg-gradient-brand"></div>
-      <span class="text-sm font-medium text-gray-500 dark:text-gray-400 shrink-0">С нами работают</span>
-      <div class="flex-1 h-px bg-gradient-brand"></div>
     </div>
   </UContainer>
 
