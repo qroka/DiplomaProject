@@ -13,22 +13,38 @@ class CustomAdminSite(AdminSite):
         all_models = api_app['models']
 
         groups = {
+            'Главная': {
+                'app_label': 'main_page_group',
+                'models': ['NewsPost'],
+            },
             'Вакансии': {
                 'app_label': 'vacancies_group',
-                'models': ['Vacancy', 'JobApplication', 'WorkSchedule',
+                'models': ['Vacancy', 'JobApplication', 'VacancySubscription', 'WorkSchedule',
                            'RequiredExperience', 'JobType', 'WorkingHours'],
             },
             'Сотрудники': {
                 'app_label': 'staff_group',
                 'models': ['StaffMember', 'Branch'],
             },
-            'Тендеры': {
+            'Кадровый резерв': {
+                'app_label': 'staff_reserve_group',
+                'models': ['StaffReserveInfo'],
+            },
+            'Молодёжь': {
+                'app_label': 'youth_group',
+                'models': ['YouthInfo', 'PracticeApplication'],
+            },
+            'Профразвитие': {
+                'app_label': 'profdev_group',
+                'models': ['TrainingEvent', 'TrainingFeedback'],
+            },
+            'Конкурсы': {
                 'app_label': 'tenders_group',
-                'models': ['Tender'],
+                'models': ['Tender', 'Competition', 'CompetitionResult'],
             },
             'Антикоррупция': {
                 'app_label': 'anticorruption_group',
-                'models': ['AntiCorruptionDocument', 'CorruptionReport'],
+                'models': ['AntiCorruptionInfo', 'AntiCorruptionDocument', 'CorruptionReport'],
             },
             'Отделы': {
                 'app_label': 'branches_group',

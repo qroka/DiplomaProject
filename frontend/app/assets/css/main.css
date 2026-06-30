@@ -1,47 +1,135 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-/* Custom brand theme — green (#50C891) + blue (#2D2382) */
-@theme {
-  --color-primary-50: #91ffff;
-  --color-primary-100: #8afff9;
-  --color-primary-200: #7bffdf;
-  --color-primary-300: #6dffc5;
-  --color-primary-400: #5eecab;
-  --color-primary-500: #50c891;
-  --color-primary-600: #43a87a;
-  --color-primary-700: #368863;
-  --color-primary-800: #2a684b;
-  --color-primary-900: #1d4834;
-  --color-primary-950: #163829;
+/* Design system v2 — token layers */
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/shadows.css";
+@import "./tokens/motion.css";
 
-  --color-secondary-50: #513feb;
-  --color-secondary-100: #4d3ce0;
-  --color-secondary-200: #4536c8;
-  --color-secondary-300: #3d30b1;
-  --color-secondary-400: #352999;
-  --color-secondary-500: #2d2382;
-  --color-secondary-600: #261d6d;
-  --color-secondary-700: #1f1858;
-  --color-secondary-800: #171244;
-  --color-secondary-900: #100d2f;
-  --color-secondary-950: #0d0a24;
-}
+@import "./layout/container.css";
+@import "./layout/section.css";
+
+@import "./components/surfaces.css";
+@import "./components/buttons.css";
+@import "./components/a11y-overrides.css";
+
+@import "./utilities/prose.css";
 
 @utility bg-gradient-brand {
-  background-image: linear-gradient(to top right, var(--color-secondary-500), var(--color-primary-500));
+  background-image: linear-gradient(
+    135deg,
+    var(--color-secondary-500) 0%,
+    var(--color-primary-500) 100%
+  );
 }
 
 body {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.6;
   min-height: 100vh;
-  background: #f0f0f0;
-  color: #111827;
+  background: var(--color-surface-default);
+  color: var(--color-text-primary);
 }
 
 .dark body,
 .dark {
-  background: var(--color-secondary-800);
-  color: #ffffff;
+  background: var(--color-surface-default);
+  color: var(--color-text-primary);
 }
 
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 9999;
+  padding: 0.75rem 1rem;
+  background: #0d0a24;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+/* Версия для слабовидящих (ГОСТ Р 52872-2024) */
+html.a11y-enabled.a11y-font-large {
+  font-size: 112.5%;
+}
+
+html.a11y-enabled.a11y-font-xlarge {
+  font-size: 125%;
+}
+
+html.a11y-enabled.a11y-contrast-high body {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+html.a11y-enabled.a11y-contrast-high a {
+  color: #0000cc !important;
+  text-decoration: underline !important;
+}
+
+html.a11y-enabled.a11y-contrast-high *:focus-visible {
+  outline: 3px solid #000000 !important;
+  outline-offset: 2px;
+}
+
+html.a11y-enabled.a11y-contrast-inverted body {
+  background: #000000 !important;
+  color: #ffff00 !important;
+}
+
+html.a11y-enabled.a11y-contrast-inverted a {
+  color: #00ffff !important;
+  text-decoration: underline !important;
+}
+
+html.a11y-enabled.a11y-contrast-inverted *:focus-visible {
+  outline: 3px solid #ffff00 !important;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* WCAG: screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* WCAG: form placeholder contrast */
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-muted);
+  opacity: 1;
+}
+
+/* WCAG: focus ring for interactive elements */
+:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}

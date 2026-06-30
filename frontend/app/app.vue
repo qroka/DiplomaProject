@@ -1,9 +1,10 @@
 <template>
   <UApp :toaster="{ position: 'bottom-right' }">
+    <a href="#main-content" class="skip-link">Перейти к основному содержимому</a>
     <LoadingOverlay />
     <div class="min-h-screen">
       <AppHeader />
-      <UMain>
+      <UMain id="main-content" tabindex="-1">
         <NuxtPage />
       </UMain>
       <AppFooter />
@@ -19,10 +20,13 @@ useHead({
   }
 })
 
+const { init } = useAccessibility()
+
 const cookieConsent = useCookie('cookieConsent')
 const toast = useToast()
 
 onMounted(() => {
+  init()
   refreshCookie('cookieConsent')
   if (!cookieConsent.value) {
     toast.add({

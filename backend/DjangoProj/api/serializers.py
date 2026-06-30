@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from .models import Tender, StaffMember, Vacancy, JobApplication, Branch, WorkSchedule, RequiredExperience, JobType, AntiCorruptionDocument, CorruptionReport, BranchesGlobal, Feedback
+from .models import (
+    Tender, StaffMember, Vacancy, JobApplication, Branch, WorkSchedule, RequiredExperience,
+    JobType, AntiCorruptionDocument, AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription,
+    Competition, CompetitionResult, StaffReserveInfo, YouthInfo, PracticeApplication,
+    TrainingEvent, TrainingFeedback, NewsPost,
+)
 
 
 class TenderSerializer(serializers.ModelSerializer):
@@ -57,6 +62,7 @@ class JobTypeSerializer(serializers.ModelSerializer):
 
 
 class VacancySerializer(serializers.ModelSerializer):
+    company = serializers.CharField(source='branch', read_only=True)
     employmentType = serializers.CharField(source='employment_type')
     isNew = serializers.BooleanField(source='is_new')
     workSchedule = serializers.CharField(source='work_schedule.name', read_only=True)
@@ -68,7 +74,7 @@ class VacancySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vacancy
-        fields = ['id', 'title', 'branch', 'location', 'salary', 'employmentType',
+        fields = ['id', 'title', 'branch', 'company', 'location', 'salary', 'employmentType',
                   'experience', 'workSchedule', 'requiredExperience', 'jobType',
                   'isNew', 'description', 'skills', 'workingHours', 'detailsLink', 'created_at']
 
@@ -102,11 +108,39 @@ class AntiCorruptionDocumentSerializer(serializers.ModelSerializer):
         return None
 
 
+class AntiCorruptionInfoSerializer(serializers.ModelSerializer):
+    officialsList = serializers.SerializerMethodField()
+
+    class Meta:
+        model = AntiCorruptionInfo
+        fields = [
+            'intro', 'work_schedule', 'address', 'officials', 'officialsList',
+            'esia_feedback_url', 'updated_at',
+        ]
+
+    def get_officialsList(self, obj):
+        return [line.strip() for line in obj.officials.splitlines() if line.strip()]
+
+
 class CorruptionReportSerializer(serializers.ModelSerializer):
+    MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024
+
     class Meta:
         model = CorruptionReport
         fields = '__all__'
         read_only_fields = ['created_at']
+
+    def validate(self, data):
+        total_size = 0
+        for field in ('attachment', 'image'):
+            file_obj = data.get(field)
+            if file_obj:
+                total_size += file_obj.size
+        if total_size > self.MAX_ATTACHMENT_BYTES:
+            raise serializers.ValidationError(
+                'Суммарный объём вложений не должен превышать 10 МБ'
+            )
+        return data
 
 
 class BranchesGlobalSerializer(serializers.ModelSerializer):
@@ -119,3 +153,131 @@ class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feedback
         fields = '__all__'
+
+
+class VacancySubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VacancySubscription
+        fields = ['id', 'email', 'branch', 'work_schedule', 'required_experience', 'job_type', 'created_at']
+        read_only_fields = ['id', 'created_at']
+
+    def validate_email(self, value):
+        return value.strip().lower()
+
+
+class CompetitionSerializer(serializers.ModelSerializer):
+    competitionTypeLabel = serializers.CharField(source='get_competition_type_display', read_only=True)
+
+    class Meta:
+        model = Competition
+        fields = [
+            'id', 'title', 'competition_type', 'competitionTypeLabel', 'content',
+            'date_start', 'date_end', 'requirements', 'acceptance_info',
+            'contact_phones', 'is_active', 'created_at',
+        ]
+
+
+class CompetitionResultSerializer(serializers.ModelSerializer):
+    decreeConductLink = serializers.SerializerMethodField()
+    decreeResultsLink = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CompetitionResult
+        fields = ['id', 'title', 'decreeConductLink', 'decreeResultsLink', 'completed_at', 'created_at']
+
+    def _file_url(self, obj, field_name):
+        file_field = getattr(obj, field_name)
+        if not file_field:
+            return None
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(file_field.url)
+        return file_field.url
+
+    def get_decreeConductLink(self, obj):
+        return self._file_url(obj, 'decree_conduct')
+
+    def get_decreeResultsLink(self, obj):
+        return self._file_url(obj, 'decree_results')
+
+
+class StaffReserveInfoSerializer(serializers.ModelSerializer):
+    positionsList = serializers.SerializerMethodField()
+
+    class Meta:
+        model = StaffReserveInfo
+        fields = ['purpose', 'positions', 'positionsList', 'additional_content', 'updated_at']
+
+    def get_positionsList(self, obj):
+        return [line.strip() for line in obj.positions.splitlines() if line.strip()]
+
+
+class YouthInfoSerializer(serializers.ModelSerializer):
+    institutionsList = serializers.SerializerMethodField()
+
+    class Meta:
+        model = YouthInfo
+        fields = [
+            'intro', 'practice_institutions', 'institutionsList',
+            'practice_steps', 'internship_content', 'school_content', 'updated_at',
+        ]
+
+    def get_institutionsList(self, obj):
+        return [line.strip() for line in obj.practice_institutions.splitlines() if line.strip()]
+
+
+class PracticeApplicationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PracticeApplication
+        fields = [
+            'id', 'last_name', 'first_name', 'middle_name', 'birth_date', 'phone', 'email',
+            'educational_institution', 'course', 'specialty', 'practice_period',
+            'preferred_department', 'comment', 'application_letter', 'consent_personal_data',
+            'created_at',
+        ]
+        read_only_fields = ['id', 'created_at']
+
+    def validate_consent_personal_data(self, value):
+        if not value:
+            raise serializers.ValidationError('Необходимо согласие на обработку персональных данных')
+        return value
+
+
+class TrainingEventSerializer(serializers.ModelSerializer):
+    eventTypeLabel = serializers.CharField(source='get_event_type_display', read_only=True)
+
+    class Meta:
+        model = TrainingEvent
+        fields = [
+            'id', 'title', 'event_type', 'eventTypeLabel', 'description',
+            'event_date', 'location', 'created_at',
+        ]
+
+
+class TrainingFeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrainingFeedback
+        fields = ['id', 'name', 'department', 'message', 'created_at']
+        read_only_fields = ['id', 'created_at']
+
+    def validate_message(self, value):
+        if not value.strip():
+            raise serializers.ValidationError('Введите текст предложения')
+        return value.strip()
+
+
+class NewsPostSerializer(serializers.ModelSerializer):
+    date = serializers.DateField(source='published_at')
+    imageUrl = serializers.SerializerMethodField()
+
+    class Meta:
+        model = NewsPost
+        fields = ['id', 'title', 'description', 'content', 'date', 'published_at', 'imageUrl', 'order']
+
+    def get_imageUrl(self, obj):
+        if not obj.image:
+            return None
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(obj.image.url)
+        return obj.image.url

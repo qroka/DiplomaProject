@@ -1,13 +1,15 @@
 <template>
-  <PageHeroElse
+  <DsPageHero
+    variant="inner"
     title="Политика конфиденциальности"
     description="Политика обработки и защиты персональных данных"
-    image="/images/office.png"
-    image-alt="Privacy policy"
+    :image="hero.src"
+    :image-alt="hero.alt"
   />
+  <DsBreadcrumbs :items="breadcrumbItems" />
 
   <UContainer class="py-8">
-    <div class="prose dark:prose-invert max-w-none">
+    <div class="ds-prose max-w-none">
       <h2>1. Общие положения</h2>
       <p>Настоящая политика конфиденциальности определяет порядок обработки и защиты персональных данных пользователей сайта Администрации Сургутского района.</p>
 
@@ -15,18 +17,22 @@
       <p>Мы собираем персональные данные только когда вы добровольно предоставляете их нам, например, при заполнении формы отклика на вакансию.</p>
 
       <h2>3. Использование персональных данных</h2>
-      <p>Персональные данные используются исключительно для целей обработки заявок на трудоустройство и связи с кандидатами.</p>
+      <p>Собранные данные используются исключительно для целей, связанных с рассмотрением вашей кандидатуры на вакантную должность.</p>
 
-      <h2>4. Защита персональных данных</h2>
+      <h2>4. Защита данных</h2>
       <p>Мы принимаем необходимые организационные и технические меры для защиты персональных данных от неправомерного доступа.</p>
 
       <h2>5. Контакты</h2>
-      <p>По вопросам обработки персональных данных обращайтесь по email: dpo@admsr.ru</p>
+      <p>По вопросам обработки персональных данных обращайтесь через раздел <NuxtLink to="/contacts">Контакты</NuxtLink>.</p>
     </div>
   </UContainer>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { buildBreadcrumbs } from '~/data/breadcrumbs'
+
 useHead({ title: 'Политика конфиденциальности' })
-// This is a placeholder privacy policy page
+
+const breadcrumbItems = buildBreadcrumbs({ label: 'Политика конфиденциальности' })
+const hero = useHeroImage('privacy')
 </script>

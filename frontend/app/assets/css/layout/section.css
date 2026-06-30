@@ -1,0 +1,19 @@
+/* Section spacing utilities */
+
+.ds-section-spacing-md {
+  padding-block: var(--space-section-md);
+}
+
+.ds-section-spacing-lg {
+  padding-block: var(--space-section-lg);
+}
+
+@media (min-width: 1024px) {
+  .ds-section-spacing-md {
+    padding-block: var(--space-section-md);
+  }
+
+  .ds-section-spacing-lg {
+    padding-block: var(--space-section-lg);
+  }
+}

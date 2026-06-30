@@ -170,6 +170,51 @@ class AntiCorruptionDocument(models.Model):
         return f'[{self.category}] {self.name}'
 
 
+class AntiCorruptionInfo(models.Model):
+    intro = models.TextField(
+        'Вводный текст',
+        blank=True,
+        default='Федеральный закон от 25.12.2008 № 273-ФЗ «О противодействии коррупции» устанавливает '
+                'правовые и организационные основы предупреждения и борьбы с коррупцией.',
+    )
+    work_schedule = models.TextField(
+        'График работы УМСКН',
+        blank=True,
+        default='Понедельник – четверг: 8:30 – 17:30\n'
+                'Пятница: 8:30 – 16:15\n'
+                'Перерыв: 13:00 – 13:45',
+    )
+    address = models.TextField(
+        'Адрес',
+        blank=True,
+        default='628408, Ханты-Мансийский автономный округ — Югра, '
+                'г. Сургут, ул. 30 лет Победы, д. 45/2',
+    )
+    officials = models.TextField(
+        'Ответственные должностные лица',
+        blank=True,
+        help_text='Каждый сотрудник с новой строки: ФИО, должность, телефон',
+    )
+    esia_feedback_url = models.URLField(
+        'Ссылка на Платформу обратной связи (ЕСИА)',
+        blank=True,
+        default='https://pos.gosuslugi.ru/landing/',
+    )
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Страница «Противодействие коррупции»'
+        verbose_name_plural = 'Страница «Противодействие коррупции»'
+
+    def __str__(self):
+        return 'Противодействие коррупции'
+
+    @classmethod
+    def get_solo(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
+
+
 class CorruptionReport(models.Model):
     full_name = models.CharField('ФИО нарушителя', max_length=255)
     email = models.EmailField('Email')
@@ -255,3 +300,243 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f'Обратная связь ({self.created_at.strftime("%d.%m.%Y %H:%M")})'
+
+
+class VacancySubscription(models.Model):
+    email = models.EmailField('Email')
+    branch = models.CharField('Орган/отдел', max_length=255, blank=True)
+    work_schedule = models.ForeignKey(
+        WorkSchedule, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='График работы'
+    )
+    required_experience = models.ForeignKey(
+        RequiredExperience, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Требуемый опыт'
+    )
+    job_type = models.ForeignKey(
+        JobType, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Тип должности'
+    )
+    is_active = models.BooleanField('Активна', default=True)
+    created_at = models.DateTimeField('Дата подписки', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Подписка на вакансии'
+        verbose_name_plural = 'Подписки на вакансии'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.email} ({self.created_at.strftime("%d.%m.%Y")})'
+
+
+class Competition(models.Model):
+    TYPE_VACANCY = 'vacancy'
+    TYPE_RESERVE = 'reserve'
+    TYPE_CHOICES = [
+        (TYPE_VACANCY, 'На замещение вакантной должности'),
+        (TYPE_RESERVE, 'На формирование кадрового резерва'),
+    ]
+
+    title = models.CharField('Название', max_length=255)
+    competition_type = models.CharField('Тип конкурса', max_length=20, choices=TYPE_CHOICES, default=TYPE_VACANCY)
+    content = models.TextField('Содержание (веб-контент)', blank=True)
+    date_start = models.DateField('Дата начала приёма документов', null=True, blank=True)
+    date_end = models.DateField('Дата окончания приёма документов', null=True, blank=True)
+    requirements = models.TextField('Требования', blank=True)
+    acceptance_info = models.TextField('Место и время приёма документов', blank=True)
+    contact_phones = models.CharField('Телефоны ответственных лиц', max_length=500, blank=True)
+    is_active = models.BooleanField('Действующий конкурс', default=True)
+    created_at = models.DateTimeField('Дата публикации', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Конкурс'
+        verbose_name_plural = 'Конкурсы'
+        ordering = ['-date_end', '-created_at']
+
+    def __str__(self):
+        return self.title
+
+
+class CompetitionResult(models.Model):
+    title = models.CharField('Название', max_length=255)
+    decree_conduct = models.FileField('Постановление о проведении конкурса', upload_to='competitions/conduct/')
+    decree_results = models.FileField('Постановление о результатах конкурса', upload_to='competitions/results/')
+    completed_at = models.DateField('Дата завершения', null=True, blank=True)
+    created_at = models.DateTimeField('Дата публикации', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Результат конкурса'
+        verbose_name_plural = 'Результаты конкурсов'
+        ordering = ['-completed_at', '-created_at']
+
+    def __str__(self):
+        return self.title
+
+
+class StaffReserveInfo(models.Model):
+    purpose = models.TextField(
+        'Цель формирования кадрового резерва',
+        blank=True,
+        default='Формирование кадрового резерва направлено на обеспечение администрации '
+                'Сургутского района квалифицированными кадрами для замещения вакантных должностей.',
+    )
+    positions = models.TextField(
+        'Должности, на которые формируется резерв',
+        blank=True,
+        help_text='Каждая должность с новой строки',
+    )
+    additional_content = models.TextField('Дополнительная информация', blank=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Страница «Кадровый резерв»'
+        verbose_name_plural = 'Страница «Кадровый резерв»'
+
+    def __str__(self):
+        return 'Информация о кадровом резерве'
+
+    @classmethod
+    def get_solo(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
+
+
+class YouthInfo(models.Model):
+    intro = models.TextField(
+        'Вводный текст',
+        blank=True,
+        default='Раздел предназначен для популяризации муниципальной службы и ранней профориентации.',
+    )
+    practice_institutions = models.TextField(
+        'Учебные заведения (соглашения)',
+        blank=True,
+        help_text='Каждое учебное заведение с новой строки',
+    )
+    practice_steps = models.TextField(
+        'Этапы: как попасть на практику в АСР',
+        blank=True,
+        default='1. Ознакомьтесь с перечнем учебных заведений, с которыми заключены соглашения.\n'
+                '2. Согласуйте прохождение практики с учебным заведением.\n'
+                '3. Заполните и отправьте заявку на практику через форму на этой странице.\n'
+                '4. Дождитесь ответа специалиста управления муниципальной службы, кадров и наград.',
+    )
+    internship_content = models.TextField(
+        'Стажировка',
+        blank=True,
+        default='Информация о стажировках будет размещена дополнительно.',
+    )
+    school_content = models.TextField(
+        'Школьникам',
+        blank=True,
+        default='Информация для школьников будет размещена дополнительно.',
+    )
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Страница «Муниципальная служба для молодёжи»'
+        verbose_name_plural = 'Страница «Муниципальная служба для молодёжи»'
+
+    def __str__(self):
+        return 'Муниципальная служба для молодёжи'
+
+    @classmethod
+    def get_solo(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
+
+
+class PracticeApplication(models.Model):
+    last_name = models.CharField('Фамилия', max_length=100)
+    first_name = models.CharField('Имя', max_length=100)
+    middle_name = models.CharField('Отчество', max_length=100, blank=True)
+    birth_date = models.DateField('Дата рождения')
+    phone = models.CharField('Телефон', max_length=20)
+    email = models.EmailField('Email')
+    educational_institution = models.CharField('Учебное заведение', max_length=255)
+    course = models.CharField('Курс', max_length=50)
+    specialty = models.CharField('Специальность', max_length=255)
+    practice_period = models.CharField('Желаемый период практики', max_length=255)
+    preferred_department = models.CharField('Желаемое подразделение', max_length=255, blank=True)
+    comment = models.TextField('Комментарий', blank=True)
+    application_letter = models.FileField(
+        'Сопроводительное письмо',
+        upload_to='practice_applications/',
+        blank=True,
+        null=True,
+    )
+    consent_personal_data = models.BooleanField(
+        'Согласие на обработку персональных данных (152-ФЗ)',
+        default=False,
+    )
+    created_at = models.DateTimeField('Дата подачи', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Заявка на практику'
+        verbose_name_plural = 'Заявки на практику'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.last_name} {self.first_name} — {self.educational_institution}'
+
+
+class TrainingEvent(models.Model):
+    TYPE_TRAINING = 'training'
+    TYPE_LEADERSHIP = 'leadership'
+    TYPE_MASTERCLASS = 'masterclass'
+    TYPE_BEST_PRACTICE = 'best_practice'
+    TYPE_CHOICES = [
+        (TYPE_TRAINING, 'Обучающее мероприятие'),
+        (TYPE_LEADERSHIP, 'Встреча с руководством'),
+        (TYPE_MASTERCLASS, 'Мастер-класс'),
+        (TYPE_BEST_PRACTICE, 'Лучшая практика'),
+    ]
+
+    title = models.CharField('Название', max_length=255)
+    event_type = models.CharField('Тип', max_length=20, choices=TYPE_CHOICES, default=TYPE_TRAINING)
+    description = models.TextField('Описание', blank=True)
+    event_date = models.DateTimeField('Дата и время')
+    location = models.CharField('Место проведения', max_length=255, blank=True)
+    is_published = models.BooleanField('Опубликовано', default=True)
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Обучающее мероприятие'
+        verbose_name_plural = 'Обучающие мероприятия'
+        ordering = ['event_date']
+
+    def __str__(self):
+        return f'{self.title} ({self.event_date.strftime("%d.%m.%Y")})'
+
+
+class TrainingFeedback(models.Model):
+    name = models.CharField('Имя', max_length=150, blank=True)
+    department = models.CharField('Подразделение', max_length=255, blank=True)
+    message = models.TextField('Предложение')
+    created_at = models.DateTimeField('Дата отправки', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Предложение по обучению'
+        verbose_name_plural = 'Предложения по обучению'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        label = self.name or 'Анонимно'
+        return f'{label} ({self.created_at.strftime("%d.%m.%Y %H:%M")})'
+
+
+class NewsPost(models.Model):
+    title = models.CharField('Заголовок', max_length=255)
+    description = models.TextField('Краткое описание')
+    content = models.TextField('Полный текст', blank=True)
+    image = models.ImageField('Изображение', upload_to='news/', blank=True, null=True)
+    published_at = models.DateField('Дата публикации')
+    is_published = models.BooleanField('Опубликовано', default=True)
+    show_on_main = models.BooleanField('Показывать на главной', default=True)
+    order = models.PositiveIntegerField('Порядок', default=0, help_text='Меньшее число — выше в списке')
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Новость'
+        verbose_name_plural = 'Новости'
+        ordering = ['order', '-published_at']
+
+    def __str__(self):
+        return self.title

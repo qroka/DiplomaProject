@@ -1,0 +1,56 @@
+/* Surface primitives — opaque cards, no default glass */
+
+.ds-surface {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-default);
+  border-radius: 0.75rem;
+}
+
+.ds-surface[data-elevation='none'] {
+  box-shadow: none;
+}
+
+.ds-surface[data-elevation='xs'] {
+  box-shadow: var(--shadow-xs);
+}
+
+.ds-surface[data-elevation='sm'] {
+  box-shadow: var(--shadow-sm);
+}
+
+.ds-surface[data-elevation='md'] {
+  box-shadow: var(--shadow-md);
+}
+
+.ds-surface[data-padding='none'] {
+  padding: 0;
+}
+
+.ds-surface[data-padding='sm'] {
+  padding: 1rem;
+}
+
+.ds-surface[data-padding='md'] {
+  padding: 1.25rem;
+}
+
+.ds-surface[data-padding='lg'] {
+  padding: 1.5rem;
+}
+
+.ds-surface-interactive {
+  transition:
+    box-shadow var(--duration-fast) var(--ease-default),
+    transform var(--duration-fast) var(--ease-default);
+}
+
+.ds-surface-interactive:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.ds-surface-glass {
+  background: color-mix(in srgb, var(--color-surface-raised) calc(var(--glass-opacity) * 100%), transparent);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}

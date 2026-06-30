@@ -1,0 +1,8 @@
+/* Elevation tokens — tinted shadows */
+
+@theme {
+  --shadow-xs: 0 1px 2px rgb(17 24 39 / 0.04);
+  --shadow-sm: 0 2px 8px rgb(17 24 39 / 0.06);
+  --shadow-md: 0 8px 24px rgb(17 24 39 / 0.08);
+  --shadow-brand: 0 8px 24px rgb(80 200 145 / 0.15);
+}

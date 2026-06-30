@@ -5,12 +5,22 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 
-from .models import Tender, Vacancy, StaffMember, WorkSchedule, RequiredExperience, JobType, AntiCorruptionDocument, CorruptionReport, BranchesGlobal, Feedback
-from .serializers import (TenderSerializer, VacancySerializer, StaffMemberSerializer,
-                          JobApplicationSerializer, WorkScheduleSerializer,
-                          RequiredExperienceSerializer, JobTypeSerializer,
-                          AntiCorruptionDocumentSerializer, CorruptionReportSerializer,
-                          BranchesGlobalSerializer, FeedbackSerializer)
+from .models import (
+    Tender, Vacancy, StaffMember, WorkSchedule, RequiredExperience, JobType,
+    AntiCorruptionDocument, AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription,
+    Competition, CompetitionResult, StaffReserveInfo, YouthInfo, PracticeApplication,
+    TrainingEvent, TrainingFeedback, NewsPost,
+)
+from .serializers import (
+    TenderSerializer, VacancySerializer, StaffMemberSerializer,
+    JobApplicationSerializer, WorkScheduleSerializer,
+    RequiredExperienceSerializer, JobTypeSerializer,
+    AntiCorruptionDocumentSerializer, AntiCorruptionInfoSerializer, CorruptionReportSerializer,
+    BranchesGlobalSerializer, FeedbackSerializer, VacancySubscriptionSerializer,
+    CompetitionSerializer, CompetitionResultSerializer, StaffReserveInfoSerializer,
+    YouthInfoSerializer, PracticeApplicationSerializer,
+    TrainingEventSerializer, TrainingFeedbackSerializer, NewsPostSerializer,
+)
 
 
 @api_view(['GET'])
@@ -20,8 +30,107 @@ def hello(request):
 
 @api_view(['GET'])
 def tenders(request):
-    items = Tender.objects.all()
+    items = Tender.objects.filter(category='rules')
     serializer = TenderSerializer(items, many=True, context={'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def competitions(request):
+    items = Competition.objects.filter(is_active=True)
+    competition_type = request.query_params.get('type')
+    if competition_type in ('vacancy', 'reserve'):
+        items = items.filter(competition_type=competition_type)
+    serializer = CompetitionSerializer(items, many=True, context={'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def staff_reserve_info(request):
+    info = StaffReserveInfo.get_solo()
+    serializer = StaffReserveInfoSerializer(info)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def youth_info(request):
+    info = YouthInfo.get_solo()
+    serializer = YouthInfoSerializer(info)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
+def submit_practice_application(request):
+    serializer = PracticeApplicationSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(
+            {
+                'message': 'Заявка на практику успешно отправлена!',
+                'id': serializer.instance.id,
+            },
+            status=status.HTTP_201_CREATED,
+        )
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def news_posts(request):
+    items = NewsPost.objects.filter(is_published=True, show_on_main=True)
+    serializer = NewsPostSerializer(items, many=True, context={'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def training_events(request):
+    items = TrainingEvent.objects.filter(is_published=True)
+    event_type = request.query_params.get('type')
+    if event_type in dict(TrainingEvent.TYPE_CHOICES):
+        items = items.filter(event_type=event_type)
+    serializer = TrainingEventSerializer(items, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def submit_training_feedback(request):
+    cooldown_seconds = 60
+
+    last_submit = request.COOKIES.get('training_feedback_cooldown')
+    if last_submit:
+        try:
+            last_time = float(last_submit)
+            if time.time() - last_time < cooldown_seconds:
+                remaining = int(cooldown_seconds - (time.time() - last_time))
+                return Response(
+                    {'error': f'Слишком частая отправка. Подождите {remaining} сек.'},
+                    status=status.HTTP_429_TOO_MANY_REQUESTS,
+                )
+        except ValueError:
+            pass
+
+    serializer = TrainingFeedbackSerializer(data=request.data)
+    if serializer.is_valid():
+        instance = serializer.save()
+        response = Response(
+            {'message': 'Спасибо! Ваше предложение отправлено.', 'id': instance.id},
+            status=status.HTTP_201_CREATED,
+        )
+        response.set_cookie(
+            'training_feedback_cooldown',
+            str(time.time()),
+            max_age=cooldown_seconds,
+            httponly=True,
+            samesite='Lax',
+        )
+        return response
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def competition_results(request):
+    items = CompetitionResult.objects.all()
+    serializer = CompetitionResultSerializer(items, many=True, context={'request': request})
     return Response(serializer.data)
 
 
@@ -53,6 +162,10 @@ def vacancies(request):
     job_type = request.query_params.get('job_type')
     if job_type:
         items = items.filter(job_type_id=job_type)
+
+    branch = request.query_params.get('branch') or request.query_params.get('org')
+    if branch:
+        items = items.filter(branch__icontains=branch.strip())
 
     serializer = VacancySerializer(items, many=True)
     return Response(serializer.data)
@@ -94,6 +207,28 @@ def apply(request):
             status=status.HTTP_201_CREATED
         )
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def vacancy_subscribe(request):
+    serializer = VacancySubscriptionSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(
+            {
+                'message': 'Подписка оформлена. Уведомления о новых вакансиях будут приходить на указанный email.',
+                'id': serializer.instance.id,
+            },
+            status=status.HTTP_201_CREATED,
+        )
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def anti_corruption_info(request):
+    info = AntiCorruptionInfo.get_solo()
+    serializer = AntiCorruptionInfoSerializer(info)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])

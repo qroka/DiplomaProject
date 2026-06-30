@@ -1,8 +1,11 @@
 <template>
   <div class="w-4/5 mx-auto py-8">
-    <div v-if="!pending && groupedStaff.length === 0" class="text-center py-12 text-gray-500 dark:text-gray-400">
-      Нет данных
-    </div>
+    <DsEmptyState
+      v-if="!pending && groupedStaff.length === 0"
+      icon="i-lucide-phone-off"
+      title="Контакты не найдены"
+      description="Данные о сотрудниках временно недоступны"
+    />
 
     <div v-else class="overflow-x-auto">
       <table class="w-full border-collapse">

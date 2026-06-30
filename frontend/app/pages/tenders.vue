@@ -1,15 +1,23 @@
 <template>
-    <PageHeroElse
-        title="Наши текущие конкурсы"
-        description="Конкурсы на наши муниципальные места"
-        image="/images/office.png"
-        image-alt="Office workspace"
+  <div>
+    <DsPageHero
+      variant="inner"
+      title="Конкурсы"
+      description="Конкурсы на замещение вакантных должностей и формирование кадрового резерва"
+      :image="hero.src"
+      :image-alt="hero.alt"
     />
-    <TendersInfo />
+    <DsBreadcrumbs :items="breadcrumbItems" />
+    <ActiveCompetitions />
     <TabsTenders />
+  </div>
 </template>
 
-<script setup lang="ts">
-useHead({ title: 'Тендеры' })
-</script>
+<script setup>
+import { buildBreadcrumbs } from '~/data/breadcrumbs'
 
+useHead({ title: 'Конкурсы' })
+
+const breadcrumbItems = buildBreadcrumbs({ label: 'Конкурсы' })
+const hero = useHeroImage('tenders')
+</script>

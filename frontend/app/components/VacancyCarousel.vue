@@ -1,34 +1,63 @@
 <template>
   <div class="flex-1 pb-6">
-    <!-- Application Form Modal -->
-    <UModal v-model:open="isApplicationFormOpen" title="Отклик на вакансию">
+    <UModal
+      v-model:open="isApplicationFormOpen"
+      title="Отклик на вакансию"
+    >
       <template #body>
-        <ApplicationForm :vacancy="selectedVacancy" @submit="handleFormSubmit" @cancel="closeApplicationForm" />
+        <ApplicationForm
+          :vacancy="selectedVacancy"
+          @submit="handleFormSubmit"
+          @cancel="closeApplicationForm"
+        />
       </template>
     </UModal>
 
-    <UContainer class="pb-6 lg:pb-12">
-      <!-- Header Section -->
-      <div class="text-center mb-6">
-        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          {{ title }}
-        </h2>
-        <p v-if="subtitle" class="text-lg text-gray-500 dark:text-gray-400 max-w-3xl mx-auto">
-          {{ subtitle }}
-        </p>
-      </div>
-
-      <!-- No Vacancies Message -->
-      <div
-        v-if="vacancies.length === 0"
-        class="text-center py-12"
+    <DsSection spacing="md">
+      <DsSectionHeading
+        :title="title"
+        :description="subtitle"
+        align="left"
       >
-        <UIcon name="i-lucide-search-x" class="h-16 w-16 text-gray-600 mx-auto mb-4" />
-        <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">Вакансии не найдены</h3>
-        <p class="text-gray-500 dark:text-gray-500">Попробуйте изменить параметры поиска</p>
+        <template #action>
+          <UButton
+            label="Все вакансии"
+            to="/vacancies"
+            color="primary"
+            variant="outline"
+            trailing-icon="i-lucide-arrow-right"
+            class="min-h-11 font-medium"
+          />
+        </template>
+      </DsSectionHeading>
+
+      <div
+        v-if="pending"
+        class="grid-cards"
+      >
+        <DsSkeletonCard
+          v-for="i in 3"
+          :key="i"
+        />
       </div>
 
-      <!-- Carousel -->
+      <DsEmptyState
+        v-else-if="!vacancies.length"
+        icon="i-lucide-search-x"
+        title="Вакансии не найдены"
+        description="Сейчас нет открытых позиций. Загляните позже или подпишитесь на обновления"
+      >
+        <template #action>
+          <UButton
+            label="Все вакансии"
+            to="/vacancies"
+            color="primary"
+            variant="solid"
+            class="min-h-11 font-medium"
+          />
+        </template>
+      </DsEmptyState>
+
       <UCarousel
         v-else
         :items="carouselItems"
@@ -38,40 +67,40 @@
         :ui="{ item: 'basis-full md:basis-1/2 lg:basis-1/3' }"
       >
         <template #default="{ item }">
-          <!-- Vacancy Card -->
           <VacancyCard
             v-if="!item.isPlaceholder"
             :vacancy="item"
             @apply="openApplicationForm"
           />
 
-          <!-- Placeholder Card -->
-          <UCard
+          <DsSurface
             v-else
-            class="bg-white/80 dark:bg-transparent backdrop-blur-sm ring-1 ring-gray-200 dark:ring-gray-800 h-full flex flex-col"
-            :ui="{
-              root: 'h-full flex flex-col',
-              body: 'flex-1 flex flex-col items-center justify-center p-6'
-            }"
+            elevation="sm"
+            padding="lg"
+            class="h-full flex flex-col items-center justify-center text-center min-h-[320px]"
           >
-            <div class="text-center">
-              <UIcon name="i-lucide-arrow-right-circle" class="h-16 w-16 text-primary-500 mx-auto mb-4" />
-              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Смотреть все вакансии</h3>
-              <p class="text-gray-500 dark:text-gray-400 mb-6">
-                Ознакомьтесь со всеми актуальными предложениями
-              </p>
-              <UButton
-                label="Все вакансии"
-                color="primary"
-                variant="solid"
-                class="bg-primary-500 text-gray-900 dark:text-white hover:bg-primary-600"
-                to="/vacancies"
-              />
-            </div>
-          </UCard>
+            <UIcon
+              name="i-lucide-arrow-right-circle"
+              class="h-14 w-14 text-primary-500 mx-auto mb-4"
+              aria-hidden="true"
+            />
+            <h3 class="text-h3 text-text-primary mb-2">
+              Смотреть все вакансии
+            </h3>
+            <p class="text-body text-text-secondary mb-6 max-w-xs">
+              Ознакомьтесь со всеми актуальными предложениями
+            </p>
+            <UButton
+              label="Все вакансии"
+              color="primary"
+              variant="solid"
+              to="/vacancies"
+              class="min-h-11 font-medium"
+            />
+          </DsSurface>
         </template>
       </UCarousel>
-    </UContainer>
+    </DsSection>
   </div>
 </template>
 
@@ -83,17 +112,21 @@ import VacancyCard from './VacancyCard.vue'
 const props = defineProps({
   title: {
     type: String,
-    default: 'Последние вакансии'
+    default: 'Последние вакансии',
   },
   subtitle: {
     type: String,
-    default: 'Актуальные предложения от работодателей'
+    default: 'Актуальные предложения от работодателей',
   },
   vacancies: {
     type: Array,
     required: true,
-    default: () => []
-  }
+    default: () => [],
+  },
+  pending: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const config = useRuntimeConfig()
@@ -102,22 +135,18 @@ const selectedVacancy = ref(null)
 const isSubmitting = ref(false)
 const submitStatus = ref(null)
 
-// Pick 5 random vacancies using Fisher-Yates partial shuffle
 const carouselItems = computed(() => {
   const all = [...props.vacancies]
   const count = Math.min(5, all.length)
-  // Partial Fisher-Yates shuffle
   for (let i = all.length - 1; i > all.length - 1 - count; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [all[i], all[j]] = [all[j], all[i]]
   }
   const selected = all.slice(-count)
-  // Add placeholder as 6th item
   selected.push({ isPlaceholder: true })
   return selected
 })
 
-// Methods
 const openApplicationForm = (vacancy) => {
   submitStatus.value = null
   selectedVacancy.value = vacancy
@@ -147,24 +176,7 @@ const handleFormSubmit = async (formData) => {
           }
         }
       } else if (value !== null && value !== undefined) {
-        let fieldName = key
-          .replace(/([A-Z])/g, '_$1')
-          .toLowerCase()
-
-        const fieldMap = {
-          'last_name': 'last_name',
-          'first_name': 'first_name',
-          'middle_name': 'middle_name',
-          'birth_date': 'birth_date',
-          'registration_address': 'registration_address',
-          'residence_address': 'residence_address',
-          'municipal_experience': 'municipal_experience',
-          'work_experience': 'work_experience',
-          'marital_status': 'marital_status',
-          'vacancy_source': 'vacancy_source'
-        }
-        fieldName = fieldMap[fieldName] || fieldName
-
+        let fieldName = key.replace(/([A-Z])/g, '_$1').toLowerCase()
         if (value instanceof Date) {
           data.append(fieldName, value.toISOString().split('T')[0])
         } else {
@@ -173,9 +185,9 @@ const handleFormSubmit = async (formData) => {
       }
     }
 
-    const response = await $fetch(`${config.public.apiBaseUrl}/api/apply/`, {
+    await $fetch(`${config.public.apiBaseUrl}/api/apply/`, {
       method: 'POST',
-      body: data
+      body: data,
     })
 
     submitStatus.value = 'success'

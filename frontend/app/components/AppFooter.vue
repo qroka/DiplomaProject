@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import type { FooterColumn } from '@nuxt/ui'
+import { footerNavItems } from '~/data/navigation'
 
 const columns: FooterColumn[] = [
   {
     label: 'Навигация',
-    children: [
-      { label: 'Главная', to: '/' },
-      { label: 'О нас', to: '/about' },
-      { label: 'Вакансии', to: '/vacancies' },
-      { label: 'Контакты', to: '/contacts' },
-      { label: 'Конкурсы', to: '/tenders' },
-    ]
+    children: footerNavItems.map(item => ({ label: item.label, to: item.to })),
   },
   {
     label: 'Ресурсы',

@@ -1,0 +1,10 @@
+/* Spacing rhythm — 4px grid */
+
+@theme {
+  --space-section-sm: 3rem;
+  --space-section-md: 4rem;
+  --space-section-lg: 6rem;
+  --space-inline: 1rem;
+  --space-inline-lg: 1.5rem;
+  --space-gap-cards: 1.5rem;
+}

@@ -1,29 +1,36 @@
 <template>
+  <DsPageHero
+    variant="compact"
+    title="Обратная связь"
+    description="Вопросы, предложения и замечания к работе кадрового портала"
+  />
+  <DsBreadcrumbs :items="breadcrumbItems" />
+
   <UContainer class="py-8 lg:py-12">
-    <!-- Breadcrumb -->
-    <UBreadcrumb :items="breadcrumbItems" separator-icon="i-lucide-chevron-right" class="mb-6" />
-
-    <!-- Page Title -->
-    <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-8">
-      Обратная связь
-    </h1>
-
-    <div class="bg-white dark:bg-gray-900/50 rounded-xl p-6 lg:p-8 ring-1 ring-gray-200 dark:ring-gray-800 mb-6">
-      <p class="text-base lg:text-lg text-gray-900 dark:text-white mb-6">
+    <DsSurface
+      elevation="sm"
+      padding="lg"
+      class="mb-6"
+    >
+      <p class="text-body-lg text-text-primary mb-6">
         Если у вас есть вопросы, предложения или замечания к работе кадрового портала,
         пожалуйста, заполните форму ниже. Мы обязательно рассмотрим ваше обращение.
       </p>
 
       <div
         v-if="formSuccess"
-        class="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-700 dark:text-green-300"
+        role="status"
+        aria-live="polite"
+        class="mb-6 p-4 bg-primary-50 dark:bg-primary-950/30 border border-primary-200 dark:border-primary-800 rounded-lg text-text-primary"
       >
         {{ formSuccess }}
       </div>
 
       <div
         v-if="formError"
-        class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-300"
+        role="alert"
+        aria-live="assertive"
+        class="mb-6 p-4 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-lg text-red-800 dark:text-red-200"
       >
         {{ formError }}
       </div>
@@ -31,48 +38,53 @@
       <UForm
         :state="formState"
         :validate="validateForm"
-        @submit="submitFeedback"
         class="space-y-5"
+        @submit="submitFeedback"
       >
-        <UFormField label="Сообщение" name="message" required>
+        <UFormField
+          label="Сообщение"
+          name="message"
+          required
+        >
           <UTextarea
             v-model="formState.message"
             :rows="5"
-            placeholder="Напишите ваше сообщение"
-            class="w-full"
+            placeholder="Опишите ваш вопрос или предложение"
           />
         </UFormField>
 
-        <UFormField label="Прикрепить фото" name="photo">
+        <UFormField
+          label="Фото (необязательно)"
+          name="photo"
+        >
           <UFileUpload
             v-model="formState.photo"
             accept="image/*"
-            label="Выберите фото"
-            description="JPG, PNG или GIF (макс. 5MB)"
+            label="Прикрепить изображение"
+            description="JPG, PNG или GIF"
           />
         </UFormField>
 
-        <UButton
-          type="submit"
-          color="primary"
-          variant="solid"
-          :loading="formLoading"
-          class="mt-2"
-        >
-          Отправить
-        </UButton>
+        <div class="flex justify-end gap-3 pt-2">
+          <UButton
+            label="Отправить"
+            color="primary"
+            type="submit"
+            :loading="formLoading"
+            class="min-h-11 font-medium"
+          />
+        </div>
       </UForm>
-    </div>
+    </DsSurface>
   </UContainer>
 </template>
 
 <script setup>
+import { buildBreadcrumbs } from '~/data/breadcrumbs'
+
 useHead({ title: 'Обратная связь' })
 
-const breadcrumbItems = [
-  { label: 'Главная', to: '/' },
-  { label: 'Обратная связь', to: '/feedback' }
-]
+const breadcrumbItems = buildBreadcrumbs({ label: 'Обратная связь' })
 
 const config = useRuntimeConfig()
 const formLoading = ref(false)
@@ -81,7 +93,7 @@ const formError = ref('')
 
 const formState = reactive({
   message: '',
-  photo: null
+  photo: null,
 })
 
 const validateForm = (state) => {
@@ -104,12 +116,10 @@ const submitFeedback = async () => {
 
     const data = await $fetch(`${config.public.apiBaseUrl}/api/submit-feedback/`, {
       method: 'POST',
-      body: formData
+      body: formData,
     })
 
     formSuccess.value = data.message
-
-    // Reset form
     formState.message = ''
     formState.photo = null
   } catch (error) {

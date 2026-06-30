@@ -1,243 +1,237 @@
 <template>
-  <!-- Первое главное -->
-  <PageHeroIndex
+  <DsPageHero
+    variant="home"
     title="Успешная команда - успешный район"
-    description="Отправляй свое резюме сейчас и наш специалист свяжется с вами"
+    description="Отправьте резюме через раздел «Вакансии» — специалист свяжется с вами для консультации"
     button-label="Наши вакансии"
     button-link="/vacancies"
-    image="/images/office.png"
-    image-alt="Office workspace"
+    :image="hero.src"
+    :image-alt="hero.alt"
   />
 
-  <!-- Вот с кем мы работаем -->
-  <UContainer>
-    <div class="flex items-center gap-3 mb-6">
-      <div class="flex-1 h-px bg-gradient-brand"></div>
-      <span class="text-sm font-medium text-gray-500 dark:text-gray-400 shrink-0">С нами работают</span>
-      <div class="flex-1 h-px bg-gradient-brand"></div>
-    </div>
-  </UContainer>
+  <PartnersLogos />
 
-  <!-- Листающиеся логотипы -->
-  <!-- TODO: при маленком разрешении они стоят в ряд не шевелясь -->
-  <div class="group **:data-marquee:hover:[animation-play-state:paused] **:data-marquee:focus-within:[animation-play-state:paused]">
-    <UMarquee
-      pause-on-hover
-      :overlay="false"
-      :ui="{ root: '[--gap:16px]' }"
-    >
-      <NuxtLink
-        v-for="(logo, index) in [
-          { url: 'https://lk.fss.ru/', image: '/Icons/i-custom-fss.svg', alt: 'FSS Logo' },
-          { url: 'https://mintrud.gov.ru', image: '/Icons/i-custom-mintrud.svg', alt: 'Ministry of Labor Logo' },
-          { url: 'https://admsr.ru', image: '/Icons/i-custom-admsr.svg', alt: 'Surgut District Administration Logo' },
-          { url: 'https://admsurgut.ru', image: '/Icons/i-custom-admsur.svg', alt: 'Surgut City Administration Logo' }
-        ]"
-        :key="index"
-        :to="logo.url"
-        target="_blank"
-        class="flex items-center justify-center px-6 mb-6 focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2 focus-visible:rounded-lg"
-      >
-        <img :src="logo.image" :alt="logo.alt" class="h-12 w-12 opacity-75 hover:opacity-100 transition object-contain" />
-      </NuxtLink>
-    </UMarquee>
-  </div>
+  <DsSection spacing="md">
+    <DsSectionHeading
+      title="Новости"
+      description="Коротко о наших текущих мероприятиях"
+      heading-id="news"
+    />
 
-  <UContainer>
-    <div class="h-px bg-gradient-brand mb-6"></div>
-  </UContainer>
-
-  <!-- Деятельность -->
-  <UContainer class="py-6 lg:py-12 mb-6">
-    <!-- Header -->
-    <div class="max-w-2xl mb-6">
-      <h2 class="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-        Новости
-      </h2>
-      <p class="text-gray-500 dark:text-gray-400 text-lg">
-        Коротко о наших текущих мероприятиях
-      </p>
-    </div>
     <UBlogPosts
+      v-if="posts?.length"
       class="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6"
     >
       <UBlogPost
         v-for="post in posts"
-        :key="post.title"
+        :key="post.id"
         :title="post.title"
         :description="post.description"
         :date="post.date"
+        :image="post.imageUrl"
         :ui="{
-          root: 'bg-secondary-500',
+          root: 'bg-secondary-500 ring-1 ring-border-default',
           title: 'text-white',
           description: 'text-white/80',
-          date: 'text-white/60'
+          date: 'text-white/60',
         }"
       />
     </UBlogPosts>
-  </UContainer>
- 
-  <UContainer>
-    <div class="h-px bg-gradient-brand"></div>
-  </UContainer>
 
-  <!-- Почему работать именно с нами -->
-  <UContainer class="mb-6 py-6 lg:py-12">
-    <!-- Header -->
-    <div class="max-w-2xl mb-6">
-      <h2 class="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-        Почему именно мы?
-      </h2>
-      <p class="text-gray-500 dark:text-gray-400 text-lg">
-        Вот коротко почему именно мы
-      </p>
-    </div>
-    <!-- Features Grid -->
-    <UPageGrid class="lg:grid-cols-3 gap-8">
-      <UPageCard
-        v-for="feature in features"
-        :key="feature.title"
-        :title="feature.title"
-        :description="feature.description"
-        :icon="feature.icon"
-        :ui="{
-          root: 'bg-gradient-brand',
-          title: 'text-white',
-          description: 'text-white/80',
-          leadingIcon: 'text-white'
-        }"
-      />
-    </UPageGrid>
-  </UContainer>
+    <DsEmptyState
+      v-else
+      icon="i-lucide-newspaper"
+      title="Новости скоро появятся"
+      description="Мы готовим материалы о мероприятиях и достижениях команды"
+    />
+  </DsSection>
 
-  <UContainer>
-    <div class="h-px bg-gradient-brand mb-6"></div>
-  </UContainer>
+  <DsSection
+    spacing="md"
+    variant="muted"
+  >
+    <DsSectionHeading
+      title="Наши ценности"
+      description="Принципы, на которых строится работа администрации Сургутского района"
+      heading-id="values"
+    />
+
+    <UTabs
+      v-model="activeValueTab"
+      color="primary"
+      variant="pill"
+      size="lg"
+      :items="valueTabs"
+      :unmount-on-hide="false"
+      class="w-full"
+    >
+      <template #content="{ item }">
+        <DsSurface
+          elevation="sm"
+          padding="lg"
+          class="mt-6"
+        >
+          <h3 class="text-h3 text-text-primary mb-2">
+            {{ item.label }}
+          </h3>
+          <p class="text-body font-medium text-text-accent mb-4">
+            {{ item.subtitle }}
+          </p>
+          <p class="text-body text-text-secondary mb-4">
+            {{ item.intro }}
+          </p>
+          <ul class="space-y-2 mb-6">
+            <li
+              v-for="point in item.points"
+              :key="point"
+              class="flex gap-2 text-body text-text-secondary"
+            >
+              <UIcon
+                name="i-lucide-check"
+                class="h-5 w-5 text-primary-500 shrink-0 mt-0.5"
+                aria-hidden="true"
+              />
+              <span>{{ point }}</span>
+            </li>
+          </ul>
+          <p class="text-overline uppercase tracking-wide text-text-muted mb-2">
+            Что это даёт сотрудникам
+          </p>
+          <p class="text-body text-text-primary">
+            {{ item.benefit }}
+          </p>
+        </DsSurface>
+      </template>
+    </UTabs>
+  </DsSection>
 
   <VacancyCarousel
-    title="Последние вакансии"
-    subtitle="Актуальные предложения от работодателей"
+    title="Актуальные вакансии"
+    subtitle="Открытые должности в администрации Сургутского района"
     :vacancies="vacanciesData ?? []"
+    :pending="vacanciesPending"
   />
 
-  <UContainer>
-    <div class="flex items-center gap-3 mb-6">
-      <div class="flex-1 h-px bg-gradient-brand"></div>
-    </div>
-  </UContainer>
+  <DsSection
+    spacing="md"
+    variant="muted"
+  >
+    <VacancySubscribeForm promo />
+  </DsSection>
 
-  <UContainer class="py-6 lg:py-12">
-    <!-- Header -->
-    <div class=" max-w-2xl mx-2">
-      <h2 class="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-        Часто Задаваемые <span class="text-green-600 dark:text-green-400">Вопросы</span>
-      </h2>
-      <p class="text-gray-500 dark:text-gray-400 text-lg">
-        Everything you need to know about our productivity platform.
-      </p>
-    </div>
-    <!-- FAQ Accordion -->
-    <div class="py-6 lg:py-12">
-      <UAccordion
-        :items="FAQ_items"
-        :ui="{
-          wrapper: 'flex flex-col gap-4',
-          item: 'bg-white/60 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden mb-4 backdrop-blur-sm',
-          header: 'px-4 py-2 text-gray-900 dark:text-white font-medium hover:bg-gray-100 dark:hover:bg-gray-800/50 transition',
-          body: 'px-6 py-2 text-gray-500 dark:text-gray-400',
-          trailing: 'text-orange-500'
-        }"
-        multiple
-      />
-    </div>
-  </UContainer>
+  <DsSection spacing="md">
+    <DsSectionHeading
+      title="Часто задаваемые вопросы"
+      description="Ответы на популярные вопросы о работе в администрации района"
+      heading-id="faq"
+    />
+
+    <UAccordion
+      :items="FAQ_items"
+      :ui="{
+        wrapper: 'flex flex-col gap-3',
+        item: 'ds-surface ring-1 ring-border-default rounded-lg overflow-hidden',
+        header: 'px-4 py-3 text-text-primary font-medium hover:bg-surface-sunken transition-colors duration-fast min-h-11',
+        body: 'px-4 pb-4 text-body text-text-secondary',
+        trailing: 'text-primary-500',
+      }"
+      multiple
+    />
+  </DsSection>
 </template>
 
 <script setup>
 useHead({ title: 'Главная' })
-import VacancyCarousel from '~/components/VacancyCarousel.vue'
 
+const hero = useHeroImage('home')
 const config = useRuntimeConfig()
-const { data: vacanciesData } = await useAsyncData('vacancies', () =>
-  $fetch(`${config.public.apiBaseUrl}/api/vacancies/`), { server: false }
-)
-const features = [
+const { data: vacanciesData, pending: vacanciesPending } = await useAsyncData('vacancies', () =>
+  $fetch(`${config.public.apiBaseUrl}/api/vacancies/`), { server: false })
+const activeValueTab = ref('competence')
+
+const valueTabs = [
   {
-    title: 'Стабильность занятости',
-    description: 'Государство редко проводит массовые сокращения, как частные компании во время кризисов. Уволить госслужащего по инициативе нанимателя сложнее — требуется соблюдение множества процедур.',
-    icon: 'i-lucide-sparkles'
+    label: 'Компетенция и опыт',
+    value: 'competence',
+    subtitle: 'Опора на надёжность',
+    intro: 'Мы работаем в сложных климатических и экономических условиях, где ошибки обходятся дорого. Поэтому мы:',
+    points: [
+      'ценим глубокие профессиональные знания и практический опыт',
+      'инвестируем в обучение и развитие сотрудников: организуем тренинги, курсы повышения квалификации, стажировки в ведущих организациях',
+      'создаём систему наставничества, чтобы передавать опыт от ветеранов отрасли молодым специалистам',
+      'поощряем стремление к саморазвитию и профессиональному росту',
+    ],
+    benefit: 'Уверенность в своих силах, возможность постоянно учиться, карьерный рост и признание заслуг.',
   },
   {
-    title: 'Предсказуемый карьерный рост.',
-    description: 'Часто существует четкая сетка званий, разрядов или классов (например, в России — классные чины). Повышение может зависеть от выслуги лет, а не только от личных достижений или рыночной конъюнктуры.',
-    icon: 'i-lucide-sparkles'
+    label: 'Сплочённость и доверие',
+    value: 'unity',
+    subtitle: 'Сила команды Севера',
+    intro: 'Суровый климат учит нас держаться вместе. Мы строим отношения на взаимном уважении и поддержке:',
+    points: [
+      'работаем как единая команда, где каждый готов прийти на помощь коллеге',
+      'поддерживаем атмосферу взаимовыручки и солидарности',
+      'ценим традиции коллектива и создаём новые, укрепляющие командный дух',
+      'организуем корпоративные мероприятия и спортивные соревнования для сплочения команды',
+    ],
+    benefit: 'Чувство принадлежности к сильной команде, поддержку в сложных ситуациях, дружескую атмосферу на работе.',
   },
   {
-    title: 'Режим работы и переработки',
-    description: 'Формально — нормированный день, хотя на практике переработки возможны. Но они часто компенсируются отгулами или надбавками, а не бесплатной работой.',
-    icon: 'i-lucide-sparkles'
+    label: 'Чёткие задачи и цели',
+    value: 'goals',
+    subtitle: 'Курс на развитие района',
+    intro: 'Мы отвечаем за благополучие тысяч жителей Сургутского района, поэтому работаем системно и целенаправленно:',
+    points: [
+      'ставим ясные и измеримые цели для каждого подразделения и сотрудника',
+      'выстраиваем прозрачные процессы планирования и отчётности',
+      'фокусируемся на результатах, которые улучшают жизнь людей в районе',
+      'регулярно пересматриваем приоритеты с учётом потребностей жителей и стратегических задач региона',
+    ],
+    benefit: 'Понимание своей роли в общем деле, чёткие ориентиры для работы, возможность видеть реальный вклад в развитие района.',
   },
   {
-    title: 'Защищенность от рыночных рисков.',
-    description: ' Госслужащий не потеряет зарплату из-за банкротства работодателя, санкций, падения спроса на продукцию и т.п.',
-    icon: 'i-lucide-sparkles'
-  },
-  {
-    title: 'Медицинское обслуживание',
-    description: 'Ведомственные поликлиники, санатории, путевки по льготной цене.',
-    icon: 'i-lucide-sparkles'
-  },
-  {
-    title: 'Пенсионное обеспечение',
-    description: 'Пенсионное обеспечение государственных служащих часто является более выгодным по сравнению с работниками частного бизнеса благодаря возможности получать не только страховую, но и специальную государственную пенсию за выслугу лет.',
-    icon: 'i-lucide-sparkles'
+    label: 'Открытость и коммуникации',
+    value: 'openness',
+    subtitle: 'Диалог с жителями и внутри команды',
+    intro: 'Администрация — связующее звено между властью и жителями. Мы строим работу на принципах прозрачности и диалога:',
+    points: [
+      'активно взаимодействуем с жителями через общественные советы, встречи, онлайн-платформы',
+      'обеспечиваем прозрачность принимаемых решений и доступность информации',
+      'поощряем инициативу и обратную связь внутри коллектива: каждый сотрудник может предложить идею по улучшению работы',
+      'развиваем внутренние каналы коммуникации: корпоративные чаты, информационные стенды, регулярные собрания',
+    ],
+    benefit: 'Участие в принятии решений, открытый диалог с руководством и жителями, возможность влиять на развитие района.',
   },
 ]
 
-const posts = [
-  {
-    title: 'Спортивный конкурс между отделами',
-    description: 'Такого-то числа у нас проходит конкурс...',
-    date: '2024-11-25'
-  },
-  {
-    title: 'Время близится к первому декабря, заплатил налог?',
-    description: 'Приходите в налоговую...',
-    date: '2024-11-04'
-  },
-  {
-    title: 'Поздравляем с Днем госслужащего!',
-    description: 'Глава нашего Сургутского района спешит вас поздравить...',
-    date: '2024-08-22'
-  }
-]
+const { data: posts } = await useAsyncData('news-posts', () =>
+  $fetch(`${config.public.apiBaseUrl}/api/news/`), { server: false })
 
 const FAQ_items = [
   {
-    label: 'Как к нам устроиться на работу?',
-    icon: 'i-lucide-smile',
-    content: 'Подавайте заявку через вкладку вакансийб выбирайте нужную и в всплывающей форме заполняйте ваши данные.'
+    label: 'Как устроиться на работу?',
+    icon: 'i-lucide-file-text',
+    content: 'Откройте раздел «Вакансии», выберите должность и заполните форму отклика. После отправки с вами свяжется специалист отдела кадров.',
   },
   {
-    label: 'Какие преимущества у госслужащих по сравнению с обычными рабочими частного бизнеса?',
-    icon: 'i-lucide-swatch-book',
-    content: ' Во-первых, государственные служащие обладают значительно более высокой стабильностью занятости по сравнению с работниками частного бизнеса: государство крайне редко проводит массовые сокращения, подобные тем, что случаются в частных компаниях во время экономических кризисов или при смене собственника, а процедура увольнения госслужащего по инициативе нанимателя сильно затруднена и требует соблюдения множества юридических формальностей. Во-вторых, на госслужбе существует четкий и предсказуемый карьерный рост, основанный на системе званий, разрядов или классных чинов, где повышение часто зависит от выслуги лет и формального соответствия критериям, а не только от личных достижений или текущей рыночной конъюнктуры, что делает карьеру более планируемой. В-третьих, государство предоставляет расширенные социальные гарантии, включая полностью оплачиваемый больничный любой продолжительности, ежегодный оплачиваемый отпуск, который, как правило, длиннее стандартного (например, в России от 30 дней плюс дополнительные дни за выслугу лет), а также более выгодное пенсионное обеспечение, часто включающее пенсию за выслугу лет.'
+    label: 'Какие преимущества у муниципальной службы?',
+    icon: 'i-lucide-shield-check',
+    content: 'Стабильная занятость, социальные гарантии, оплачиваемый отпуск и больничный, предсказуемый карьерный рост по установленным правилам и программы профессионального развития.',
   },
   {
-    label: 'Действительно ли больничный оплатят полностью, даже если я болею несколько месяцев?',
-    icon: 'i-lucide-box',
-    content: 'Да, полностью и без попыток уволить. В отличие от частного бизнеса, где длительный больничный — частая причина для сокращения или давления с просьбой «уйти по собственному», госслужащий защищен законом. Вам оплатят весь период нетрудоспособности, а ваше рабочее место сохранится. Более того, после выхода на работу вас не могут понизить в должности или чине из-за болезни.'
+    label: 'Оплачивается ли длительный больничный?',
+    icon: 'i-lucide-heart-pulse',
+    content: 'Да. Период нетрудоспособности оплачивается в соответствии с законодательством, рабочее место сохраняется. После выхода на работу нельзя понизить в должности из-за болезни.',
   },
   {
-    label: 'Правда ли, что у госслужащих нормированный день и переработки компенсируют, или на деле я буду работать допоздна бесплатно, как во многих частных компаниях?',
-    icon: 'i-lucide-smile',
-    content: 'Формально у вас нормированный рабочий день (например, с 9 до 18), а любая переработка по инициативе начальника должна компенсироваться — либо деньгами (сверхурочными по повышенной ставке), либо дополнительными отгулами. Однако на практике переработки на госслужбе случаются часто (сессии, проверки, отчеты), и вот ключевое отличие от частного бизнеса: в частной компании вас могут заставить работать допоздна бесплатно под угрозой увольнения, а госслужащий защищен — он может письменно отказаться от неоплачиваемой сверхурочной работы, и его не уволят за это (хотя отношения с начальством могут испортиться). Более того, если вы фиксируете переработки, вам обязаны либо заплатить, либо предоставить отгул в удобное для вас время — в отличие от частного сектора, где «бесплатные переработки» часто считаются нормой.'
+    label: 'Как устроены переработки?',
+    icon: 'i-lucide-clock',
+    content: 'Рабочий день нормирован. Переработки компенсируются деньгами или дополнительными выходными. Неоплачиваемые сверхурочные без согласия сотрудника не допускаются.',
   },
   {
-    label: 'А у вас хороший коллектив?',
-    icon: 'i-lucide-smile',
-    content: 'Да, конечно! Пополняйте ряды таких же профессионалов как вы и приходите к нам на работу как во второй дом :) (не финальный текст)'
-  }
+    label: 'Какой у вас коллектив?',
+    icon: 'i-lucide-users',
+    content: 'Команда профессионалов, ориентированных на развитие района и поддержку жителей. Мы ценим взаимовыручку, наставничество и открытый диалог внутри коллектива.',
+  },
 ]
-
 </script>

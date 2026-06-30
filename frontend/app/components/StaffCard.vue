@@ -41,13 +41,13 @@
         </p>
       </UCard>
 
-      <div
+      <DsEmptyState
         v-if="items.length === 0"
-        class="col-span-full text-center py-12"
-      >
-        <UIcon name="i-lucide-users" class="h-16 w-16 text-gray-400 mx-auto mb-4" />
-        <p class="text-gray-500 dark:text-gray-400">Нет данных</p>
-      </div>
+        icon="i-lucide-users"
+        title="Нет данных"
+        description="Информация о сотрудниках появится позже"
+        class="col-span-full"
+      />
     </div>
   </div>
 </template>

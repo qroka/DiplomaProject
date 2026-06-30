@@ -8,7 +8,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:8000'
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:8000',
+      esiaFeedbackUrl: process.env.NUXT_PUBLIC_ESIA_FEEDBACK_URL || 'https://pos.gosuslugi.ru/landing/'
     }
   },
 
@@ -31,7 +32,9 @@ export default defineNuxtConfig({
   },
 
   fonts: {
-    provider: 'local' // or 'local', 'none'
+    families: [
+      { name: 'PT Sans', provider: 'google', weights: [400, 500, 700] },
+    ],
   },
   
   devtools: {
