@@ -1,41 +1,41 @@
 <template>
-  <DsSection
-    spacing="md"
-    variant="muted"
-  >
-    <DsSectionDivider
-      label="С нами работают"
-      variant="brand"
-      spacing="sm"
-    />
+  <section class="border-y border-default bg-elevated/40">
+    <UContainer class="flex flex-col items-center gap-10 px-0 lg:px-0 xl:px-0  py-16 text-center lg:py-20">
+      <div class="flex max-w-2xl flex-col items-center gap-3">
+        <h2 class="text-3xl font-bold tracking-tight text-highlighted text-balance sm:text-4xl">
+          С нами работают
+        </h2>
+        <p class="text-pretty text-lg leading-8 text-muted">
+          Федеральные и региональные организации, с которыми мы выстраиваем прозрачную кадровую политику и социальные гарантии для сотрудников.
+        </p>
+      </div>
 
-    <!-- Mobile + desktop при prefers-reduced-motion: статичная сетка -->
-    <div class="grid-logos md:hidden motion-reduce:md:grid mb-2">
-      <PartnerLogoLink
-        v-for="(logo, index) in partners"
-        :key="`grid-${index}`"
-        :logo="logo"
-      />
-    </div>
-
-    <!-- Desktop: marquee (скрыт при reduced motion) -->
-    <div
-      class="hidden md:block motion-reduce:hidden group **:data-marquee:hover:[animation-play-state:paused] **:data-marquee:focus-within:[animation-play-state:paused]"
-    >
-      <UMarquee
-        pause-on-hover
-        :overlay="false"
-        :ui="{ root: '[--gap:24px]' }"
-      >
+      <!-- Mobile / reduced motion: static grid -->
+      <div class="grid w-full max-w-4xl grid-cols-2 gap-4 sm:grid-cols-4 lg:hidden motion-reduce:lg:grid">
         <PartnerLogoLink
           v-for="(logo, index) in partners"
-          :key="`marquee-${index}`"
+          :key="`grid-${index}`"
           :logo="logo"
-          class="px-4"
         />
-      </UMarquee>
-    </div>
-  </DsSection>
+      </div>
+
+      <!-- Desktop: marquee -->
+      <div class="relative hidden w-full lg:block motion-reduce:hidden">
+        <UMarquee
+          pause-on-hover
+          :overlay="false"
+          :ui="{ root: '[--duration:40s] [--gap:1rem]' }"
+        >
+          <PartnerLogoLink
+            v-for="(logo, index) in partners"
+            :key="`marquee-${index}`"
+            :logo="logo"
+            class="min-w-52"
+          />
+        </UMarquee>
+      </div>
+    </UContainer>
+  </section>
 </template>
 
 <script setup lang="ts">

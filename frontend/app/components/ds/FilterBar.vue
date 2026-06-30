@@ -31,7 +31,6 @@
           color="error"
           variant="outline"
           size="sm"
-          class="min-h-11"
           aria-label="Сбросить все фильтры"
           @click="resetAll"
         />

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-4/5 mx-auto py-8">
+  <div class="ds-container py-8">
     <DsEmptyState
       v-if="!pending && groupedStaff.length === 0"
       icon="i-lucide-phone-off"

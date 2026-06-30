@@ -5,7 +5,7 @@
       :label="compact ? undefined : 'Для слабовидящих'"
       color="neutral"
       variant="ghost"
-      size="sm"
+      size="md"
       :aria-label="settings.enabled ? 'Настройки версии для слабовидящих (включена)' : 'Включить версию для слабовидящих'"
       :aria-pressed="settings.enabled"
     />

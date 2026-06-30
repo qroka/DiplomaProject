@@ -1,22 +1,7 @@
-/* Page container — replaces ad-hoc UContainer + mx-4 */
+/* Page container — same grid as UContainer / UHeader (ui.nuxt.com) */
 
-.ds-container {
-  width: 100%;
-  max-width: 80rem;
-  margin-inline: auto;
-  padding-inline: var(--space-inline);
-}
-
-@media (min-width: 640px) {
-  .ds-container {
-    padding-inline: 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .ds-container {
-    padding-inline: 2rem;
-  }
+@utility ds-container {
+  @apply w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-8;
 }
 
 /* Grid patterns */

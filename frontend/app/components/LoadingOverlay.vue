@@ -2,7 +2,7 @@
   <Transition name="fade">
     <div
       v-if="showOverlay"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-blue-950"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-slate-950"
     >
       <svg width="162" height="214" viewBox="0 0 81 107" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="i-custom-admsr 1" clip-path="url(#clip0_1_3)">
@@ -43,25 +43,11 @@
 
 <script setup lang="ts">
 const showOverlay = ref(true)
-const router = useRouter()
 
-// Initial load — let animation play once
 onMounted(() => {
   setTimeout(() => {
     showOverlay.value = false
   }, 1500)
-})
-
-// Show on every page navigation
-router.beforeEach(() => {
-  showOverlay.value = true
-})
-
-// Hide 2.5s after navigation completes (animation duration)
-router.afterEach(() => {
-  setTimeout(() => {
-    showOverlay.value = false
-  }, 1250)
 })
 </script>
 

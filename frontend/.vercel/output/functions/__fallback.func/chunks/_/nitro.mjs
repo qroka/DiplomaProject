@@ -4406,21 +4406,9 @@ const defineAppConfig = (config) => config;
 const appConfig0 = defineAppConfig({
   ui: {
     colors: {
-      primary: "primary",
-      secondary: "secondary",
-      neutral: "slate"
-    },
-    button: {
-      defaultVariants: {
-        size: "md"
-      },
-      compoundVariants: [
-        {
-          color: "primary",
-          variant: "solid",
-          class: "font-medium min-h-11"
-        }
-      ]
+      primary: "emerald",
+      secondary: "neutral",
+      neutral: "zinc"
     },
     card: {
       slots: {
@@ -4442,6 +4430,9 @@ const appConfig0 = defineAppConfig({
         label: "text-text-primary font-medium",
         error: "text-red-700 dark:text-red-300"
       }
+    },
+    container: {
+      base: "w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-8"
     }
   }
 });
@@ -4451,12 +4442,11 @@ const inlineAppConfig = {
   "ui": {
     "colors": {
       "primary": "green",
-      "secondary": "blue",
-      "info": "blue",
+      "neutral": "slate",
       "success": "green",
       "warning": "yellow",
       "error": "red",
-      "neutral": "slate"
+      "info": "blue"
     },
     "icons": {
       "arrowDown": "i-lucide-arrow-down",
@@ -4848,7 +4838,7 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/",
-    "buildId": "7e2b8875-4708-4d4a-b607-91cf563892c6",
+    "buildId": "a9b9744a-091c-4dfd-af80-6a1dca58987a",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },

@@ -19,6 +19,7 @@ const columns: FooterColumn[] = [
   {
     label: 'Документы',
     children: [
+      { label: 'Обратная связь', to: '/feedback' },
       { label: 'Политика конфиденциальности', to: '/privacy' },
       { label: 'Анти-коррупционная политика', to: '/anti-corruption' }
     ]
@@ -53,7 +54,16 @@ const currentYear = new Date().getFullYear()
     </template>
 
     <template #right>
-      <div class="flex items-center gap-2">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+        <UButton
+          to="/feedback"
+          label="Обратная связь"
+          icon="i-lucide-message-square"
+          color="neutral"
+          variant="soft"
+          size="sm"
+        />
+        <div class="flex items-center gap-2">
         <UButton
           to="https://vk.com/admsr"
           target="_blank"
@@ -81,6 +91,7 @@ const currentYear = new Date().getFullYear()
           variant="ghost"
           size="sm"
         />
+        </div>
       </div>
     </template>
 

@@ -82,16 +82,16 @@
                 class="flex flex-wrap items-center justify-between gap-3 bg-white/60 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg p-4"
               >
                 <span class="text-gray-900 dark:text-white font-medium">{{ doc.name }}</span>
-                <a
+                <UButton
                   v-if="doc.file"
-                  :href="doc.file"
+                  label="Скачать"
+                  icon="i-lucide-download"
+                  :to="doc.file"
                   target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-500 text-gray-900 dark:text-white hover:bg-primary-600 transition-colors text-sm shrink-0"
-                >
-                  <UIcon name="i-lucide-download" class="h-4 w-4" />
-                  Скачать
-                </a>
+                  external
+                  color="primary"
+                  size="sm"
+                />
               </div>
 
               <DsEmptyState

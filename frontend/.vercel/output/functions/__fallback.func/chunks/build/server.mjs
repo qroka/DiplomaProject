@@ -1,4 +1,4 @@
-import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { f as defu, w as hasProtocol, y as isEqual$2, M as withLeadingSlash, P as withTrailingSlash, A as joinURL, c as createError$1, C as klona, D as parseQuery$2, h as defuFn, E as parseURL$1, l as encodePath$1, d as decodePath, o as getContext, O as withQuery, z as isScriptProtocol, g as defu$1, Q as withoutTrailingSlash, H as sanitizeStatusCode, x as hasProtocol$1, N as withLeadingSlash$1, B as joinURL$1, F as parseURL$2, $ as $fetch$1, b as baseURL, r as getRequestHeader, I as setCookie, p as getCookie, i as deleteCookie, n as executeAsync, k as encodeParam$1, m as encodePath$2 } from '../_/nitro.mjs';
+import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { f as defu, w as hasProtocol, M as withLeadingSlash, P as withTrailingSlash, A as joinURL, y as isEqual$2, c as createError$1, C as klona, D as parseQuery$2, h as defuFn, E as parseURL$1, l as encodePath$1, d as decodePath, o as getContext, O as withQuery, z as isScriptProtocol, Q as withoutTrailingSlash, H as sanitizeStatusCode, g as defu$1, x as hasProtocol$1, N as withLeadingSlash$1, B as joinURL$1, F as parseURL$2, $ as $fetch$1, b as baseURL, G as publicAssetsURL, r as getRequestHeader, I as setCookie, p as getCookie, i as deleteCookie, n as executeAsync, k as encodeParam$1, m as encodePath$2 } from '../_/nitro.mjs';
 import colors from 'tailwindcss/colors';
 import require$$3 from 'node:stream';
 import { a as useSeoMeta$1, u as useHead$1, h as headSymbol } from '../routes/renderer.mjs';
@@ -37948,77 +37948,77 @@ const _routes = [
   {
     name: "about-departments-slug",
     path: "/about/departments/:slug()",
-    component: () => import('./_slug_-DGnCmR7v.mjs')
+    component: () => import('./_slug_-DU1H-X17.mjs')
   },
   {
     name: "vacancyinfo-id",
     path: "/vacancyinfo/:id()",
-    component: () => import('./_id_-ClGZn0oR.mjs')
+    component: () => import('./_id_-DxJFjyXG.mjs')
   },
   {
     name: "about",
     path: "/about",
-    component: () => import('./index-CBDZlBz-.mjs')
+    component: () => import('./index-dXxr92ss.mjs')
   },
   {
     name: "anti-corruption",
     path: "/anti-corruption",
-    component: () => import('./anti-corruption-CLv2dKZt.mjs')
+    component: () => import('./anti-corruption-iATASH_D.mjs')
   },
   {
     name: "contacts",
     path: "/contacts",
-    component: () => import('./contacts-De-NVZaA.mjs')
+    component: () => import('./contacts-CztfnFdc.mjs')
   },
   {
     name: "design-system",
     path: "/design-system",
-    component: () => import('./design-system-DgsFufFV.mjs')
+    component: () => import('./design-system-8GtLJE4s.mjs')
   },
   {
     name: "feedback",
     path: "/feedback",
-    component: () => import('./feedback-Czl-LFtz.mjs')
+    component: () => import('./feedback-DgmAYXOt.mjs')
   },
   {
     name: "honorboard",
     path: "/honorboard",
-    component: () => import('./honorboard-D3pnlQ2d.mjs')
+    component: () => import('./honorboard-BeeevxIB.mjs')
   },
   {
     name: "privacy",
     path: "/privacy",
-    component: () => import('./privacy-DZZ-nwfR.mjs')
+    component: () => import('./privacy-B1bH5p0T.mjs')
   },
   {
     name: "profdev",
     path: "/profdev",
-    component: () => import('./profdev-Dq6g9QNh.mjs')
+    component: () => import('./profdev-Bkwvxsf3.mjs')
   },
   {
     name: "staffreserve",
     path: "/staffreserve",
-    component: () => import('./staffreserve-CY2sZiLn.mjs')
+    component: () => import('./staffreserve-CSKrH4JX.mjs')
   },
   {
     name: "tenders",
     path: "/tenders",
-    component: () => import('./tenders-ALyVUxpW.mjs')
+    component: () => import('./tenders-KF9y0yws.mjs')
   },
   {
     name: "vacancies",
     path: "/vacancies",
-    component: () => import('./vacancies-DbLNPBtf.mjs')
+    component: () => import('./vacancies-CHFpGZYr.mjs')
   },
   {
     name: "youth",
     path: "/youth",
-    component: () => import('./youth-B3RLiC6Y.mjs')
+    component: () => import('./youth-C6Ggpmr9.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-D7nSwPTN.mjs')
+    component: () => import('./index-On5Avese.mjs')
   }
 ];
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;
@@ -39806,21 +39806,9 @@ const _api = {
 const cfg0 = defineAppConfig({
   ui: {
     colors: {
-      primary: "primary",
-      secondary: "secondary",
-      neutral: "slate"
-    },
-    button: {
-      defaultVariants: {
-        size: "md"
-      },
-      compoundVariants: [
-        {
-          color: "primary",
-          variant: "solid",
-          class: "font-medium min-h-11"
-        }
-      ]
+      primary: "emerald",
+      secondary: "neutral",
+      neutral: "zinc"
     },
     card: {
       slots: {
@@ -39842,6 +39830,9 @@ const cfg0 = defineAppConfig({
         label: "text-text-primary font-medium",
         error: "text-red-700 dark:text-red-300"
       }
+    },
+    container: {
+      base: "w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-8"
     }
   }
 });
@@ -39850,12 +39841,11 @@ const inlineConfig = {
   "ui": {
     "colors": {
       "primary": "green",
-      "secondary": "blue",
-      "info": "blue",
+      "neutral": "slate",
       "success": "green",
       "warning": "yellow",
       "error": "red",
-      "neutral": "slate"
+      "info": "blue"
     },
     "icons": {
       "arrowDown": "i-lucide-arrow-down",
@@ -40197,20 +40187,20 @@ const plugin_HDjR7PG9hQJxH1KXn80ii9MrhQEoqog62a9FQiGDrM4 = /* @__PURE__ */ defin
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 });
 const LazyProseA = vueExports.defineAsyncComponent(() => import('./A-DLTQKCHz.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseAccordion = vueExports.defineAsyncComponent(() => import('./Accordion-WxK6VhDP.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseAccordion = vueExports.defineAsyncComponent(() => import('./Accordion-DzDAQnLi.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseAccordionItem = vueExports.defineAsyncComponent(() => import('./AccordionItem-EZLYehNO.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseBadge = vueExports.defineAsyncComponent(() => import('./Badge-DxkbVcNO.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseBlockquote = vueExports.defineAsyncComponent(() => import('./Blockquote-BQA_Z_jB.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCallout = vueExports.defineAsyncComponent(() => import('./Callout-Bf8l90rO.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCard = vueExports.defineAsyncComponent(() => import('./Card-BVfvUH96.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCallout = vueExports.defineAsyncComponent(() => import('./Callout-C2AyIaK6.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCard = vueExports.defineAsyncComponent(() => import('./Card-Ba_sikqV.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseCardGroup = vueExports.defineAsyncComponent(() => import('./CardGroup-cMyMzvw3.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCode = vueExports.defineAsyncComponent(() => import('./Code-CuANt-gK.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCode = vueExports.defineAsyncComponent(() => import('./Code-BOze79O0.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseCodeCollapse = vueExports.defineAsyncComponent(() => import('./CodeCollapse-EgPLYEaS.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeGroup = vueExports.defineAsyncComponent(() => import('./CodeGroup-OBlUZHM0.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeGroup = vueExports.defineAsyncComponent(() => import('./CodeGroup-ftULFWo6.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseCodeIcon = vueExports.defineAsyncComponent(() => import('./CodeIcon-zNIMLtZb.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseCodePreview = vueExports.defineAsyncComponent(() => import('./CodePreview-g5y-fcGT.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeTree = vueExports.defineAsyncComponent(() => import('./CodeTree-JCZS1AMK.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCollapsible = vueExports.defineAsyncComponent(() => import('./Collapsible-pXwx0fae.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeTree = vueExports.defineAsyncComponent(() => import('./CodeTree-CGBmKoCB.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCollapsible = vueExports.defineAsyncComponent(() => import('./Collapsible-DA7Ah04I.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseEm = vueExports.defineAsyncComponent(() => import('./Em-D9uLA5so.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseField = vueExports.defineAsyncComponent(() => import('./Field-CbtUnBQp.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseFieldGroup = vueExports.defineAsyncComponent(() => import('./FieldGroup-Hvz-NCIi.mjs').then((r) => r["default"] || r.default || r));
@@ -40220,18 +40210,18 @@ const LazyProseH3 = vueExports.defineAsyncComponent(() => import('./H3-CpFdtzwb.
 const LazyProseH4 = vueExports.defineAsyncComponent(() => import('./H4-Cz03DCjO.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseHr = vueExports.defineAsyncComponent(() => import('./Hr-DWNPvFd9.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseIcon = vueExports.defineAsyncComponent(() => import('./Icon-CM9Izh8Q.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseImg = vueExports.defineAsyncComponent(() => import('./Img-DYJ10UCs.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseImg = vueExports.defineAsyncComponent(() => import('./Img-Cflp6F3G.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseKbd = vueExports.defineAsyncComponent(() => import('./Kbd-B5PtKzSK.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseLi = vueExports.defineAsyncComponent(() => import('./Li-B2-JOfUJ.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseOl = vueExports.defineAsyncComponent(() => import('./Ol-C8OjZX5D.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseP = vueExports.defineAsyncComponent(() => import('./P-CAnHBBOV.mjs').then((r) => r["default"] || r.default || r));
-const LazyProsePre = vueExports.defineAsyncComponent(() => import('./Pre-DMMwbw2Y.mjs').then((r) => r["default"] || r.default || r));
-const LazyProsePrompt = vueExports.defineAsyncComponent(() => import('./Prompt-CXLiNoi6.mjs').then((r) => r["default"] || r.default || r));
+const LazyProsePre = vueExports.defineAsyncComponent(() => import('./Pre-C1_SEe2O.mjs').then((r) => r["default"] || r.default || r));
+const LazyProsePrompt = vueExports.defineAsyncComponent(() => import('./Prompt-CxhQF4mJ.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseScript = vueExports.defineAsyncComponent(() => import('./Script-Dj0Vzzcq.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseSteps = vueExports.defineAsyncComponent(() => import('./Steps-r1EMNFLV.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseStrong = vueExports.defineAsyncComponent(() => import('./Strong-CQu4nP4c.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseTable = vueExports.defineAsyncComponent(() => import('./Table-BIHsGdkZ.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTabs = vueExports.defineAsyncComponent(() => import('./Tabs-DY5XLaFw.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTabs = vueExports.defineAsyncComponent(() => import('./Tabs-BcUsM_j_.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseTabsItem = vueExports.defineAsyncComponent(() => import('./TabsItem-aFyHIjcg.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseTbody = vueExports.defineAsyncComponent(() => import('./Tbody-B1320sic.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseTd = vueExports.defineAsyncComponent(() => import('./Td-DFFJ7lYy.mjs').then((r) => r["default"] || r.default || r));
@@ -40239,10 +40229,10 @@ const LazyProseTh = vueExports.defineAsyncComponent(() => import('./Th-BsAjCQob.
 const LazyProseThead = vueExports.defineAsyncComponent(() => import('./Thead-D_8lwqJF.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseTr = vueExports.defineAsyncComponent(() => import('./Tr-LXO6aeta.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseUl = vueExports.defineAsyncComponent(() => import('./Ul-BDbhRnay.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCaution = vueExports.defineAsyncComponent(() => import('./Caution-CpJYFimw.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseNote = vueExports.defineAsyncComponent(() => import('./Note-D7sPQ6pm.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTip = vueExports.defineAsyncComponent(() => import('./Tip-stIqmbTZ.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseWarning = vueExports.defineAsyncComponent(() => import('./Warning-BkvEEG3H.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCaution = vueExports.defineAsyncComponent(() => import('./Caution-Briyoqu2.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseNote = vueExports.defineAsyncComponent(() => import('./Note-D32la0aD.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTip = vueExports.defineAsyncComponent(() => import('./Tip-D6B6XqDW.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseWarning = vueExports.defineAsyncComponent(() => import('./Warning-CYfcxfvn.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseH5 = vueExports.defineAsyncComponent(() => import('./ProseH5-BcLZlQYF.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseH6 = vueExports.defineAsyncComponent(() => import('./ProseH6-BVkMOaXe.mjs').then((r) => r["default"] || r.default || r));
 const LazyIcon = vueExports.defineAsyncComponent(() => Promise.resolve().then(() => index).then((r) => r["default"] || r.default || r));
@@ -67055,13 +67045,11 @@ const theme$m = {
   "variants": {
     "color": {
       "primary": "bg-primary",
-      "secondary": "bg-secondary",
-      "tertiary": "bg-tertiary",
-      "info": "bg-info",
+      "neutral": "bg-inverted",
       "success": "bg-success",
       "warning": "bg-warning",
       "error": "bg-error",
-      "neutral": "bg-inverted"
+      "info": "bg-info"
     },
     "size": {
       "3xs": "h-[4px] min-w-[4px] text-[4px]",
@@ -67220,20 +67208,10 @@ const theme$l = {
         "fallback": "text-primary",
         "icon": "text-primary"
       },
-      "secondary": {
-        "root": "bg-secondary/10",
-        "fallback": "text-secondary",
-        "icon": "text-secondary"
-      },
-      "tertiary": {
-        "root": "bg-tertiary/10",
-        "fallback": "text-tertiary",
-        "icon": "text-tertiary"
-      },
-      "info": {
-        "root": "bg-info/10",
-        "fallback": "text-info",
-        "icon": "text-info"
+      "neutral": {
+        "root": "bg-elevated",
+        "fallback": "text-muted",
+        "icon": "text-muted"
       },
       "success": {
         "root": "bg-success/10",
@@ -67250,10 +67228,10 @@ const theme$l = {
         "fallback": "text-error",
         "icon": "text-error"
       },
-      "neutral": {
-        "root": "bg-elevated",
-        "fallback": "text-muted",
-        "icon": "text-muted"
+      "info": {
+        "root": "bg-info/10",
+        "fallback": "text-info",
+        "icon": "text-info"
       }
     },
     "size": {
@@ -68301,13 +68279,11 @@ const theme$j = {
     },
     "color": {
       "primary": "",
-      "secondary": "",
-      "tertiary": "",
-      "info": "",
+      "neutral": "",
       "success": "",
       "warning": "",
       "error": "",
-      "neutral": ""
+      "info": ""
     },
     "variant": {
       "solid": "",
@@ -68383,19 +68359,9 @@ const theme$j = {
       "class": "text-inverted bg-primary hover:bg-primary/75 active:bg-primary/75 disabled:bg-primary aria-disabled:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "solid",
-      "class": "text-inverted bg-secondary hover:bg-secondary/75 active:bg-secondary/75 disabled:bg-secondary aria-disabled:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
-    },
-    {
-      "color": "tertiary",
-      "variant": "solid",
-      "class": "text-inverted bg-tertiary hover:bg-tertiary/75 active:bg-tertiary/75 disabled:bg-tertiary aria-disabled:bg-tertiary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary"
-    },
-    {
-      "color": "info",
-      "variant": "solid",
-      "class": "text-inverted bg-info hover:bg-info/75 active:bg-info/75 disabled:bg-info aria-disabled:bg-info focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-info"
+      "class": "text-inverted bg-neutral hover:bg-neutral/75 active:bg-neutral/75 disabled:bg-neutral aria-disabled:bg-neutral focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral"
     },
     {
       "color": "success",
@@ -68413,24 +68379,19 @@ const theme$j = {
       "class": "text-inverted bg-error hover:bg-error/75 active:bg-error/75 disabled:bg-error aria-disabled:bg-error focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-error"
     },
     {
+      "color": "info",
+      "variant": "solid",
+      "class": "text-inverted bg-info hover:bg-info/75 active:bg-info/75 disabled:bg-info aria-disabled:bg-info focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-info"
+    },
+    {
       "color": "primary",
       "variant": "outline",
       "class": "ring ring-inset ring-primary/50 text-primary hover:bg-primary/10 active:bg-primary/10 disabled:bg-transparent aria-disabled:bg-transparent dark:disabled:bg-transparent dark:aria-disabled:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "outline",
-      "class": "ring ring-inset ring-secondary/50 text-secondary hover:bg-secondary/10 active:bg-secondary/10 disabled:bg-transparent aria-disabled:bg-transparent dark:disabled:bg-transparent dark:aria-disabled:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
-    },
-    {
-      "color": "tertiary",
-      "variant": "outline",
-      "class": "ring ring-inset ring-tertiary/50 text-tertiary hover:bg-tertiary/10 active:bg-tertiary/10 disabled:bg-transparent aria-disabled:bg-transparent dark:disabled:bg-transparent dark:aria-disabled:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary"
-    },
-    {
-      "color": "info",
-      "variant": "outline",
-      "class": "ring ring-inset ring-info/50 text-info hover:bg-info/10 active:bg-info/10 disabled:bg-transparent aria-disabled:bg-transparent dark:disabled:bg-transparent dark:aria-disabled:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-info"
+      "class": "ring ring-inset ring-neutral/50 text-neutral hover:bg-neutral/10 active:bg-neutral/10 disabled:bg-transparent aria-disabled:bg-transparent dark:disabled:bg-transparent dark:aria-disabled:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral"
     },
     {
       "color": "success",
@@ -68448,24 +68409,19 @@ const theme$j = {
       "class": "ring ring-inset ring-error/50 text-error hover:bg-error/10 active:bg-error/10 disabled:bg-transparent aria-disabled:bg-transparent dark:disabled:bg-transparent dark:aria-disabled:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-error"
     },
     {
+      "color": "info",
+      "variant": "outline",
+      "class": "ring ring-inset ring-info/50 text-info hover:bg-info/10 active:bg-info/10 disabled:bg-transparent aria-disabled:bg-transparent dark:disabled:bg-transparent dark:aria-disabled:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-info"
+    },
+    {
       "color": "primary",
       "variant": "soft",
       "class": "text-primary bg-primary/10 hover:bg-primary/15 active:bg-primary/15 focus:outline-none focus-visible:bg-primary/15 disabled:bg-primary/10 aria-disabled:bg-primary/10"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "soft",
-      "class": "text-secondary bg-secondary/10 hover:bg-secondary/15 active:bg-secondary/15 focus:outline-none focus-visible:bg-secondary/15 disabled:bg-secondary/10 aria-disabled:bg-secondary/10"
-    },
-    {
-      "color": "tertiary",
-      "variant": "soft",
-      "class": "text-tertiary bg-tertiary/10 hover:bg-tertiary/15 active:bg-tertiary/15 focus:outline-none focus-visible:bg-tertiary/15 disabled:bg-tertiary/10 aria-disabled:bg-tertiary/10"
-    },
-    {
-      "color": "info",
-      "variant": "soft",
-      "class": "text-info bg-info/10 hover:bg-info/15 active:bg-info/15 focus:outline-none focus-visible:bg-info/15 disabled:bg-info/10 aria-disabled:bg-info/10"
+      "class": "text-neutral bg-neutral/10 hover:bg-neutral/15 active:bg-neutral/15 focus:outline-none focus-visible:bg-neutral/15 disabled:bg-neutral/10 aria-disabled:bg-neutral/10"
     },
     {
       "color": "success",
@@ -68483,24 +68439,19 @@ const theme$j = {
       "class": "text-error bg-error/10 hover:bg-error/15 active:bg-error/15 focus:outline-none focus-visible:bg-error/15 disabled:bg-error/10 aria-disabled:bg-error/10"
     },
     {
+      "color": "info",
+      "variant": "soft",
+      "class": "text-info bg-info/10 hover:bg-info/15 active:bg-info/15 focus:outline-none focus-visible:bg-info/15 disabled:bg-info/10 aria-disabled:bg-info/10"
+    },
+    {
       "color": "primary",
       "variant": "subtle",
       "class": "text-primary ring ring-inset ring-primary/25 bg-primary/10 hover:bg-primary/15 active:bg-primary/15 disabled:bg-primary/10 aria-disabled:bg-primary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "subtle",
-      "class": "text-secondary ring ring-inset ring-secondary/25 bg-secondary/10 hover:bg-secondary/15 active:bg-secondary/15 disabled:bg-secondary/10 aria-disabled:bg-secondary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
-    },
-    {
-      "color": "tertiary",
-      "variant": "subtle",
-      "class": "text-tertiary ring ring-inset ring-tertiary/25 bg-tertiary/10 hover:bg-tertiary/15 active:bg-tertiary/15 disabled:bg-tertiary/10 aria-disabled:bg-tertiary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary"
-    },
-    {
-      "color": "info",
-      "variant": "subtle",
-      "class": "text-info ring ring-inset ring-info/25 bg-info/10 hover:bg-info/15 active:bg-info/15 disabled:bg-info/10 aria-disabled:bg-info/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-info"
+      "class": "text-neutral ring ring-inset ring-neutral/25 bg-neutral/10 hover:bg-neutral/15 active:bg-neutral/15 disabled:bg-neutral/10 aria-disabled:bg-neutral/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral"
     },
     {
       "color": "success",
@@ -68518,24 +68469,19 @@ const theme$j = {
       "class": "text-error ring ring-inset ring-error/25 bg-error/10 hover:bg-error/15 active:bg-error/15 disabled:bg-error/10 aria-disabled:bg-error/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-error"
     },
     {
+      "color": "info",
+      "variant": "subtle",
+      "class": "text-info ring ring-inset ring-info/25 bg-info/10 hover:bg-info/15 active:bg-info/15 disabled:bg-info/10 aria-disabled:bg-info/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-info"
+    },
+    {
       "color": "primary",
       "variant": "ghost",
       "class": "text-primary hover:bg-primary/10 active:bg-primary/10 focus:outline-none focus-visible:bg-primary/10 disabled:bg-transparent aria-disabled:bg-transparent dark:disabled:bg-transparent dark:aria-disabled:bg-transparent"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "ghost",
-      "class": "text-secondary hover:bg-secondary/10 active:bg-secondary/10 focus:outline-none focus-visible:bg-secondary/10 disabled:bg-transparent aria-disabled:bg-transparent dark:disabled:bg-transparent dark:aria-disabled:bg-transparent"
-    },
-    {
-      "color": "tertiary",
-      "variant": "ghost",
-      "class": "text-tertiary hover:bg-tertiary/10 active:bg-tertiary/10 focus:outline-none focus-visible:bg-tertiary/10 disabled:bg-transparent aria-disabled:bg-transparent dark:disabled:bg-transparent dark:aria-disabled:bg-transparent"
-    },
-    {
-      "color": "info",
-      "variant": "ghost",
-      "class": "text-info hover:bg-info/10 active:bg-info/10 focus:outline-none focus-visible:bg-info/10 disabled:bg-transparent aria-disabled:bg-transparent dark:disabled:bg-transparent dark:aria-disabled:bg-transparent"
+      "class": "text-neutral hover:bg-neutral/10 active:bg-neutral/10 focus:outline-none focus-visible:bg-neutral/10 disabled:bg-transparent aria-disabled:bg-transparent dark:disabled:bg-transparent dark:aria-disabled:bg-transparent"
     },
     {
       "color": "success",
@@ -68553,24 +68499,19 @@ const theme$j = {
       "class": "text-error hover:bg-error/10 active:bg-error/10 focus:outline-none focus-visible:bg-error/10 disabled:bg-transparent aria-disabled:bg-transparent dark:disabled:bg-transparent dark:aria-disabled:bg-transparent"
     },
     {
+      "color": "info",
+      "variant": "ghost",
+      "class": "text-info hover:bg-info/10 active:bg-info/10 focus:outline-none focus-visible:bg-info/10 disabled:bg-transparent aria-disabled:bg-transparent dark:disabled:bg-transparent dark:aria-disabled:bg-transparent"
+    },
+    {
       "color": "primary",
       "variant": "link",
       "class": "text-primary hover:text-primary/75 active:text-primary/75 disabled:text-primary aria-disabled:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "link",
-      "class": "text-secondary hover:text-secondary/75 active:text-secondary/75 disabled:text-secondary aria-disabled:text-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-secondary"
-    },
-    {
-      "color": "tertiary",
-      "variant": "link",
-      "class": "text-tertiary hover:text-tertiary/75 active:text-tertiary/75 disabled:text-tertiary aria-disabled:text-tertiary focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-tertiary"
-    },
-    {
-      "color": "info",
-      "variant": "link",
-      "class": "text-info hover:text-info/75 active:text-info/75 disabled:text-info aria-disabled:text-info focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-info"
+      "class": "text-neutral hover:text-neutral/75 active:text-neutral/75 disabled:text-neutral aria-disabled:text-neutral focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-neutral"
     },
     {
       "color": "success",
@@ -68586,6 +68527,11 @@ const theme$j = {
       "color": "error",
       "variant": "link",
       "class": "text-error hover:text-error/75 active:text-error/75 disabled:text-error aria-disabled:text-error focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-error"
+    },
+    {
+      "color": "info",
+      "variant": "link",
+      "class": "text-info hover:text-info/75 active:text-info/75 disabled:text-info aria-disabled:text-info focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-info"
     },
     {
       "color": "neutral",
@@ -68934,17 +68880,9 @@ const theme$i = {
         "indicator": "bg-primary",
         "steps": "text-primary"
       },
-      "secondary": {
-        "indicator": "bg-secondary",
-        "steps": "text-secondary"
-      },
-      "tertiary": {
-        "indicator": "bg-tertiary",
-        "steps": "text-tertiary"
-      },
-      "info": {
-        "indicator": "bg-info",
-        "steps": "text-info"
+      "neutral": {
+        "indicator": "bg-inverted",
+        "steps": "text-inverted"
       },
       "success": {
         "indicator": "bg-success",
@@ -68958,9 +68896,9 @@ const theme$i = {
         "indicator": "bg-error",
         "steps": "text-error"
       },
-      "neutral": {
-        "indicator": "bg-inverted",
-        "steps": "text-inverted"
+      "info": {
+        "indicator": "bg-info",
+        "steps": "text-info"
       }
     },
     "size": {
@@ -69412,17 +69350,9 @@ const theme$h = {
         "root": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary",
         "icon": "text-primary"
       },
-      "secondary": {
-        "root": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-secondary",
-        "icon": "text-secondary"
-      },
-      "tertiary": {
-        "root": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-tertiary",
-        "icon": "text-tertiary"
-      },
-      "info": {
-        "root": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-info",
-        "icon": "text-info"
+      "neutral": {
+        "root": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-inverted",
+        "icon": "text-highlighted"
       },
       "success": {
         "root": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-success",
@@ -69436,9 +69366,9 @@ const theme$h = {
         "root": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-error",
         "icon": "text-error"
       },
-      "neutral": {
-        "root": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-inverted",
-        "icon": "text-highlighted"
+      "info": {
+        "root": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-info",
+        "icon": "text-info"
       }
     },
     "orientation": {
@@ -70359,18 +70289,9 @@ const _sfc_main$o = /* @__PURE__ */ vueExports.defineComponent({
   __ssrInlineRender: true,
   setup(__props) {
     const showOverlay = vueExports.ref(true);
-    const router = useRouter();
-    router.beforeEach(() => {
-      showOverlay.value = true;
-    });
-    router.afterEach(() => {
-      setTimeout(() => {
-        showOverlay.value = false;
-      }, 1250);
-    });
     return (_ctx, _push, _parent, _attrs) => {
       if (vueExports.unref(showOverlay)) {
-        _push(`<div${serverRenderer_cjs_prodExports.ssrRenderAttrs(vueExports.mergeProps({ class: "fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-blue-950" }, _attrs))} data-v-abfc9436><svg width="162" height="214" viewBox="0 0 81 107" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-abfc9436><g id="i-custom-admsr 1" clip-path="url(#clip0_1_3)" data-v-abfc9436><g id="bckGreen" data-v-abfc9436><path id="green" d="M0 0H40.0988V100.071H6.7964C3.04285 100.071 0 96.8385 0 92.8509V0Z" fill="#048E40" data-v-abfc9436></path><path id="greenStroke" fill-rule="evenodd" clip-rule="evenodd" d="M40.0992 0H39.6914V100.071H40.0992V0Z" fill="white" data-v-abfc9436></path></g><g id="bckBlue" data-v-abfc9436><path id="blue" d="M40.0994 0H80.1981V92.8509C80.1981 96.8385 77.1553 100.071 73.4017 100.071H40.0994V0Z" fill="#3C6AE4" data-v-abfc9436></path><path id="blueStroke" fill-rule="evenodd" clip-rule="evenodd" d="M40.0994 100.071H40.5071V0H40.0994V100.071Z" fill="white" data-v-abfc9436></path></g><g id="rightW" data-v-abfc9436><path id="rightWfill" d="M54.2997 59.1867L45.4673 22.5273L54.6051 24.2659L55.5213 30.6987L60.1024 26.7165L61.0186 31.924V34.9872L57.6591 38.0505L58.8808 43.8706L62.851 40.501L61.6294 34.9872L66.2105 30.0861L67.1267 35.5999L70.4862 32.6898L75.9835 37.7441L54.2997 59.1867Z" fill="#FFC569" data-v-abfc9436></path><path id="rightWstroke" fill-rule="evenodd" clip-rule="evenodd" d="M53.8478 60.8212L44.3577 21.4316L55.3267 23.5187L56.1156 29.0569L60.6532 25.1125L61.8373 31.8427V33.5289L66.7421 28.2814L67.6903 33.988L70.5015 31.5528L77.2091 37.7199L53.8478 60.8212ZM67.1264 35.5992L66.2102 30.0854L61.6291 34.9865L62.8507 40.5003L58.8804 43.8699L57.6588 38.0497L61.0183 34.9865V31.9233L60.102 26.7158L55.5209 30.698L54.6047 24.2652L45.4669 22.5266L54.2993 59.186L75.9832 37.7434L70.4858 32.6891L67.1264 35.5992ZM61.0378 36.1154L58.5651 38.37L59.3943 42.3201L61.9348 40.164L61.0378 36.1154Z" fill="white" data-v-abfc9436></path></g><g id="leftW" data-v-abfc9436><path id="leftWfill" d="M25.8981 59.1867L33.8464 22.5273L25.5927 24.2659L24.6765 30.6987L20.0954 26.7165L19.1792 31.924V34.9872L22.5386 38.0505L21.317 43.8706L17.3467 40.501L18.5684 34.9872L13.9873 30.0861L13.071 35.5999L9.71158 32.6898L4.21426 37.7441L25.8981 59.1867Z" fill="#FFC569" data-v-abfc9436></path><path id="leftWstroke" fill-rule="evenodd" clip-rule="evenodd" d="M26.3775 60.8497L34.9282 21.4121L24.8685 23.5311L24.0814 29.0573L19.5438 25.113L18.3597 31.8432V33.5294L13.4549 28.2819L12.5066 33.9884L9.69543 31.5533L2.98788 37.7203L26.3775 60.8497ZM13.0706 35.5996L13.9868 30.0858L18.5679 34.987L17.3463 40.5008L21.3166 43.8703L22.5382 38.0502L19.1787 34.987V31.9238L20.0949 26.7163L24.676 30.6985L25.5923 24.2657L33.846 22.5271L25.8977 59.1865L4.21381 37.7439L9.71113 32.6896L13.0706 35.5996ZM19.1592 36.1159L21.6318 38.3704L20.8027 42.3206L18.2622 40.1645L19.1592 36.1159Z" fill="white" data-v-abfc9436></path></g><g id="body" data-v-abfc9436><path id="bodyFill" fill-rule="evenodd" clip-rule="evenodd" d="M24.3704 88.8995L20.7056 89.8186L36.486 14.028C36.5529 13.7064 36.5867 13.378 36.5867 13.0487V11.7901C36.5867 11.3456 36.4143 10.9207 36.11 10.6155C35.8277 10.3324 35.4542 10.1746 35.066 10.1746H33.6978C34.9263 6.15945 39.0769 5.13576 40.8748 5.8352C42.2672 6.37685 43.1421 7.39896 43.4674 10.3784C43.5238 10.895 43.5743 11.4126 43.6248 11.9303C43.7788 13.5098 43.9328 15.0896 44.2554 16.6388L59.4922 89.8186L55.5219 88.8995L39.7935 72.9708L24.3704 88.8995ZM38.1137 8.64151C38.1145 8.2427 38.4917 7.86513 39.0011 7.76839C39.49 7.67553 40.0703 7.8557 40.4204 8.55802L40.4626 8.64267L41.3902 8.64279L41.3103 8.43462C40.9029 7.37219 40.0334 6.9882 39.2577 7.09331C38.4943 7.19674 37.8083 7.78268 37.8083 8.64269H37.961H38.1137V8.64151Z" fill="#FFC569" data-v-abfc9436></path><path id="bodyStroke" fill-rule="evenodd" clip-rule="evenodd" d="M19.6238 90.9839L35.6859 13.8402C35.74 13.5804 35.7673 13.315 35.7673 13.0488V11.7903C35.7673 11.5852 35.6877 11.3891 35.5474 11.2483C35.4171 11.1177 35.2448 11.0449 35.0657 11.0449H32.57L32.9185 9.90582C33.6168 7.62377 35.1503 6.1945 36.739 5.44232C38.2904 4.70781 40.0038 4.57 41.1561 5.0183C41.9709 5.33526 42.7002 5.82386 43.2539 6.71252C43.7887 7.57085 44.1112 8.72593 44.2807 10.2783C44.3376 10.8001 44.3885 11.322 44.4388 11.8379L44.4391 11.8408C44.5939 13.4287 44.744 14.9586 45.0547 16.451L60.5679 90.9583L55.1227 89.6979L39.7987 74.1787L24.7786 89.6912L19.6238 90.9839ZM39.7931 72.9709L55.5215 88.8997L59.4918 89.8187L44.255 16.6389C43.9324 15.0897 43.7784 13.51 43.6244 11.9305C43.5739 11.413 43.5235 10.895 43.4671 10.3786C43.1418 7.3991 42.2668 6.37699 40.8745 5.83534C39.2142 5.18944 35.5476 6.01295 34.0286 9.30468C33.9027 9.57756 33.7915 9.86741 33.6975 10.1748H35.0657C35.4539 10.1748 35.8274 10.3325 36.1096 10.6156C36.4139 10.9208 36.5863 11.3457 36.5863 11.7903V13.0488C36.5863 13.3782 36.5526 13.7066 36.4856 14.0282L20.7052 89.8187L24.3701 88.8997L39.7931 72.9709ZM40.212 8.23005C40.2875 8.32367 40.3575 8.43257 40.4201 8.55816L40.4623 8.64281L41.3898 8.64292L41.31 8.43475C41.2101 8.17423 41.0824 7.95449 40.9351 7.77277C40.8915 7.719 40.8462 7.66857 40.7994 7.62138C40.3594 7.17768 39.7865 7.02173 39.2573 7.09344C39.1359 7.10989 39.0165 7.13854 38.9015 7.17856C38.5758 7.29185 38.2854 7.49625 38.0858 7.77272C38.0388 7.83788 37.9968 7.90705 37.9606 7.97996C37.8638 8.17504 37.8083 8.39698 37.808 8.64102C37.808 8.64082 37.808 8.64123 37.808 8.64102C37.808 8.64142 37.808 8.64243 37.808 8.64282H38.1134V8.64164C38.1141 8.24283 38.4913 7.86526 39.0007 7.76852C39.1092 7.74792 39.2222 7.74076 39.3361 7.74975C39.644 7.77405 39.959 7.91627 40.212 8.23005Z" fill="white" data-v-abfc9436></path></g><g id="bottom" data-v-abfc9436><path id="bottomFill" d="M74.8135 99.9124C74.7542 99.8576 74.6934 99.8019 74.631 99.7454C73.2636 98.5049 71.1619 96.8444 68.2379 95.1818C62.3923 91.8578 53.2496 88.5186 40.0984 88.5186C26.9473 88.5186 17.8045 91.8578 11.9589 95.1818C9.03494 96.8444 6.9332 98.5049 5.56575 99.7454C5.5034 99.8019 5.4426 99.8576 5.3833 99.9124C5.83904 100.015 6.3116 100.069 6.79604 100.069H30.4475C35.7394 100.071 40.0284 103.173 40.0284 107C40.0284 103.172 44.3196 100.069 49.6134 100.069H73.4008C73.8852 100.069 74.3578 100.015 74.8135 99.9124Z" fill="#27272A" data-v-abfc9436></path><path id="bottomStroke" d="M5.03392 99.0858C4.82315 99.277 4.629 99.4588 4.45117 99.6298C4.75256 99.7475 5.06398 99.8432 5.38369 99.915C5.443 99.8602 5.50382 99.8045 5.56618 99.7479C6.93364 98.5074 9.03537 96.847 11.9593 95.1843C17.8049 91.8603 26.9477 88.5211 40.0988 88.5211C53.25 88.5211 62.3928 91.8603 68.2383 95.1843C71.1623 96.847 73.264 98.5074 74.6315 99.7479C74.6938 99.8045 74.7547 99.8602 74.814 99.915C75.1337 99.8432 75.4451 99.7475 75.7465 99.6298C75.5686 99.4588 75.3745 99.277 75.1637 99.0858C73.7555 97.8083 71.6054 96.1113 68.6251 94.4166C62.6622 91.0259 53.3868 87.6504 40.0988 87.6504C26.8109 87.6504 17.5354 91.0259 11.5725 94.4166C8.59224 96.1113 6.44218 97.8083 5.03392 99.0858Z" fill="white" data-v-abfc9436></path></g></g><defs data-v-abfc9436><clipPath id="clip0_1_3" data-v-abfc9436><rect width="81" height="107" fill="white" data-v-abfc9436></rect></clipPath></defs></svg></div>`);
+        _push(`<div${serverRenderer_cjs_prodExports.ssrRenderAttrs(vueExports.mergeProps({ class: "fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-zinc-950" }, _attrs))} data-v-51aeba16><svg width="162" height="214" viewBox="0 0 81 107" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-51aeba16><g id="i-custom-admsr 1" clip-path="url(#clip0_1_3)" data-v-51aeba16><g id="bckGreen" data-v-51aeba16><path id="green" d="M0 0H40.0988V100.071H6.7964C3.04285 100.071 0 96.8385 0 92.8509V0Z" fill="#048E40" data-v-51aeba16></path><path id="greenStroke" fill-rule="evenodd" clip-rule="evenodd" d="M40.0992 0H39.6914V100.071H40.0992V0Z" fill="white" data-v-51aeba16></path></g><g id="bckBlue" data-v-51aeba16><path id="blue" d="M40.0994 0H80.1981V92.8509C80.1981 96.8385 77.1553 100.071 73.4017 100.071H40.0994V0Z" fill="#3C6AE4" data-v-51aeba16></path><path id="blueStroke" fill-rule="evenodd" clip-rule="evenodd" d="M40.0994 100.071H40.5071V0H40.0994V100.071Z" fill="white" data-v-51aeba16></path></g><g id="rightW" data-v-51aeba16><path id="rightWfill" d="M54.2997 59.1867L45.4673 22.5273L54.6051 24.2659L55.5213 30.6987L60.1024 26.7165L61.0186 31.924V34.9872L57.6591 38.0505L58.8808 43.8706L62.851 40.501L61.6294 34.9872L66.2105 30.0861L67.1267 35.5999L70.4862 32.6898L75.9835 37.7441L54.2997 59.1867Z" fill="#FFC569" data-v-51aeba16></path><path id="rightWstroke" fill-rule="evenodd" clip-rule="evenodd" d="M53.8478 60.8212L44.3577 21.4316L55.3267 23.5187L56.1156 29.0569L60.6532 25.1125L61.8373 31.8427V33.5289L66.7421 28.2814L67.6903 33.988L70.5015 31.5528L77.2091 37.7199L53.8478 60.8212ZM67.1264 35.5992L66.2102 30.0854L61.6291 34.9865L62.8507 40.5003L58.8804 43.8699L57.6588 38.0497L61.0183 34.9865V31.9233L60.102 26.7158L55.5209 30.698L54.6047 24.2652L45.4669 22.5266L54.2993 59.186L75.9832 37.7434L70.4858 32.6891L67.1264 35.5992ZM61.0378 36.1154L58.5651 38.37L59.3943 42.3201L61.9348 40.164L61.0378 36.1154Z" fill="white" data-v-51aeba16></path></g><g id="leftW" data-v-51aeba16><path id="leftWfill" d="M25.8981 59.1867L33.8464 22.5273L25.5927 24.2659L24.6765 30.6987L20.0954 26.7165L19.1792 31.924V34.9872L22.5386 38.0505L21.317 43.8706L17.3467 40.501L18.5684 34.9872L13.9873 30.0861L13.071 35.5999L9.71158 32.6898L4.21426 37.7441L25.8981 59.1867Z" fill="#FFC569" data-v-51aeba16></path><path id="leftWstroke" fill-rule="evenodd" clip-rule="evenodd" d="M26.3775 60.8497L34.9282 21.4121L24.8685 23.5311L24.0814 29.0573L19.5438 25.113L18.3597 31.8432V33.5294L13.4549 28.2819L12.5066 33.9884L9.69543 31.5533L2.98788 37.7203L26.3775 60.8497ZM13.0706 35.5996L13.9868 30.0858L18.5679 34.987L17.3463 40.5008L21.3166 43.8703L22.5382 38.0502L19.1787 34.987V31.9238L20.0949 26.7163L24.676 30.6985L25.5923 24.2657L33.846 22.5271L25.8977 59.1865L4.21381 37.7439L9.71113 32.6896L13.0706 35.5996ZM19.1592 36.1159L21.6318 38.3704L20.8027 42.3206L18.2622 40.1645L19.1592 36.1159Z" fill="white" data-v-51aeba16></path></g><g id="body" data-v-51aeba16><path id="bodyFill" fill-rule="evenodd" clip-rule="evenodd" d="M24.3704 88.8995L20.7056 89.8186L36.486 14.028C36.5529 13.7064 36.5867 13.378 36.5867 13.0487V11.7901C36.5867 11.3456 36.4143 10.9207 36.11 10.6155C35.8277 10.3324 35.4542 10.1746 35.066 10.1746H33.6978C34.9263 6.15945 39.0769 5.13576 40.8748 5.8352C42.2672 6.37685 43.1421 7.39896 43.4674 10.3784C43.5238 10.895 43.5743 11.4126 43.6248 11.9303C43.7788 13.5098 43.9328 15.0896 44.2554 16.6388L59.4922 89.8186L55.5219 88.8995L39.7935 72.9708L24.3704 88.8995ZM38.1137 8.64151C38.1145 8.2427 38.4917 7.86513 39.0011 7.76839C39.49 7.67553 40.0703 7.8557 40.4204 8.55802L40.4626 8.64267L41.3902 8.64279L41.3103 8.43462C40.9029 7.37219 40.0334 6.9882 39.2577 7.09331C38.4943 7.19674 37.8083 7.78268 37.8083 8.64269H37.961H38.1137V8.64151Z" fill="#FFC569" data-v-51aeba16></path><path id="bodyStroke" fill-rule="evenodd" clip-rule="evenodd" d="M19.6238 90.9839L35.6859 13.8402C35.74 13.5804 35.7673 13.315 35.7673 13.0488V11.7903C35.7673 11.5852 35.6877 11.3891 35.5474 11.2483C35.4171 11.1177 35.2448 11.0449 35.0657 11.0449H32.57L32.9185 9.90582C33.6168 7.62377 35.1503 6.1945 36.739 5.44232C38.2904 4.70781 40.0038 4.57 41.1561 5.0183C41.9709 5.33526 42.7002 5.82386 43.2539 6.71252C43.7887 7.57085 44.1112 8.72593 44.2807 10.2783C44.3376 10.8001 44.3885 11.322 44.4388 11.8379L44.4391 11.8408C44.5939 13.4287 44.744 14.9586 45.0547 16.451L60.5679 90.9583L55.1227 89.6979L39.7987 74.1787L24.7786 89.6912L19.6238 90.9839ZM39.7931 72.9709L55.5215 88.8997L59.4918 89.8187L44.255 16.6389C43.9324 15.0897 43.7784 13.51 43.6244 11.9305C43.5739 11.413 43.5235 10.895 43.4671 10.3786C43.1418 7.3991 42.2668 6.37699 40.8745 5.83534C39.2142 5.18944 35.5476 6.01295 34.0286 9.30468C33.9027 9.57756 33.7915 9.86741 33.6975 10.1748H35.0657C35.4539 10.1748 35.8274 10.3325 36.1096 10.6156C36.4139 10.9208 36.5863 11.3457 36.5863 11.7903V13.0488C36.5863 13.3782 36.5526 13.7066 36.4856 14.0282L20.7052 89.8187L24.3701 88.8997L39.7931 72.9709ZM40.212 8.23005C40.2875 8.32367 40.3575 8.43257 40.4201 8.55816L40.4623 8.64281L41.3898 8.64292L41.31 8.43475C41.2101 8.17423 41.0824 7.95449 40.9351 7.77277C40.8915 7.719 40.8462 7.66857 40.7994 7.62138C40.3594 7.17768 39.7865 7.02173 39.2573 7.09344C39.1359 7.10989 39.0165 7.13854 38.9015 7.17856C38.5758 7.29185 38.2854 7.49625 38.0858 7.77272C38.0388 7.83788 37.9968 7.90705 37.9606 7.97996C37.8638 8.17504 37.8083 8.39698 37.808 8.64102C37.808 8.64082 37.808 8.64123 37.808 8.64102C37.808 8.64142 37.808 8.64243 37.808 8.64282H38.1134V8.64164C38.1141 8.24283 38.4913 7.86526 39.0007 7.76852C39.1092 7.74792 39.2222 7.74076 39.3361 7.74975C39.644 7.77405 39.959 7.91627 40.212 8.23005Z" fill="white" data-v-51aeba16></path></g><g id="bottom" data-v-51aeba16><path id="bottomFill" d="M74.8135 99.9124C74.7542 99.8576 74.6934 99.8019 74.631 99.7454C73.2636 98.5049 71.1619 96.8444 68.2379 95.1818C62.3923 91.8578 53.2496 88.5186 40.0984 88.5186C26.9473 88.5186 17.8045 91.8578 11.9589 95.1818C9.03494 96.8444 6.9332 98.5049 5.56575 99.7454C5.5034 99.8019 5.4426 99.8576 5.3833 99.9124C5.83904 100.015 6.3116 100.069 6.79604 100.069H30.4475C35.7394 100.071 40.0284 103.173 40.0284 107C40.0284 103.172 44.3196 100.069 49.6134 100.069H73.4008C73.8852 100.069 74.3578 100.015 74.8135 99.9124Z" fill="#27272A" data-v-51aeba16></path><path id="bottomStroke" d="M5.03392 99.0858C4.82315 99.277 4.629 99.4588 4.45117 99.6298C4.75256 99.7475 5.06398 99.8432 5.38369 99.915C5.443 99.8602 5.50382 99.8045 5.56618 99.7479C6.93364 98.5074 9.03537 96.847 11.9593 95.1843C17.8049 91.8603 26.9477 88.5211 40.0988 88.5211C53.25 88.5211 62.3928 91.8603 68.2383 95.1843C71.1623 96.847 73.264 98.5074 74.6315 99.7479C74.6938 99.8045 74.7547 99.8602 74.814 99.915C75.1337 99.8432 75.4451 99.7475 75.7465 99.6298C75.5686 99.4588 75.3745 99.277 75.1637 99.0858C73.7555 97.8083 71.6054 96.1113 68.6251 94.4166C62.6622 91.0259 53.3868 87.6504 40.0988 87.6504C26.8109 87.6504 17.5354 91.0259 11.5725 94.4166C8.59224 96.1113 6.44218 97.8083 5.03392 99.0858Z" fill="white" data-v-51aeba16></path></g></g><defs data-v-51aeba16><clipPath id="clip0_1_3" data-v-51aeba16><rect width="81" height="107" fill="white" data-v-51aeba16></rect></clipPath></defs></svg></div>`);
       } else {
         _push(`<!---->`);
       }
@@ -70390,7 +70311,7 @@ _sfc_main$o.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/LoadingOverlay.vue");
   return _sfc_setup$o ? _sfc_setup$o(props, ctx) : void 0;
 };
-const __nuxt_component_1 = /* @__PURE__ */ Object.assign(_export_sfc(_sfc_main$o, [["__scopeId", "data-v-abfc9436"]]), { __name: "LoadingOverlay" });
+const __nuxt_component_1 = /* @__PURE__ */ Object.assign(_export_sfc(_sfc_main$o, [["__scopeId", "data-v-51aeba16"]]), { __name: "LoadingOverlay" });
 const theme$f = {
   "base": "w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-8"
 };
@@ -74210,13 +74131,11 @@ const theme$a = {
     },
     "color": {
       "primary": "",
-      "secondary": "",
-      "tertiary": "",
-      "info": "",
+      "neutral": "",
       "success": "",
       "warning": "",
       "error": "",
-      "neutral": ""
+      "info": ""
     },
     "variant": {
       "solid": "",
@@ -74267,19 +74186,9 @@ const theme$a = {
       "class": "bg-primary text-inverted"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "solid",
-      "class": "bg-secondary text-inverted"
-    },
-    {
-      "color": "tertiary",
-      "variant": "solid",
-      "class": "bg-tertiary text-inverted"
-    },
-    {
-      "color": "info",
-      "variant": "solid",
-      "class": "bg-info text-inverted"
+      "class": "bg-neutral text-inverted"
     },
     {
       "color": "success",
@@ -74297,24 +74206,19 @@ const theme$a = {
       "class": "bg-error text-inverted"
     },
     {
+      "color": "info",
+      "variant": "solid",
+      "class": "bg-info text-inverted"
+    },
+    {
       "color": "primary",
       "variant": "outline",
       "class": "text-primary ring ring-inset ring-primary/50"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "outline",
-      "class": "text-secondary ring ring-inset ring-secondary/50"
-    },
-    {
-      "color": "tertiary",
-      "variant": "outline",
-      "class": "text-tertiary ring ring-inset ring-tertiary/50"
-    },
-    {
-      "color": "info",
-      "variant": "outline",
-      "class": "text-info ring ring-inset ring-info/50"
+      "class": "text-neutral ring ring-inset ring-neutral/50"
     },
     {
       "color": "success",
@@ -74332,24 +74236,19 @@ const theme$a = {
       "class": "text-error ring ring-inset ring-error/50"
     },
     {
+      "color": "info",
+      "variant": "outline",
+      "class": "text-info ring ring-inset ring-info/50"
+    },
+    {
       "color": "primary",
       "variant": "soft",
       "class": "bg-primary/10 text-primary"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "soft",
-      "class": "bg-secondary/10 text-secondary"
-    },
-    {
-      "color": "tertiary",
-      "variant": "soft",
-      "class": "bg-tertiary/10 text-tertiary"
-    },
-    {
-      "color": "info",
-      "variant": "soft",
-      "class": "bg-info/10 text-info"
+      "class": "bg-neutral/10 text-neutral"
     },
     {
       "color": "success",
@@ -74367,24 +74266,19 @@ const theme$a = {
       "class": "bg-error/10 text-error"
     },
     {
+      "color": "info",
+      "variant": "soft",
+      "class": "bg-info/10 text-info"
+    },
+    {
       "color": "primary",
       "variant": "subtle",
       "class": "bg-primary/10 text-primary ring ring-inset ring-primary/25"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "subtle",
-      "class": "bg-secondary/10 text-secondary ring ring-inset ring-secondary/25"
-    },
-    {
-      "color": "tertiary",
-      "variant": "subtle",
-      "class": "bg-tertiary/10 text-tertiary ring ring-inset ring-tertiary/25"
-    },
-    {
-      "color": "info",
-      "variant": "subtle",
-      "class": "bg-info/10 text-info ring ring-inset ring-info/25"
+      "class": "bg-neutral/10 text-neutral ring ring-inset ring-neutral/25"
     },
     {
       "color": "success",
@@ -74400,6 +74294,11 @@ const theme$a = {
       "color": "error",
       "variant": "subtle",
       "class": "bg-error/10 text-error ring ring-inset ring-error/25"
+    },
+    {
+      "color": "info",
+      "variant": "subtle",
+      "class": "bg-info/10 text-info ring ring-inset ring-info/25"
     },
     {
       "color": "neutral",
@@ -74901,13 +74800,11 @@ const theme$8 = {
   "variants": {
     "color": {
       "primary": "",
-      "secondary": "",
-      "tertiary": "",
-      "info": "",
+      "neutral": "",
       "success": "",
       "warning": "",
       "error": "",
-      "neutral": ""
+      "info": ""
     },
     "variant": {
       "solid": "",
@@ -74928,19 +74825,9 @@ const theme$8 = {
       "class": "text-inverted bg-primary"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "solid",
-      "class": "text-inverted bg-secondary"
-    },
-    {
-      "color": "tertiary",
-      "variant": "solid",
-      "class": "text-inverted bg-tertiary"
-    },
-    {
-      "color": "info",
-      "variant": "solid",
-      "class": "text-inverted bg-info"
+      "class": "text-inverted bg-neutral"
     },
     {
       "color": "success",
@@ -74958,24 +74845,19 @@ const theme$8 = {
       "class": "text-inverted bg-error"
     },
     {
+      "color": "info",
+      "variant": "solid",
+      "class": "text-inverted bg-info"
+    },
+    {
       "color": "primary",
       "variant": "outline",
       "class": "ring ring-inset ring-primary/50 text-primary"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "outline",
-      "class": "ring ring-inset ring-secondary/50 text-secondary"
-    },
-    {
-      "color": "tertiary",
-      "variant": "outline",
-      "class": "ring ring-inset ring-tertiary/50 text-tertiary"
-    },
-    {
-      "color": "info",
-      "variant": "outline",
-      "class": "ring ring-inset ring-info/50 text-info"
+      "class": "ring ring-inset ring-neutral/50 text-neutral"
     },
     {
       "color": "success",
@@ -74993,24 +74875,19 @@ const theme$8 = {
       "class": "ring ring-inset ring-error/50 text-error"
     },
     {
+      "color": "info",
+      "variant": "outline",
+      "class": "ring ring-inset ring-info/50 text-info"
+    },
+    {
       "color": "primary",
       "variant": "soft",
       "class": "text-primary bg-primary/10"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "soft",
-      "class": "text-secondary bg-secondary/10"
-    },
-    {
-      "color": "tertiary",
-      "variant": "soft",
-      "class": "text-tertiary bg-tertiary/10"
-    },
-    {
-      "color": "info",
-      "variant": "soft",
-      "class": "text-info bg-info/10"
+      "class": "text-neutral bg-neutral/10"
     },
     {
       "color": "success",
@@ -75028,24 +74905,19 @@ const theme$8 = {
       "class": "text-error bg-error/10"
     },
     {
+      "color": "info",
+      "variant": "soft",
+      "class": "text-info bg-info/10"
+    },
+    {
       "color": "primary",
       "variant": "subtle",
       "class": "text-primary ring ring-inset ring-primary/25 bg-primary/10"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "subtle",
-      "class": "text-secondary ring ring-inset ring-secondary/25 bg-secondary/10"
-    },
-    {
-      "color": "tertiary",
-      "variant": "subtle",
-      "class": "text-tertiary ring ring-inset ring-tertiary/25 bg-tertiary/10"
-    },
-    {
-      "color": "info",
-      "variant": "subtle",
-      "class": "text-info ring ring-inset ring-info/25 bg-info/10"
+      "class": "text-neutral ring ring-inset ring-neutral/25 bg-neutral/10"
     },
     {
       "color": "success",
@@ -75061,6 +74933,11 @@ const theme$8 = {
       "color": "error",
       "variant": "subtle",
       "class": "text-error ring ring-inset ring-error/25 bg-error/10"
+    },
+    {
+      "color": "info",
+      "variant": "subtle",
+      "class": "text-info ring ring-inset ring-info/25 bg-info/10"
     },
     {
       "color": "neutral",
@@ -75462,17 +75339,9 @@ const theme$6 = {
         "link": "focus-visible:before:ring-primary",
         "childLink": "focus-visible:before:ring-primary"
       },
-      "secondary": {
-        "link": "focus-visible:before:ring-secondary",
-        "childLink": "focus-visible:before:ring-secondary"
-      },
-      "tertiary": {
-        "link": "focus-visible:before:ring-tertiary",
-        "childLink": "focus-visible:before:ring-tertiary"
-      },
-      "info": {
-        "link": "focus-visible:before:ring-info",
-        "childLink": "focus-visible:before:ring-info"
+      "neutral": {
+        "link": "focus-visible:before:ring-inverted",
+        "childLink": "focus-visible:before:ring-inverted"
       },
       "success": {
         "link": "focus-visible:before:ring-success",
@@ -75486,20 +75355,18 @@ const theme$6 = {
         "link": "focus-visible:before:ring-error",
         "childLink": "focus-visible:before:ring-error"
       },
-      "neutral": {
-        "link": "focus-visible:before:ring-inverted",
-        "childLink": "focus-visible:before:ring-inverted"
+      "info": {
+        "link": "focus-visible:before:ring-info",
+        "childLink": "focus-visible:before:ring-info"
       }
     },
     "highlightColor": {
       "primary": "",
-      "secondary": "",
-      "tertiary": "",
-      "info": "",
+      "neutral": "",
       "success": "",
       "warning": "",
       "error": "",
-      "neutral": ""
+      "info": ""
     },
     "variant": {
       "pill": "",
@@ -75675,30 +75542,12 @@ const theme$6 = {
       }
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "pill",
       "active": true,
       "class": {
-        "link": "text-secondary",
-        "linkLeadingIcon": "text-secondary group-data-[state=open]:text-secondary"
-      }
-    },
-    {
-      "color": "tertiary",
-      "variant": "pill",
-      "active": true,
-      "class": {
-        "link": "text-tertiary",
-        "linkLeadingIcon": "text-tertiary group-data-[state=open]:text-tertiary"
-      }
-    },
-    {
-      "color": "info",
-      "variant": "pill",
-      "active": true,
-      "class": {
-        "link": "text-info",
-        "linkLeadingIcon": "text-info group-data-[state=open]:text-info"
+        "link": "text-neutral",
+        "linkLeadingIcon": "text-neutral group-data-[state=open]:text-neutral"
       }
     },
     {
@@ -75726,6 +75575,15 @@ const theme$6 = {
       "class": {
         "link": "text-error",
         "linkLeadingIcon": "text-error group-data-[state=open]:text-error"
+      }
+    },
+    {
+      "color": "info",
+      "variant": "pill",
+      "active": true,
+      "class": {
+        "link": "text-info",
+        "linkLeadingIcon": "text-info group-data-[state=open]:text-info"
       }
     },
     {
@@ -75792,30 +75650,12 @@ const theme$6 = {
       }
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": "link",
       "active": true,
       "class": {
-        "link": "text-secondary",
-        "linkLeadingIcon": "text-secondary group-data-[state=open]:text-secondary"
-      }
-    },
-    {
-      "color": "tertiary",
-      "variant": "link",
-      "active": true,
-      "class": {
-        "link": "text-tertiary",
-        "linkLeadingIcon": "text-tertiary group-data-[state=open]:text-tertiary"
-      }
-    },
-    {
-      "color": "info",
-      "variant": "link",
-      "active": true,
-      "class": {
-        "link": "text-info",
-        "linkLeadingIcon": "text-info group-data-[state=open]:text-info"
+        "link": "text-neutral",
+        "linkLeadingIcon": "text-neutral group-data-[state=open]:text-neutral"
       }
     },
     {
@@ -75846,6 +75686,15 @@ const theme$6 = {
       }
     },
     {
+      "color": "info",
+      "variant": "link",
+      "active": true,
+      "class": {
+        "link": "text-info",
+        "linkLeadingIcon": "text-info group-data-[state=open]:text-info"
+      }
+    },
+    {
       "color": "neutral",
       "variant": "link",
       "active": true,
@@ -75864,30 +75713,12 @@ const theme$6 = {
       }
     },
     {
-      "highlightColor": "secondary",
+      "highlightColor": "neutral",
       "highlight": true,
       "level": true,
       "active": true,
       "class": {
-        "link": "after:bg-secondary"
-      }
-    },
-    {
-      "highlightColor": "tertiary",
-      "highlight": true,
-      "level": true,
-      "active": true,
-      "class": {
-        "link": "after:bg-tertiary"
-      }
-    },
-    {
-      "highlightColor": "info",
-      "highlight": true,
-      "level": true,
-      "active": true,
-      "class": {
-        "link": "after:bg-info"
+        "link": "after:bg-neutral"
       }
     },
     {
@@ -75915,6 +75746,15 @@ const theme$6 = {
       "active": true,
       "class": {
         "link": "after:bg-error"
+      }
+    },
+    {
+      "highlightColor": "info",
+      "highlight": true,
+      "level": true,
+      "active": true,
+      "class": {
+        "link": "after:bg-info"
       }
     },
     {
@@ -80290,13 +80130,11 @@ const theme$5 = {
     },
     "color": {
       "primary": "",
-      "secondary": "",
-      "tertiary": "",
-      "info": "",
+      "neutral": "",
       "success": "",
       "warning": "",
       "error": "",
-      "neutral": ""
+      "info": ""
     },
     "leading": {
       "true": ""
@@ -80327,28 +80165,12 @@ const theme$5 = {
       "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "variant": [
         "outline",
         "subtle"
       ],
-      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-secondary"
-    },
-    {
-      "color": "tertiary",
-      "variant": [
-        "outline",
-        "subtle"
-      ],
-      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-tertiary"
-    },
-    {
-      "color": "info",
-      "variant": [
-        "outline",
-        "subtle"
-      ],
-      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-info"
+      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-neutral"
     },
     {
       "color": "success",
@@ -80375,24 +80197,22 @@ const theme$5 = {
       "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-error"
     },
     {
+      "color": "info",
+      "variant": [
+        "outline",
+        "subtle"
+      ],
+      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-info"
+    },
+    {
       "color": "primary",
       "highlight": true,
       "class": "ring ring-inset ring-primary"
     },
     {
-      "color": "secondary",
+      "color": "neutral",
       "highlight": true,
-      "class": "ring ring-inset ring-secondary"
-    },
-    {
-      "color": "tertiary",
-      "highlight": true,
-      "class": "ring ring-inset ring-tertiary"
-    },
-    {
-      "color": "info",
-      "highlight": true,
-      "class": "ring ring-inset ring-info"
+      "class": "ring ring-inset ring-neutral"
     },
     {
       "color": "success",
@@ -80408,6 +80228,11 @@ const theme$5 = {
       "color": "error",
       "highlight": true,
       "class": "ring ring-inset ring-error"
+    },
+    {
+      "color": "info",
+      "highlight": true,
+      "class": "ring ring-inset ring-info"
     },
     {
       "color": "neutral",
@@ -82454,47 +82279,89 @@ _sfc_main$c.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/.pnpm/@nuxt+ui@4.8.1_@internation_af8eccc25614c82bd794e7ce0775ec2e/node_modules/@nuxt/ui/dist/runtime/components/CommandPalette.vue");
   return _sfc_setup$c ? _sfc_setup$c(props, ctx) : void 0;
 };
+const navIcons = {
+  "/": "i-lucide-home",
+  "/about": "i-lucide-building-2",
+  "/honorboard": "i-lucide-award",
+  "/contacts": "i-lucide-phone",
+  "/vacancies": "i-lucide-briefcase",
+  "/tenders": "i-lucide-file-badge",
+  "/staffreserve": "i-lucide-users",
+  "/youth": "i-lucide-graduation-cap",
+  "/profdev": "i-lucide-book-open",
+  "/anti-corruption": "i-lucide-shield-alert",
+  "/feedback": "i-lucide-message-square"
+};
 const navGroups = [
   {
     label: "О кадрах",
     items: [
-      { label: "О нас", to: "/about" },
-      { label: "Доска почёта", to: "/honorboard" },
-      { label: "Контакты", to: "/contacts" }
+      {
+        label: "О нас",
+        to: "/about",
+        description: "Миссия, ценности и структура кадровой службы района"
+      },
+      {
+        label: "Доска почёта",
+        to: "/honorboard",
+        description: "Лучшие сотрудники и наставники администрации"
+      },
+      {
+        label: "Контакты",
+        to: "/contacts",
+        description: "Телефоны и адреса кадровых подразделений"
+      }
     ]
   },
   {
     label: "Карьера",
     items: [
-      { label: "Вакансии", to: "/vacancies" },
-      { label: "Конкурсы", to: "/tenders" },
-      { label: "Кадровый резерв", to: "/staffreserve" },
-      { label: "Молодёжь", to: "/youth" },
-      { label: "Профразвитие", to: "/profdev" }
-    ]
-  },
-  {
-    label: "Прозрачность",
-    items: [
-      { label: "Нет коррупции!", to: "/anti-corruption" }
+      {
+        label: "Конкурсы",
+        to: "/tenders",
+        description: "Открытые конкурсы на замещение должностей"
+      },
+      {
+        label: "Кадровый резерв",
+        to: "/staffreserve",
+        description: "Как вступить в резерв и развивать карьеру"
+      },
+      {
+        label: "Молодёжь",
+        to: "/youth",
+        description: "Стажировки и программы для молодых специалистов"
+      },
+      {
+        label: "Профразвитие",
+        to: "/profdev",
+        description: "Обучение, повышение квалификации и наставничество"
+      }
     ]
   }
 ];
 const mainNavItems = [
   { label: "Главная", to: "/" },
-  ...navGroups.flatMap((group) => group.items)
+  ...navGroups.flatMap((group) => group.items),
+  { label: "Вакансии", to: "/vacancies" },
+  { label: "Нет коррупции!", to: "/anti-corruption" }
 ];
 const footerNavItems = mainNavItems;
+function mapGroupChildren(items) {
+  return items.map((item) => ({
+    label: item.label,
+    to: item.to,
+    icon: navIcons[item.to],
+    description: item.description
+  }));
+}
 function buildDesktopNavItems() {
   return [
     { label: "Главная", to: "/" },
     ...navGroups.map((group) => ({
       label: group.label,
-      children: group.items.map((item) => ({
-        label: item.label,
-        to: item.to
-      }))
-    }))
+      children: mapGroupChildren(group.items)
+    })),
+    { label: "Нет коррупции!", to: "/anti-corruption" }
   ];
 }
 function buildMobileNavItems() {
@@ -82502,12 +82369,20 @@ function buildMobileNavItems() {
     { label: "Главная", to: "/" },
     ...navGroups.map((group) => ({
       label: group.label,
-      children: group.items.map((item) => ({
-        label: item.label,
-        to: item.to
-      }))
-    }))
+      children: mapGroupChildren(group.items)
+    })),
+    { label: "Нет коррупции!", to: "/anti-corruption" }
   ];
+}
+function usePortalSearch() {
+  const open = useState("portal-search-open", () => false);
+  function openSearch() {
+    open.value = true;
+  }
+  function closeSearch() {
+    open.value = false;
+  }
+  return { open, openSearch, closeSearch };
 }
 const chainedShortcutRegex = /^[^-]+.*-.*[^-]+$/;
 const combinedShortcutRegex = /^[^_]+.*_.*[^_]+$/;
@@ -82689,24 +82564,12 @@ const _sfc_main$b = /* @__PURE__ */ vueExports.defineComponent({
   __name: "AppSearch",
   __ssrInlineRender: true,
   setup(__props) {
-    const open = vueExports.ref(false);
+    const { open, closeSearch } = usePortalSearch();
     const searchTerm = vueExports.ref("");
     const config = /* @__PURE__ */ useRuntimeConfig();
     const vacancyItems = vueExports.ref([]);
-    const pageIcons = {
-      "/": "i-lucide-home",
-      "/about": "i-lucide-building-2",
-      "/honorboard": "i-lucide-award",
-      "/contacts": "i-lucide-phone",
-      "/vacancies": "i-lucide-briefcase",
-      "/tenders": "i-lucide-file-badge",
-      "/staffreserve": "i-lucide-users",
-      "/youth": "i-lucide-graduation-cap",
-      "/profdev": "i-lucide-book-open",
-      "/anti-corruption": "i-lucide-shield-alert"
-    };
     const extraPages = [
-      { label: "Обратная связь", to: "/feedback", icon: "i-lucide-message-square" },
+      { label: "Обратная связь", to: "/feedback", icon: navIcons["/feedback"] },
       { label: "Политика конфиденциальности", to: "/privacy", icon: "i-lucide-shield" }
     ];
     const groups = vueExports.computed(() => {
@@ -82718,7 +82581,7 @@ const _sfc_main$b = /* @__PURE__ */ vueExports.defineComponent({
             ...mainNavItems.map((item) => ({
               label: item.label,
               to: item.to,
-              icon: pageIcons[item.to] ?? "i-lucide-arrow-right"
+              icon: navIcons[item.to] ?? "i-lucide-arrow-right"
             })),
             ...extraPages
           ]
@@ -82761,7 +82624,7 @@ const _sfc_main$b = /* @__PURE__ */ vueExports.defineComponent({
       }
     });
     function onSelect() {
-      open.value = false;
+      closeSearch();
       searchTerm.value = "";
       vacancyItems.value = [];
     }
@@ -82775,7 +82638,6 @@ const _sfc_main$b = /* @__PURE__ */ vueExports.defineComponent({
     });
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UButton = _sfc_main$u;
-      const _component_UKbd = _sfc_main$g;
       const _component_UModal = _sfc_main$l;
       const _component_UCommandPalette = _sfc_main$c;
       _push(`<!--[-->`);
@@ -82783,47 +82645,8 @@ const _sfc_main$b = /* @__PURE__ */ vueExports.defineComponent({
         icon: "i-lucide-search",
         color: "neutral",
         variant: "ghost",
-        size: "sm",
-        "aria-label": "Поиск по порталу (Ctrl+K)",
-        class: "hidden md:inline-flex min-h-11",
-        onClick: ($event) => open.value = true
-      }, {
-        trailing: vueExports.withCtx((_2, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UKbd, {
-              value: "meta",
-              variant: "subtle",
-              class: "hidden lg:inline-flex"
-            }, null, _parent2, _scopeId));
-            _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UKbd, {
-              value: "K",
-              variant: "subtle",
-              class: "hidden lg:inline-flex"
-            }, null, _parent2, _scopeId));
-          } else {
-            return [
-              vueExports.createVNode(_component_UKbd, {
-                value: "meta",
-                variant: "subtle",
-                class: "hidden lg:inline-flex"
-              }),
-              vueExports.createVNode(_component_UKbd, {
-                value: "K",
-                variant: "subtle",
-                class: "hidden lg:inline-flex"
-              })
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
-      _push(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UButton, {
-        icon: "i-lucide-search",
-        color: "neutral",
-        variant: "ghost",
-        size: "sm",
+        size: "md",
         "aria-label": "Поиск по порталу",
-        class: "md:hidden min-h-11",
         onClick: ($event) => open.value = true
       }, null, _parent));
       _push(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UModal, {
@@ -82870,7 +82693,7 @@ _sfc_main$b.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/AppSearch.vue");
   return _sfc_setup$b ? _sfc_setup$b(props, ctx) : void 0;
 };
-const __nuxt_component_4$1 = Object.assign(_sfc_main$b, { __name: "AppSearch" });
+const __nuxt_component_3 = Object.assign(_sfc_main$b, { __name: "AppSearch" });
 function readSettings() {
   {
     return { enabled: false, fontScale: "normal", contrast: "default" };
@@ -83042,7 +82865,7 @@ const _sfc_main$a = /* @__PURE__ */ vueExports.defineComponent({
               label: __props.compact ? void 0 : "Для слабовидящих",
               color: "neutral",
               variant: "ghost",
-              size: "sm",
+              size: "md",
               "aria-label": vueExports.unref(settings).enabled ? "Настройки версии для слабовидящих (включена)" : "Включить версию для слабовидящих",
               "aria-pressed": vueExports.unref(settings).enabled
             }, null, _parent2, _scopeId));
@@ -83053,7 +82876,7 @@ const _sfc_main$a = /* @__PURE__ */ vueExports.defineComponent({
                 label: __props.compact ? void 0 : "Для слабовидящих",
                 color: "neutral",
                 variant: "ghost",
-                size: "sm",
+                size: "md",
                 "aria-label": vueExports.unref(settings).enabled ? "Настройки версии для слабовидящих (включена)" : "Включить версию для слабовидящих",
                 "aria-pressed": vueExports.unref(settings).enabled
               }, null, 8, ["label", "aria-label", "aria-pressed"])
@@ -83071,7 +82894,7 @@ _sfc_main$a.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/AccessibilityPanel.vue");
   return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
 };
-const __nuxt_component_6 = Object.assign(_sfc_main$a, { __name: "AccessibilityPanel" });
+const __nuxt_component_4$1 = Object.assign(_sfc_main$a, { __name: "AccessibilityPanel" });
 function usePrefix() {
   const appConfig2 = useAppConfig();
   const prefix = appConfig2.ui?.prefix;
@@ -83173,47 +82996,44 @@ _sfc_main$9.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/.pnpm/@nuxt+ui@4.8.1_@internation_af8eccc25614c82bd794e7ce0775ec2e/node_modules/@nuxt/ui/dist/runtime/components/color-mode/ColorModeButton.vue");
   return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
 };
+const _imports_0 = publicAssetsURL("/logos/logoASR.svg");
 const _sfc_main$8 = /* @__PURE__ */ vueExports.defineComponent({
   __name: "AppHeader",
   __ssrInlineRender: true,
   setup(__props) {
     const desktopNavItems = buildDesktopNavItems();
     const mobileNavItems = buildMobileNavItems();
+    const { openSearch } = usePortalSearch();
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UHeader = _sfc_main$j;
       const _component_NuxtLink = __nuxt_component_0$1;
-      const _component_NuxtImg = ImageComponent;
       const _component_UNavigationMenu = _sfc_main$e;
-      const _component_AppSearch = __nuxt_component_4$1;
-      const _component_UButton = _sfc_main$u;
-      const _component_AccessibilityPanel = __nuxt_component_6;
+      const _component_AppSearch = __nuxt_component_3;
+      const _component_AccessibilityPanel = __nuxt_component_4$1;
       const _component_UColorModeButton = _sfc_main$9;
-      _push(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UHeader, vueExports.mergeProps({ ui: { left: "flex-shrink-0", center: "min-w-0", right: "gap-1 shrink-0" } }, _attrs), {
+      const _component_UButton = _sfc_main$u;
+      _push(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UHeader, _attrs, {
         left: vueExports.withCtx((_2, _push2, _parent2, _scopeId) => {
           if (_push2) {
             _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_NuxtLink, {
               to: "/",
-              class: "flex items-center gap-3 whitespace-nowrap focus-visible:outline-2 focus-visible:outline-focus-ring focus-visible:outline-offset-2 focus-visible:rounded-lg"
+              class: "flex items-center gap-2 min-w-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 rounded-md",
+              "aria-label": "На главную — Кадровый портал Администрации Сургутского района"
             }, {
               default: vueExports.withCtx((_22, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-                  _push3(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_NuxtImg, {
-                    src: "/logos/surrailogo.png",
-                    alt: "На главную",
-                    class: "h-8 w-auto shrink-0"
-                  }, null, _parent3, _scopeId2));
-                  _push3(`<div class="hidden sm:block"${_scopeId2}><div class="font-semibold text-lg lg:text-xl tracking-tight text-text-primary leading-tight"${_scopeId2}> Кадровый портал </div><span class="text-caption text-text-muted"${_scopeId2}>Сургутского района</span></div>`);
+                  _push3(`<img${serverRenderer_cjs_prodExports.ssrRenderAttr("src", _imports_0)} alt="" width="24" height="24" class="size-6 shrink-0" aria-hidden="true"${_scopeId2}><span class="font-bold text-lg text-highlighted truncate hidden sm:inline"${_scopeId2}> Кадровый портал </span>`);
                 } else {
                   return [
-                    vueExports.createVNode(_component_NuxtImg, {
-                      src: "/logos/surrailogo.png",
-                      alt: "На главную",
-                      class: "h-8 w-auto shrink-0"
+                    vueExports.createVNode("img", {
+                      src: _imports_0,
+                      alt: "",
+                      width: "24",
+                      height: "24",
+                      class: "size-6 shrink-0",
+                      "aria-hidden": "true"
                     }),
-                    vueExports.createVNode("div", { class: "hidden sm:block" }, [
-                      vueExports.createVNode("div", { class: "font-semibold text-lg lg:text-xl tracking-tight text-text-primary leading-tight" }, " Кадровый портал "),
-                      vueExports.createVNode("span", { class: "text-caption text-text-muted" }, "Сургутского района")
-                    ])
+                    vueExports.createVNode("span", { class: "font-bold text-lg text-highlighted truncate hidden sm:inline" }, " Кадровый портал ")
                   ];
                 }
               }),
@@ -83223,18 +83043,19 @@ const _sfc_main$8 = /* @__PURE__ */ vueExports.defineComponent({
             return [
               vueExports.createVNode(_component_NuxtLink, {
                 to: "/",
-                class: "flex items-center gap-3 whitespace-nowrap focus-visible:outline-2 focus-visible:outline-focus-ring focus-visible:outline-offset-2 focus-visible:rounded-lg"
+                class: "flex items-center gap-2 min-w-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 rounded-md",
+                "aria-label": "На главную — Кадровый портал Администрации Сургутского района"
               }, {
                 default: vueExports.withCtx(() => [
-                  vueExports.createVNode(_component_NuxtImg, {
-                    src: "/logos/surrailogo.png",
-                    alt: "На главную",
-                    class: "h-8 w-auto shrink-0"
+                  vueExports.createVNode("img", {
+                    src: _imports_0,
+                    alt: "",
+                    width: "24",
+                    height: "24",
+                    class: "size-6 shrink-0",
+                    "aria-hidden": "true"
                   }),
-                  vueExports.createVNode("div", { class: "hidden sm:block" }, [
-                    vueExports.createVNode("div", { class: "font-semibold text-lg lg:text-xl tracking-tight text-text-primary leading-tight" }, " Кадровый портал "),
-                    vueExports.createVNode("span", { class: "text-caption text-text-muted" }, "Сургутского района")
-                  ])
+                  vueExports.createVNode("span", { class: "font-bold text-lg text-highlighted truncate hidden sm:inline" }, " Кадровый портал ")
                 ]),
                 _: 1
               })
@@ -83243,61 +83064,68 @@ const _sfc_main$8 = /* @__PURE__ */ vueExports.defineComponent({
         }),
         right: vueExports.withCtx((_2, _push2, _parent2, _scopeId) => {
           if (_push2) {
+            _push2(`<div class="flex items-center gap-1.5"${_scopeId}>`);
             _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_AppSearch, null, null, _parent2, _scopeId));
-            _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UButton, {
-              label: "Вакансии",
-              to: "/vacancies",
-              color: "primary",
-              variant: "solid",
-              size: "sm",
-              class: "hidden lg:inline-flex min-h-11 font-medium"
-            }, null, _parent2, _scopeId));
             _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_AccessibilityPanel, {
               compact: "",
               class: "hidden sm:inline-flex"
             }, null, _parent2, _scopeId));
+            _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UColorModeButton, null, null, _parent2, _scopeId));
             _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UButton, {
-              label: "Фидбэк",
-              color: "neutral",
-              variant: "ghost",
-              size: "sm",
-              to: "/feedback",
-              class: "hidden md:inline-flex min-h-11"
+              label: "Вакансии",
+              to: "/vacancies",
+              color: "primary",
+              size: "md",
+              class: "hidden lg:inline-flex"
             }, null, _parent2, _scopeId));
-            _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UColorModeButton, { class: "min-h-11" }, null, _parent2, _scopeId));
+            _push2(`</div>`);
           } else {
             return [
-              vueExports.createVNode(_component_AppSearch),
-              vueExports.createVNode(_component_UButton, {
-                label: "Вакансии",
-                to: "/vacancies",
-                color: "primary",
-                variant: "solid",
-                size: "sm",
-                class: "hidden lg:inline-flex min-h-11 font-medium"
-              }),
-              vueExports.createVNode(_component_AccessibilityPanel, {
-                compact: "",
-                class: "hidden sm:inline-flex"
-              }),
-              vueExports.createVNode(_component_UButton, {
-                label: "Фидбэк",
-                color: "neutral",
-                variant: "ghost",
-                size: "sm",
-                to: "/feedback",
-                class: "hidden md:inline-flex min-h-11"
-              }),
-              vueExports.createVNode(_component_UColorModeButton, { class: "min-h-11" })
+              vueExports.createVNode("div", { class: "flex items-center gap-1.5" }, [
+                vueExports.createVNode(_component_AppSearch),
+                vueExports.createVNode(_component_AccessibilityPanel, {
+                  compact: "",
+                  class: "hidden sm:inline-flex"
+                }),
+                vueExports.createVNode(_component_UColorModeButton),
+                vueExports.createVNode(_component_UButton, {
+                  label: "Вакансии",
+                  to: "/vacancies",
+                  color: "primary",
+                  size: "md",
+                  class: "hidden lg:inline-flex"
+                })
+              ])
             ];
           }
         }),
         body: vueExports.withCtx((_2, _push2, _parent2, _scopeId) => {
           if (_push2) {
+            _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UButton, {
+              block: "",
+              variant: "soft",
+              color: "neutral",
+              icon: "i-lucide-search",
+              label: "Поиск по порталу",
+              class: "mb-4",
+              size: "md",
+              onClick: vueExports.unref(openSearch)
+            }, null, _parent2, _scopeId));
             _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UNavigationMenu, {
               items: vueExports.unref(mobileNavItems),
               orientation: "vertical",
-              class: "-mx-2.5"
+              variant: "link",
+              color: "primary",
+              class: "-mx-2.5",
+              ui: {
+                link: "font-medium",
+                linkLabel: "font-medium",
+                childLink: "items-start gap-2 py-2 font-medium",
+                childLinkIcon: "size-5 mt-0.5 text-dimmed shrink-0",
+                childLinkWrapper: "flex min-w-0 flex-col gap-0.5",
+                childLinkLabel: "font-medium",
+                childLinkDescription: "text-xs text-muted leading-snug"
+              }
             }, null, _parent2, _scopeId));
             _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_AccessibilityPanel, { class: "mt-4" }, null, _parent2, _scopeId));
             _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UButton, {
@@ -83305,23 +83133,36 @@ const _sfc_main$8 = /* @__PURE__ */ vueExports.defineComponent({
               color: "primary",
               variant: "solid",
               block: "",
-              class: "mt-4 min-h-11 font-medium",
+              class: "mt-4",
               to: "/vacancies"
-            }, null, _parent2, _scopeId));
-            _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UButton, {
-              label: "Фидбэк",
-              color: "neutral",
-              variant: "outline",
-              block: "",
-              class: "mt-2 min-h-11",
-              to: "/feedback"
             }, null, _parent2, _scopeId));
           } else {
             return [
+              vueExports.createVNode(_component_UButton, {
+                block: "",
+                variant: "soft",
+                color: "neutral",
+                icon: "i-lucide-search",
+                label: "Поиск по порталу",
+                class: "mb-4",
+                size: "md",
+                onClick: vueExports.unref(openSearch)
+              }, null, 8, ["onClick"]),
               vueExports.createVNode(_component_UNavigationMenu, {
                 items: vueExports.unref(mobileNavItems),
                 orientation: "vertical",
-                class: "-mx-2.5"
+                variant: "link",
+                color: "primary",
+                class: "-mx-2.5",
+                ui: {
+                  link: "font-medium",
+                  linkLabel: "font-medium",
+                  childLink: "items-start gap-2 py-2 font-medium",
+                  childLinkIcon: "size-5 mt-0.5 text-dimmed shrink-0",
+                  childLinkWrapper: "flex min-w-0 flex-col gap-0.5",
+                  childLinkLabel: "font-medium",
+                  childLinkDescription: "text-xs text-muted leading-snug"
+                }
               }, null, 8, ["items"]),
               vueExports.createVNode(_component_AccessibilityPanel, { class: "mt-4" }),
               vueExports.createVNode(_component_UButton, {
@@ -83329,16 +83170,8 @@ const _sfc_main$8 = /* @__PURE__ */ vueExports.defineComponent({
                 color: "primary",
                 variant: "solid",
                 block: "",
-                class: "mt-4 min-h-11 font-medium",
+                class: "mt-4",
                 to: "/vacancies"
-              }),
-              vueExports.createVNode(_component_UButton, {
-                label: "Фидбэк",
-                color: "neutral",
-                variant: "outline",
-                block: "",
-                class: "mt-2 min-h-11",
-                to: "/feedback"
               })
             ];
           }
@@ -83348,16 +83181,40 @@ const _sfc_main$8 = /* @__PURE__ */ vueExports.defineComponent({
             _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UNavigationMenu, {
               items: vueExports.unref(desktopNavItems),
               variant: "link",
+              color: "primary",
+              "content-orientation": "vertical",
+              arrow: "",
               class: "hidden lg:flex",
-              ui: { link: "text-sm font-medium" }
+              ui: {
+                link: "font-medium",
+                linkLabel: "font-medium",
+                childLink: "items-start gap-2 font-medium",
+                childLinkIcon: "size-5 mt-0.5 text-dimmed shrink-0",
+                childLinkWrapper: "flex min-w-0 flex-col gap-0.5",
+                childLinkLabel: "font-medium",
+                childLinkDescription: "text-xs text-muted leading-snug whitespace-normal",
+                viewport: "p-1"
+              }
             }, null, _parent2, _scopeId));
           } else {
             return [
               vueExports.createVNode(_component_UNavigationMenu, {
                 items: vueExports.unref(desktopNavItems),
                 variant: "link",
+                color: "primary",
+                "content-orientation": "vertical",
+                arrow: "",
                 class: "hidden lg:flex",
-                ui: { link: "text-sm font-medium" }
+                ui: {
+                  link: "font-medium",
+                  linkLabel: "font-medium",
+                  childLink: "items-start gap-2 font-medium",
+                  childLinkIcon: "size-5 mt-0.5 text-dimmed shrink-0",
+                  childLinkWrapper: "flex min-w-0 flex-col gap-0.5",
+                  childLinkLabel: "font-medium",
+                  childLinkDescription: "text-xs text-muted leading-snug whitespace-normal",
+                  viewport: "p-1"
+                }
               }, null, 8, ["items"])
             ];
           }
@@ -83513,14 +83370,8 @@ const theme$2 = {
       "primary": {
         "border": "border-primary"
       },
-      "secondary": {
-        "border": "border-secondary"
-      },
-      "tertiary": {
-        "border": "border-tertiary"
-      },
-      "info": {
-        "border": "border-info"
+      "neutral": {
+        "border": "border-default"
       },
       "success": {
         "border": "border-success"
@@ -83531,8 +83382,8 @@ const theme$2 = {
       "error": {
         "border": "border-error"
       },
-      "neutral": {
-        "border": "border-default"
+      "info": {
+        "border": "border-info"
       }
     },
     "orientation": {
@@ -84356,6 +84207,7 @@ const _sfc_main$3 = /* @__PURE__ */ vueExports.defineComponent({
       {
         label: "Документы",
         children: [
+          { label: "Обратная связь", to: "/feedback" },
           { label: "Политика конфиденциальности", to: "/privacy" },
           { label: "Анти-коррупционная политика", to: "/anti-corruption" }
         ]
@@ -84413,6 +84265,15 @@ const _sfc_main$3 = /* @__PURE__ */ vueExports.defineComponent({
         }),
         right: vueExports.withCtx((_2, _push2, _parent2, _scopeId) => {
           if (_push2) {
+            _push2(`<div class="flex flex-col sm:flex-row items-start sm:items-center gap-3"${_scopeId}>`);
+            _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UButton, {
+              to: "/feedback",
+              label: "Обратная связь",
+              icon: "i-lucide-message-square",
+              color: "neutral",
+              variant: "soft",
+              size: "sm"
+            }, null, _parent2, _scopeId));
             _push2(`<div class="flex items-center gap-2"${_scopeId}>`);
             _push2(serverRenderer_cjs_prodExports.ssrRenderComponent(_component_UButton, {
               to: "https://vk.com/admsr",
@@ -84441,37 +84302,47 @@ const _sfc_main$3 = /* @__PURE__ */ vueExports.defineComponent({
               variant: "ghost",
               size: "sm"
             }, null, _parent2, _scopeId));
-            _push2(`</div>`);
+            _push2(`</div></div>`);
           } else {
             return [
-              vueExports.createVNode("div", { class: "flex items-center gap-2" }, [
+              vueExports.createVNode("div", { class: "flex flex-col sm:flex-row items-start sm:items-center gap-3" }, [
                 vueExports.createVNode(_component_UButton, {
-                  to: "https://vk.com/admsr",
-                  target: "_blank",
-                  icon: "i-simple-icons-vk",
-                  "aria-label": "ВКонтакте",
+                  to: "/feedback",
+                  label: "Обратная связь",
+                  icon: "i-lucide-message-square",
                   color: "neutral",
-                  variant: "ghost",
+                  variant: "soft",
                   size: "sm"
                 }),
-                vueExports.createVNode(_component_UButton, {
-                  to: "https://t.me/admsr_official",
-                  target: "_blank",
-                  icon: "i-simple-icons-telegram",
-                  "aria-label": "Telegram",
-                  color: "neutral",
-                  variant: "ghost",
-                  size: "sm"
-                }),
-                vueExports.createVNode(_component_UButton, {
-                  to: "https://ok.ru/group/admsr",
-                  target: "_blank",
-                  icon: "i-simple-icons-odnoklassniki",
-                  "aria-label": "Одноклассники",
-                  color: "neutral",
-                  variant: "ghost",
-                  size: "sm"
-                })
+                vueExports.createVNode("div", { class: "flex items-center gap-2" }, [
+                  vueExports.createVNode(_component_UButton, {
+                    to: "https://vk.com/admsr",
+                    target: "_blank",
+                    icon: "i-simple-icons-vk",
+                    "aria-label": "ВКонтакте",
+                    color: "neutral",
+                    variant: "ghost",
+                    size: "sm"
+                  }),
+                  vueExports.createVNode(_component_UButton, {
+                    to: "https://t.me/admsr_official",
+                    target: "_blank",
+                    icon: "i-simple-icons-telegram",
+                    "aria-label": "Telegram",
+                    color: "neutral",
+                    variant: "ghost",
+                    size: "sm"
+                  }),
+                  vueExports.createVNode(_component_UButton, {
+                    to: "https://ok.ru/group/admsr",
+                    target: "_blank",
+                    icon: "i-simple-icons-odnoklassniki",
+                    "aria-label": "Одноклассники",
+                    color: "neutral",
+                    variant: "ghost",
+                    size: "sm"
+                  })
+                ])
               ])
             ];
           }
@@ -84820,5 +84691,5 @@ let entry;
 }
 const entry_default = ((ssrContext) => entry(ssrContext));
 
-export { VisuallyHiddenInput_default as $, get$1 as A, usePortal as B, useForwardPropsEmits as C, reactiveOmit as D, createReusableTemplate as E, isArrayOfArray as F, _sfc_main$x as G, _sfc_main$g as H, DropdownMenu as I, FieldGroupReset as J, _sfc_main$v as K, pickLinkProps as L, _sfc_main$w as M, omit as N, DropdownMenuRoot_default as O, Primitive as P, DropdownMenuTrigger_default as Q, DropdownMenuArrow_default as R, useRouter as S, avatarGroupInjectionKey as T, _sfc_main$y as U, useDateFormatter as V, getSlotChildrenText as W, ImageComponent as X, handleAndDispatchCustomEvent$1 as Y, useFormControl as Z, _export_sfc as _, __nuxt_component_0$1 as a, createEventHook as a$, useDirection as a0, RovingFocusGroup_default as a1, useEventListener as a2, Presence_default as a3, useId as a4, Separator_default as a5, useArrowNavigation as a6, getActiveElement as a7, useKbd$1 as a8, useFormField as a9, DateField as aA, formBusInjectionKey as aB, formStateInjectionKey as aC, formErrorsInjectionKey as aD, formInputsInjectionKey as aE, formLoadingInjectionKey as aF, formOptionsInjectionKey as aG, useEventBus as aH, inputIdInjectionKey as aI, formFieldInjectionKey as aJ, useColorMode as aK, transformUI as aL, injectAccordionRootContext as aM, injectAccordionItemContext as aN, AccordionRoot_default as aO, AccordionItem_default as aP, AccordionTrigger_default as aQ, AccordionContent_default as aR, CollapsibleRoot_default as aS, CollapsibleTrigger_default as aT, CollapsibleContent_default as aU, injectRovingFocusGroupContext as aV, getFocusIntent as aW, wrapArray as aX, focusFirst$1 as aY, useMounted as aZ, findValuesBetween as a_, injectConfigProviderContext as aa, isNullish as ab, useCollection as ac, PopperRoot_default as ad, VisuallyHidden_default as ae, useForwardProps$1 as af, PopperContent_default as ag, useFocusGuards as ah, useBodyScrollLock as ai, useHideOthers as aj, useTypeahead as ak, FocusScope_default as al, DismissableLayer_default as am, unrefElement as an, focusFirst$2 as ao, useResizeObserver as ap, clamp$1 as aq, PopperArrow_default as ar, Teleport_default as as, PopperAnchor_default as at, useFieldGroup as au, useComponentIcons as av, looseToNumber as aw, getDisplayValue as ax, isValueEqualOrExist as ay, DateRangeField as az, useRoute as b, MAP_KEY_TO_FOCUS_INTENT as b0, isDef as b1, resolveBaseURL as b2, DialogRoot_default as b3, DialogTrigger_default as b4, DialogPortal_default as b5, useClipboard as b6, createError as c, useAsyncData as d, entry_default as default, _sfc_main$n as e, _sfc_main$A as f, _sfc_main$u as g, useRuntimeConfig as h, useToast as i, _sfc_main$l as j, useComponentProps as k, useAppConfig as l, usePrefix as m, useSeoMeta as n, _sfc_main$d as o, _sfc_main$i as p, useForwardExpose as q, useVModel as r, serverRenderer_cjs_prodExports as s, tv as t, useHead as u, vueExports as v, createContext as w, useLocale as x, useForwardProps as y, reactivePick as z };
+export { Presence_default as $, get$1 as A, usePortal as B, useForwardPropsEmits as C, reactiveOmit as D, createReusableTemplate as E, isArrayOfArray as F, _sfc_main$x as G, _sfc_main$g as H, DropdownMenu as I, FieldGroupReset as J, _sfc_main$v as K, pickLinkProps as L, _sfc_main$w as M, omit as N, DropdownMenuRoot_default as O, Primitive as P, DropdownMenuTrigger_default as Q, DropdownMenuArrow_default as R, useRouter as S, navIcons as T, handleAndDispatchCustomEvent$1 as U, useFormControl as V, VisuallyHiddenInput_default as W, useDirection as X, RovingFocusGroup_default as Y, useEventListener as Z, _export_sfc as _, __nuxt_component_0$1 as a, resolveBaseURL as a$, useId as a0, Separator_default as a1, useArrowNavigation as a2, getActiveElement as a3, useKbd$1 as a4, useFormField as a5, injectConfigProviderContext as a6, isNullish as a7, useCollection as a8, PopperRoot_default as a9, formErrorsInjectionKey as aA, formInputsInjectionKey as aB, formLoadingInjectionKey as aC, formOptionsInjectionKey as aD, useEventBus as aE, inputIdInjectionKey as aF, formFieldInjectionKey as aG, useColorMode as aH, transformUI as aI, injectAccordionRootContext as aJ, injectAccordionItemContext as aK, AccordionRoot_default as aL, AccordionItem_default as aM, AccordionTrigger_default as aN, AccordionContent_default as aO, CollapsibleRoot_default as aP, CollapsibleTrigger_default as aQ, CollapsibleContent_default as aR, injectRovingFocusGroupContext as aS, getFocusIntent as aT, wrapArray as aU, focusFirst$1 as aV, useMounted as aW, findValuesBetween as aX, createEventHook as aY, MAP_KEY_TO_FOCUS_INTENT as aZ, isDef as a_, VisuallyHidden_default as aa, useForwardProps$1 as ab, PopperContent_default as ac, useFocusGuards as ad, useBodyScrollLock as ae, useHideOthers as af, useTypeahead as ag, FocusScope_default as ah, DismissableLayer_default as ai, unrefElement as aj, focusFirst$2 as ak, useResizeObserver as al, clamp$1 as am, PopperArrow_default as an, Teleport_default as ao, PopperAnchor_default as ap, useFieldGroup as aq, useComponentIcons as ar, _sfc_main$y as as, looseToNumber as at, getDisplayValue as au, isValueEqualOrExist as av, DateRangeField as aw, DateField as ax, formBusInjectionKey as ay, formStateInjectionKey as az, useRoute as b, ImageComponent as b0, DialogRoot_default as b1, DialogTrigger_default as b2, DialogPortal_default as b3, useClipboard as b4, getSlotChildrenText as b5, createError as c, useAsyncData as d, entry_default as default, _sfc_main$n as e, _sfc_main$A as f, _sfc_main$u as g, useRuntimeConfig as h, useToast as i, _sfc_main$l as j, useComponentProps as k, useAppConfig as l, usePrefix as m, useSeoMeta as n, _sfc_main$d as o, _sfc_main$i as p, useForwardExpose as q, useVModel as r, serverRenderer_cjs_prodExports as s, tv as t, useHead as u, vueExports as v, createContext as w, useLocale as x, useForwardProps as y, reactivePick as z };
 //# sourceMappingURL=server.mjs.map

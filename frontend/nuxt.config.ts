@@ -33,7 +33,7 @@ export default defineNuxtConfig({
 
   fonts: {
     families: [
-      { name: 'PT Sans', provider: 'google', weights: [400, 500, 700] },
+      { name: 'Inter', provider: 'google', weights: [400, 500, 600, 700] },
     ],
   },
   
@@ -53,14 +53,13 @@ export default defineNuxtConfig({
     theme: {
       colors: [
         'primary',
-        'secondary',
-        'tertiary',
-        'info',
+        'neutral',
         'success',
         'warning',
-        'error'
-      ]
-    }
+        'error',
+        'info',
+      ],
+    },
   },
 
   mdc: {
@@ -70,6 +69,15 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: '2025-01-15',
+
+  app: {
+    head: {
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/logos/logoASR.svg' },
+        { rel: 'apple-touch-icon', href: '/logos/logoASR.svg' },
+      ],
+    },
+  },
 
   eslint: {
     config: {

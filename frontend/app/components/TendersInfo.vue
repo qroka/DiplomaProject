@@ -1,5 +1,5 @@
 <template>
-  <div class="w-4/5 mx-auto py-8">
+  <div class="ds-container py-8">
     <div class="bg-white dark:bg-gray-900/50 rounded-xl p-6 ring-1 ring-gray-200 dark:ring-gray-800 mb-6">
       <p class="text-base lg:text-lg text-gray-900 dark:text-white mb-6">
         Здесь представлены ключевые документы и информация о конкурсах, проводимых Администрацией Сургутского района.
@@ -11,16 +11,16 @@
           class="flex items-center justify-between bg-white/60 dark:bg-gray-900/50 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-lg p-4 hover:border-green-500/20 transition-all duration-300"
         >
           <span class="text-gray-900 dark:text-white font-medium">{{ doc.name }}</span>
-          <NuxtLink
+          <UButton
             :to="doc.link"
             target="_blank"
             external
+            label="Скачать"
+            icon="i-lucide-download"
+            color="primary"
+            size="sm"
             :aria-label="'Скачать: ' + doc.name"
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-500 text-gray-900 dark:text-white hover:bg-primary-600 transition-colors text-sm shrink-0"
-          >
-            <UIcon name="i-lucide-download" class="h-4 w-4" />
-            Скачать
-          </NuxtLink>
+          />
         </div>
       </div>
     </div>

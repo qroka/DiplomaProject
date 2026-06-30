@@ -61,7 +61,7 @@
               color="neutral"
               variant="link"
               trailing-icon="i-lucide-chevron-down"
-              class="px-0 min-h-11"
+              class="px-0"
             />
             <template #content>
               <ul class="mt-2 space-y-2 text-caption text-text-secondary list-disc pl-5">
@@ -220,7 +220,6 @@
             color="neutral"
             variant="outline"
             type="button"
-            class="min-h-11"
             @click="prevStep"
           />
           <UButton
@@ -228,7 +227,6 @@
             color="neutral"
             variant="ghost"
             type="button"
-            class="min-h-11"
             @click="$emit('cancel')"
           />
         </div>
@@ -239,7 +237,7 @@
           color="primary"
           variant="solid"
           type="button"
-          class="min-h-11 font-medium ml-auto"
+          class="ml-auto"
           @click="nextStep"
         />
         <UButton
@@ -249,7 +247,7 @@
           variant="solid"
           type="submit"
           :loading="isSubmitting"
-          class="min-h-11 font-medium ml-auto"
+          class="ml-auto"
         />
       </div>
     </UForm>

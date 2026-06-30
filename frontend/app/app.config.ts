@@ -1,21 +1,9 @@
 export default defineAppConfig({
   ui: {
     colors: {
-      primary: 'primary',
-      secondary: 'secondary',
-      neutral: 'slate',
-    },
-    button: {
-      defaultVariants: {
-        size: 'md',
-      },
-      compoundVariants: [
-        {
-          color: 'primary',
-          variant: 'solid',
-          class: 'font-medium min-h-11',
-        },
-      ],
+      primary: 'emerald',
+      secondary: 'neutral',
+      neutral: 'zinc',
     },
     card: {
       slots: {
@@ -37,6 +25,9 @@ export default defineAppConfig({
         label: 'text-text-primary font-medium',
         error: 'text-red-700 dark:text-red-300',
       },
+    },
+    container: {
+      base: 'w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-8',
     },
   },
 })

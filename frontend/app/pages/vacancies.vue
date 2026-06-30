@@ -21,7 +21,7 @@
         class="mt-4 flex flex-wrap items-center gap-2"
       >
         <UBadge
-          color="secondary"
+          color="neutral"
           variant="subtle"
           size="md"
         >
@@ -44,7 +44,6 @@
         color="primary"
         variant="outline"
         trailing-icon="i-lucide-arrow-right"
-        class="min-h-11 font-medium"
       />
     </div>
 

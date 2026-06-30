@@ -135,7 +135,6 @@
               type="submit"
               label="Подписаться"
               color="primary"
-              class="min-h-11 font-medium"
               :loading="loading"
             />
           </UForm>

@@ -1,6 +1,33 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+/* Nuxt UI v4 — dark mode palette swap (app.config: emerald/zinc for light) */
+.dark {
+  --ui-color-primary-50: var(--color-indigo-50);
+  --ui-color-primary-100: var(--color-indigo-100);
+  --ui-color-primary-200: var(--color-indigo-200);
+  --ui-color-primary-300: var(--color-indigo-300);
+  --ui-color-primary-400: var(--color-indigo-400);
+  --ui-color-primary-500: var(--color-indigo-500);
+  --ui-color-primary-600: var(--color-indigo-600);
+  --ui-color-primary-700: var(--color-indigo-700);
+  --ui-color-primary-800: var(--color-indigo-800);
+  --ui-color-primary-900: var(--color-indigo-900);
+  --ui-color-primary-950: var(--color-indigo-950);
+
+  --ui-color-neutral-50: var(--color-slate-50);
+  --ui-color-neutral-100: var(--color-slate-100);
+  --ui-color-neutral-200: var(--color-slate-200);
+  --ui-color-neutral-300: var(--color-slate-300);
+  --ui-color-neutral-400: var(--color-slate-400);
+  --ui-color-neutral-500: var(--color-slate-500);
+  --ui-color-neutral-600: var(--color-slate-600);
+  --ui-color-neutral-700: var(--color-slate-700);
+  --ui-color-neutral-800: var(--color-slate-800);
+  --ui-color-neutral-900: var(--color-slate-900);
+  --ui-color-neutral-950: var(--color-slate-950);
+}
+
 /* Design system v2 — token layers */
 @import "./tokens/colors.css";
 @import "./tokens/typography.css";
@@ -17,11 +44,26 @@
 
 @import "./utilities/prose.css";
 
+/* Nuxt UI layout tokens — align header & page grid with ui.nuxt.com */
+:root {
+  --ui-container: 96rem;
+  --ui-header-height: --spacing(16);
+}
+
 @utility bg-gradient-brand {
   background-image: linear-gradient(
     135deg,
-    var(--color-secondary-500) 0%,
-    var(--color-primary-500) 100%
+    #059669 0%,
+    #10b981 100%
+  );
+}
+
+.dark .bg-gradient-brand,
+.dark.bg-gradient-brand {
+  background-image: linear-gradient(
+    135deg,
+    #4338ca 0%,
+    #6366f1 100%
   );
 }
 

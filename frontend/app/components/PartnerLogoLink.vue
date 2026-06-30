@@ -3,14 +3,23 @@
     :to="logo.url"
     target="_blank"
     rel="noopener noreferrer"
-    class="flex items-center justify-center p-4 rounded-lg bg-surface-raised border border-border-default hover:shadow-sm transition-[box-shadow,transform] duration-fast hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-focus-ring focus-visible:outline-offset-2"
+    class="group flex flex-col items-center gap-4 rounded-2xl border border-default bg-default p-5 text-center transition hover:border-primary/40 hover:bg-elevated focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary motion-reduce:transition-none"
     :class="$attrs.class"
   >
-    <img
-      :src="logo.image"
-      :alt="logo.alt"
-      class="h-12 w-12 object-contain opacity-80 hover:opacity-100 transition-opacity"
-    >
+    <div class="flex h-14 w-full items-center justify-center">
+      <img
+        :src="logo.image"
+        :alt="logo.alt"
+        width="56"
+        height="56"
+        loading="lazy"
+        class="max-h-12 max-w-full object-contain opacity-80 transition group-hover:opacity-100 motion-reduce:transition-none"
+      >
+    </div>
+
+    <span class="text-sm font-medium leading-snug text-highlighted">
+      {{ logo.alt }}
+    </span>
   </NuxtLink>
 </template>
 

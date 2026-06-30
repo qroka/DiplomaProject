@@ -1,5 +1,5 @@
 <template>
-  <div class="w-4/5 mx-auto py-6">
+  <div class="ds-container py-6">
     <!-- Header -->
     <div class="mb-6">
       <h2 v-if="title" class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3">

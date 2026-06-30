@@ -3,32 +3,8 @@
     icon="i-lucide-search"
     color="neutral"
     variant="ghost"
-    size="sm"
-    aria-label="Поиск по порталу (Ctrl+K)"
-    class="hidden md:inline-flex min-h-11"
-    @click="open = true"
-  >
-    <template #trailing>
-      <UKbd
-        value="meta"
-        variant="subtle"
-        class="hidden lg:inline-flex"
-      />
-      <UKbd
-        value="K"
-        variant="subtle"
-        class="hidden lg:inline-flex"
-      />
-    </template>
-  </UButton>
-
-  <UButton
-    icon="i-lucide-search"
-    color="neutral"
-    variant="ghost"
-    size="sm"
+    size="md"
     aria-label="Поиск по порталу"
-    class="md:hidden min-h-11"
     @click="open = true"
   />
 
@@ -53,7 +29,7 @@
 
 <script setup lang="ts">
 import { useDebounceFn } from '@vueuse/core'
-import { mainNavItems } from '~/data/navigation'
+import { mainNavItems, navIcons } from '~/data/navigation'
 
 interface SearchVacancy {
   id: number
@@ -62,7 +38,7 @@ interface SearchVacancy {
   company?: string
 }
 
-const open = ref(false)
+const { open, closeSearch } = usePortalSearch()
 const searchTerm = ref('')
 const config = useRuntimeConfig()
 const vacancyItems = ref<Array<{
@@ -72,21 +48,8 @@ const vacancyItems = ref<Array<{
   icon: string
 }>>([])
 
-const pageIcons: Record<string, string> = {
-  '/': 'i-lucide-home',
-  '/about': 'i-lucide-building-2',
-  '/honorboard': 'i-lucide-award',
-  '/contacts': 'i-lucide-phone',
-  '/vacancies': 'i-lucide-briefcase',
-  '/tenders': 'i-lucide-file-badge',
-  '/staffreserve': 'i-lucide-users',
-  '/youth': 'i-lucide-graduation-cap',
-  '/profdev': 'i-lucide-book-open',
-  '/anti-corruption': 'i-lucide-shield-alert',
-}
-
 const extraPages = [
-  { label: 'Обратная связь', to: '/feedback', icon: 'i-lucide-message-square' },
+  { label: 'Обратная связь', to: '/feedback', icon: navIcons['/feedback'] },
   { label: 'Политика конфиденциальности', to: '/privacy', icon: 'i-lucide-shield' },
 ]
 
@@ -109,7 +72,7 @@ const groups = computed(() => {
         ...mainNavItems.map(item => ({
           label: item.label,
           to: item.to,
-          icon: pageIcons[item.to] ?? 'i-lucide-arrow-right',
+          icon: navIcons[item.to] ?? 'i-lucide-arrow-right',
         })),
         ...extraPages,
       ],
@@ -162,7 +125,7 @@ watch(open, (isOpen) => {
 })
 
 function onSelect() {
-  open.value = false
+  closeSearch()
   searchTerm.value = ''
   vacancyItems.value = []
 }

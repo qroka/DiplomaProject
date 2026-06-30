@@ -71,7 +71,6 @@
             color="primary"
             type="submit"
             :loading="formLoading"
-            class="min-h-11 font-medium"
           />
         </div>
       </UForm>

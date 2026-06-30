@@ -31,7 +31,7 @@
 
       <div
         v-if="pending"
-        class="grid-cards"
+        class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
       >
         <DsSkeletonCard
           v-for="i in skeletonCount"
@@ -48,12 +48,13 @@
 
       <div
         v-else
-        class="grid-cards"
+        class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
       >
         <VacancyCard
           v-for="vacancy in vacancies"
           :key="vacancy.id ?? vacancy.title"
           :vacancy="vacancy"
+          size="lg"
           @apply="openApplicationForm"
         />
       </div>

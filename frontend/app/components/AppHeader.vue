@@ -1,78 +1,96 @@
 <template>
-  <UHeader :ui="{ left: 'flex-shrink-0', center: 'min-w-0', right: 'gap-1 shrink-0' }">
+  <UHeader>
     <template #left>
       <NuxtLink
         to="/"
-        class="flex items-center gap-3 whitespace-nowrap focus-visible:outline-2 focus-visible:outline-focus-ring focus-visible:outline-offset-2 focus-visible:rounded-lg"
+        class="flex items-center gap-2 min-w-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 rounded-md"
+        aria-label="На главную — Кадровый портал Администрации Сургутского района"
       >
-        <NuxtImg
-          src="/logos/surrailogo.png"
-          alt="На главную"
-          class="h-8 w-auto shrink-0"
-        />
-        <div class="hidden sm:block">
-          <div class="font-semibold text-lg lg:text-xl tracking-tight text-text-primary leading-tight">
-            Кадровый портал
-          </div>
-          <span class="text-caption text-text-muted">Сургутского района</span>
-        </div>
+        <AppLogo />
+        <span class="font-bold text-lg text-highlighted truncate hidden sm:inline">
+          Кадровый портал
+        </span>
       </NuxtLink>
     </template>
 
     <UNavigationMenu
       :items="desktopNavItems"
       variant="link"
+      color="primary"
+      content-orientation="vertical"
+      arrow
       class="hidden lg:flex"
-      :ui="{ link: 'text-sm font-medium' }"
+      :ui="{
+        link: 'font-medium',
+        linkLabel: 'font-medium',
+        childLink: 'items-start gap-2 font-medium',
+        childLinkIcon: 'size-5 mt-0.5 text-dimmed shrink-0',
+        childLinkWrapper: 'flex min-w-0 flex-col gap-0.5',
+        childLinkLabel: 'font-medium',
+        childLinkDescription: 'text-xs text-muted leading-snug whitespace-normal',
+        viewport: 'p-1',
+      }"
     />
 
     <template #right>
-      <AppSearch />
-      <UButton
-        label="Вакансии"
-        to="/vacancies"
-        color="primary"
-        variant="solid"
-        size="sm"
-        class="hidden lg:inline-flex min-h-11 font-medium"
-      />
-      <AccessibilityPanel
-        compact
-        class="hidden sm:inline-flex"
-      />
-      <UButton
-        label="Фидбэк"
-        color="neutral"
-        variant="ghost"
-        size="sm"
-        to="/feedback"
-        class="hidden md:inline-flex min-h-11"
-      />
-      <UColorModeButton class="min-h-11" />
+      <div class="flex items-center gap-1.5">
+        <AppSearch />
+        <AccessibilityPanel
+          compact
+          class="hidden sm:inline-flex"
+          
+        />
+        <UColorModeButton />
+        <UButton
+          label="Вакансии"
+          to="/vacancies"
+          icon="i-lucide-briefcase"
+          color="primary"
+          size="md"
+          class="hidden rounded-full lg:inline-flex"
+        />
+      </div>
     </template>
 
     <template #body>
+      <UButton
+        block
+        variant="soft"
+        color="neutral"
+        icon="i-lucide-search"
+        label="Поиск по порталу"
+        class="mb-4"
+        size="md"        
+        @click="openSearch"
+      />
+
       <UNavigationMenu
         :items="mobileNavItems"
         orientation="vertical"
+        variant="link"
+        color="primary"
         class="-mx-2.5"
+        :ui="{
+          link: 'font-medium',
+          linkLabel: 'font-medium',
+          childLink: 'items-start gap-2 py-2 font-medium',
+          childLinkIcon: 'size-5 mt-0.5 text-dimmed shrink-0',
+          childLinkWrapper: 'flex min-w-0 flex-col gap-0.5',
+          childLinkLabel: 'font-medium',
+          childLinkDescription: 'text-xs text-muted leading-snug',
+        }"
       />
+
       <AccessibilityPanel class="mt-4" />
+
       <UButton
         label="Вакансии"
+        to="/vacancies"
+        icon="i-lucide-briefcase"
         color="primary"
         variant="solid"
         block
-        class="mt-4 min-h-11 font-medium"
-        to="/vacancies"
-      />
-      <UButton
-        label="Фидбэк"
-        color="neutral"
-        variant="outline"
-        block
-        class="mt-2 min-h-11"
-        to="/feedback"
+        class="mt-4 rounded-full"
       />
     </template>
   </UHeader>
@@ -83,4 +101,5 @@ import { buildDesktopNavItems, buildMobileNavItems } from '~/data/navigation'
 
 const desktopNavItems = buildDesktopNavItems()
 const mobileNavItems = buildMobileNavItems()
+const { openSearch } = usePortalSearch()
 </script>

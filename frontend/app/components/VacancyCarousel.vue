@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 pb-6">
+  <section class="border-t border-default bg-elevated/40">
     <UModal
       v-model:open="isApplicationFormOpen"
       title="Отклик на вакансию"
@@ -13,159 +13,244 @@
       </template>
     </UModal>
 
-    <DsSection spacing="md">
-      <DsSectionHeading
-        :title="title"
-        :description="subtitle"
-        align="left"
-      >
-        <template #action>
-          <UButton
-            label="Все вакансии"
-            to="/vacancies"
+    <UContainer class="flex flex-col gap-8 py-16 lg:gap-10 lg:py-20">
+      <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <div class="flex max-w-2xl flex-col gap-3">
+          <UBadge
+            label="Вакансии"
             color="primary"
-            variant="outline"
-            trailing-icon="i-lucide-arrow-right"
-            class="min-h-11 font-medium"
+            variant="subtle"
+            class="w-fit rounded-full"
           />
-        </template>
-      </DsSectionHeading>
+          <h2
+            id="vacancies"
+            class="text-3xl font-bold tracking-tight text-highlighted text-balance sm:text-4xl"
+          >
+            {{ title }}
+          </h2>
+          <p class="text-pretty text-lg leading-8 text-muted">
+            {{ subtitle }}
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <div
+            v-if="!pending && props.vacancies.length"
+            class="flex items-center gap-1"
+          >
+            <UButton
+              icon="i-lucide-chevron-left"
+              color="neutral"
+              variant="outline"
+              size="lg"
+              aria-label="Предыдущие вакансии"
+              class="rounded-full"
+              :disabled="!canScrollBack"
+              @click="scroll('back')"
+            />
+            <UButton
+              icon="i-lucide-chevron-right"
+              color="neutral"
+              variant="outline"
+              size="lg"
+              aria-label="Следующие вакансии"
+              class="rounded-full"
+              :disabled="!canScrollForward"
+              @click="scroll('forward')"
+            />
+          </div>
+        </div>
+      </div>
 
       <div
         v-if="pending"
-        class="grid-cards"
+        class="flex gap-4 overflow-hidden"
       >
         <DsSkeletonCard
           v-for="i in 3"
           :key="i"
+          class="w-[min(92vw,24rem)] shrink-0 sm:w-104 lg:w-120"
         />
       </div>
 
-      <DsEmptyState
-        v-else-if="!vacancies.length"
-        icon="i-lucide-search-x"
-        title="Вакансии не найдены"
-        description="Сейчас нет открытых позиций. Загляните позже или подпишитесь на обновления"
+      <div
+        v-else-if="!props.vacancies.length"
+        class="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-default bg-default px-6 py-12 text-center"
       >
-        <template #action>
-          <UButton
-            label="Все вакансии"
-            to="/vacancies"
-            color="primary"
-            variant="solid"
-            class="min-h-11 font-medium"
-          />
-        </template>
-      </DsEmptyState>
+        <UIcon
+          name="i-lucide-briefcase"
+          class="size-10 text-muted"
+          aria-hidden="true"
+        />
+        <div class="flex max-w-md flex-col gap-2">
+          <p class="text-lg font-semibold text-highlighted">
+            Сейчас нет открытых позиций
+          </p>
+          <p class="text-pretty text-sm leading-6 text-muted">
+            Загляните позже или подпишитесь на обновления.
+          </p>
+        </div>
+        <UButton
+          label="Все вакансии"
+          to="/vacancies"
+          color="primary"
+          class="rounded-full"
+        />
+      </div>
 
-      <UCarousel
+      <div
         v-else
-        :items="carouselItems"
-        :arrows="true"
-        :dots="true"
-        :loop="false"
-        :ui="{ item: 'basis-full md:basis-1/2 lg:basis-1/3' }"
+        class="relative -me-4 sm:-me-6 lg:-me-8"
       >
-        <template #default="{ item }">
-          <VacancyCard
-            v-if="!item.isPlaceholder"
-            :vacancy="item"
-            @apply="openApplicationForm"
-          />
-
-          <DsSurface
-            v-else
-            elevation="sm"
-            padding="lg"
-            class="h-full flex flex-col items-center justify-center text-center min-h-[320px]"
+        <div
+          ref="trackRef"
+          class="vacancy-track flex gap-4 overflow-x-auto pb-1 scroll-smooth snap-x snap-mandatory ps-4 pe-4 sm:ps-6 sm:pe-6 lg:ps-6 lg:pe-8"
+          @scroll="updateScrollState"
+        >
+          <div
+            v-for="(item, index) in carouselItems"
+            :key="itemKey(item, index)"
+            data-vacancy-slide
+            class="w-[min(92vw,24rem)] shrink-0 snap-start sm:w-104 lg:w-120"
           >
-            <UIcon
-              name="i-lucide-arrow-right-circle"
-              class="h-14 w-14 text-primary-500 mx-auto mb-4"
-              aria-hidden="true"
+            <VacancyCard
+              v-if="!isPlaceholderItem(item)"
+              :vacancy="item"
+              size="lg"
+              @apply="openApplicationForm"
             />
-            <h3 class="text-h3 text-text-primary mb-2">
-              Смотреть все вакансии
-            </h3>
-            <p class="text-body text-text-secondary mb-6 max-w-xs">
-              Ознакомьтесь со всеми актуальными предложениями
-            </p>
-            <UButton
-              label="Все вакансии"
-              color="primary"
-              variant="solid"
-              to="/vacancies"
-              class="min-h-11 font-medium"
-            />
-          </DsSurface>
-        </template>
-      </UCarousel>
-    </DsSection>
-  </div>
+
+            <article
+              v-else
+              class="flex h-full min-h-96 flex-col items-center justify-center gap-5 rounded-2xl border border-dashed border-default bg-default p-8 text-center transition hover:border-primary/40 hover:bg-elevated motion-reduce:transition-none"
+            >
+              <div class="flex size-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <UIcon
+                  name="i-lucide-briefcase"
+                  class="size-8"
+                  aria-hidden="true"
+                />
+              </div>
+              <div class="flex flex-col gap-2">
+                <h3 class="text-xl font-semibold text-highlighted">
+                  Ознакомиться со всеми вакансиями
+                </h3>
+                <p class="text-pretty text-base leading-7 text-muted">
+                  Полный перечень открытых должностей
+                </p>
+              </div>
+              <UButton
+                label="Перейти"
+                to="/vacancies"
+                color="primary"
+                trailing-icon="i-lucide-arrow-right"
+                class="rounded-full"
+              />
+            </article>
+          </div>
+        </div>
+      </div>
+    </UContainer>
+  </section>
 </template>
 
-<script setup>
-import { ref, computed } from 'vue'
+<script setup lang="ts">
 import ApplicationForm from './ApplicationForm.vue'
-import VacancyCard from './VacancyCard.vue'
+import VacancyCard, { type Vacancy } from './VacancyCard.vue'
 
-const props = defineProps({
-  title: {
-    type: String,
-    default: 'Последние вакансии',
-  },
-  subtitle: {
-    type: String,
-    default: 'Актуальные предложения от работодателей',
-  },
-  vacancies: {
-    type: Array,
-    required: true,
-    default: () => [],
-  },
-  pending: {
-    type: Boolean,
-    default: false,
-  },
+type PlaceholderItem = { isPlaceholder: true }
+type CarouselItem = Vacancy | PlaceholderItem
+
+function isPlaceholderItem(item: CarouselItem): item is PlaceholderItem {
+  return 'isPlaceholder' in item
+}
+
+function itemKey(item: CarouselItem, index: number): string {
+  if (isPlaceholderItem(item)) return 'all-vacancies'
+  return String(item.id ?? item.title ?? index)
+}
+
+const props = withDefaults(defineProps<{
+  title?: string
+  subtitle?: string
+  vacancies: Vacancy[]
+  pending?: boolean
+}>(), {
+  title: 'Актуальные вакансии',
+  subtitle: 'Открытые должности в администрации Сургутского района',
+  pending: false,
 })
 
 const config = useRuntimeConfig()
 const isApplicationFormOpen = ref(false)
-const selectedVacancy = ref(null)
-const isSubmitting = ref(false)
-const submitStatus = ref(null)
+const selectedVacancy = ref<Vacancy | null>(null)
+const trackRef = ref<HTMLElement | null>(null)
+const canScrollBack = ref(false)
+const canScrollForward = ref(true)
 
-const carouselItems = computed(() => {
-  const all = [...props.vacancies]
-  const count = Math.min(5, all.length)
-  for (let i = all.length - 1; i > all.length - 1 - count; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [all[i], all[j]] = [all[j], all[i]]
-  }
-  const selected = all.slice(-count)
-  selected.push({ isPlaceholder: true })
-  return selected
+const carouselItems = computed<CarouselItem[]>(() => {
+  const sorted = [...props.vacancies].sort((a, b) => {
+    const dateA = a.created_at ? new Date(a.created_at).getTime() : 0
+    const dateB = b.created_at ? new Date(b.created_at).getTime() : 0
+    return dateB - dateA
+  })
+
+  const items: CarouselItem[] = sorted.slice(0, 5)
+  items.push({ isPlaceholder: true })
+  return items
 })
 
-const openApplicationForm = (vacancy) => {
-  submitStatus.value = null
+function updateScrollState() {
+  const track = trackRef.value
+  if (!track) return
+
+  const maxScroll = track.scrollWidth - track.clientWidth
+  canScrollBack.value = track.scrollLeft > 4
+  canScrollForward.value = track.scrollLeft < maxScroll - 4
+}
+
+function scroll(direction: 'back' | 'forward') {
+  const track = trackRef.value
+  if (!track) return
+
+  const slide = track.querySelector<HTMLElement>('[data-vacancy-slide]')
+  const gap = 16
+  const step = (slide?.offsetWidth ?? 320) + gap
+
+  track.scrollBy({
+    left: direction === 'forward' ? step : -step,
+    behavior: 'smooth',
+  })
+}
+
+onMounted(() => {
+  updateScrollState()
+  window.addEventListener('resize', updateScrollState)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateScrollState)
+})
+
+watch(carouselItems, async () => {
+  await nextTick()
+  updateScrollState()
+})
+
+function openApplicationForm(vacancy: Vacancy) {
   selectedVacancy.value = vacancy
   isApplicationFormOpen.value = true
 }
 
-const closeApplicationForm = () => {
+function closeApplicationForm() {
   isApplicationFormOpen.value = false
   selectedVacancy.value = null
-  submitStatus.value = null
 }
 
-const handleFormSubmit = async (formData) => {
-  isSubmitting.value = true
-  submitStatus.value = null
-
+async function handleFormSubmit(formData: Record<string, unknown>) {
   try {
     const data = new FormData()
-    data.append('vacancy_title', selectedVacancy.value?.title || '')
+    data.append('vacancy_title', String(selectedVacancy.value?.title || ''))
 
     for (const [key, value] of Object.entries(formData)) {
       if (value instanceof File || (Array.isArray(value) && value[0] instanceof File)) {
@@ -176,11 +261,11 @@ const handleFormSubmit = async (formData) => {
           }
         }
       } else if (value !== null && value !== undefined) {
-        let fieldName = key.replace(/([A-Z])/g, '_$1').toLowerCase()
+        const fieldName = key.replace(/([A-Z])/g, '_$1').toLowerCase()
         if (value instanceof Date) {
           data.append(fieldName, value.toISOString().split('T')[0])
         } else {
-          data.append(fieldName, value)
+          data.append(fieldName, String(value))
         }
       }
     }
@@ -190,13 +275,20 @@ const handleFormSubmit = async (formData) => {
       body: data,
     })
 
-    submitStatus.value = 'success'
     setTimeout(() => closeApplicationForm(), 2000)
   } catch (error) {
-    console.error('Server error:', error.data || error.message || error)
-    submitStatus.value = 'error'
-  } finally {
-    isSubmitting.value = false
+    console.error('Server error:', error)
   }
 }
 </script>
+
+<style scoped>
+.vacancy-track {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.vacancy-track::-webkit-scrollbar {
+  display: none;
+}
+</style>

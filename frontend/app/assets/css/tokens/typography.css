@@ -1,7 +1,7 @@
-/* Typography scale — PT Sans, design system v2 */
+/* Typography scale — Inter */
 
 @theme {
-  --font-sans: 'PT Sans', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
 
   --text-display: 2rem;
   --text-display--line-height: 1.1;

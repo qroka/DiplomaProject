@@ -37,7 +37,7 @@
             :to="buttonLink"
             color="primary"
             size="lg"
-            class="mt-6 min-h-11 font-medium w-fit"
+            class="mt-6 w-fit"
           />
         </div>
         <img
@@ -64,7 +64,7 @@
       v-if="resolvedImage"
       class="absolute inset-0 -z-10"
     >
-      <div class="absolute inset-0 bg-linear-to-r from-secondary-900/80 via-secondary-800/70 to-secondary-700/50" />
+      <div class="absolute inset-0 bg-linear-to-r from-zinc-900/80 via-zinc-800/70 to-zinc-700/50" />
       <img
         :src="resolvedImage"
         :alt="imageAlt"
@@ -118,7 +118,7 @@
     <div class="ds-container py-10 lg:py-14">
       <UBadge
         v-if="badge"
-        color="secondary"
+        color="primary"
         variant="subtle"
         size="sm"
         class="w-fit mb-3"

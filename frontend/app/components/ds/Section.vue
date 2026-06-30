@@ -3,10 +3,10 @@
     :class="sectionClasses"
     :aria-labelledby="headingId || undefined"
   >
-    <div class="ds-container">
+    <UContainer>
       <slot name="header" />
       <slot />
-    </div>
+    </UContainer>
   </section>
 </template>
 

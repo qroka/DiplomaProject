@@ -9,7 +9,6 @@
       :trailing-icon="isOpen ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
       color="neutral"
       variant="outline"
-      class="min-h-11"
       :aria-expanded="isOpen"
     />
   </UDropdownMenu>

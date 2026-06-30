@@ -22,26 +22,32 @@ useHead({
 
 const { init } = useAccessibility()
 
-const cookieConsent = useCookie('cookieConsent')
+usePrimaryFavicon()
+
+const cookieConsent = useCookie('cookieConsent', {
+  maxAge: 60 * 60 * 24 * 365,
+  sameSite: 'lax',
+  path: '/'
+})
 const toast = useToast()
 
 onMounted(() => {
   init()
-  refreshCookie('cookieConsent')
+
   if (!cookieConsent.value) {
     toast.add({
       id: 'cookie-consent',
-      title: 'Мы используем куки',
-      description: 'Для удобства работы с сайтом мы используем файлы cookie.',
-      close: false,
+      title: 'Файлы cookie',
+      description: 'Используем cookie для корректной работы сайта и сохранения пользовательских настроек.',
+      icon: 'i-lucide-cookie',
+      color: 'neutral',
       duration: 0,
+      progress: false,
       actions: [{
-        label: 'Понимаю',
+        label: 'Понятно',
         color: 'primary',
-        onSelect: () => {
-          const expiryDate = new Date()
-          expiryDate.setFullYear(expiryDate.getFullYear() + 1)
-          document.cookie = `cookieConsent=true; expires=${expiryDate.toUTCString()}; path=/; SameSite=Lax`
+        onClick: (event) => {
+          event?.stopPropagation()
           cookieConsent.value = 'true'
           toast.remove('cookie-consent')
         }

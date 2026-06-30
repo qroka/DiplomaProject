@@ -61,7 +61,6 @@ const hero = useHeroImage('about')
           :label="link.label"
           color="neutral"
           variant="outline"
-          class="min-h-11"
         />
       </div>
     </DsSurface>
@@ -74,7 +73,6 @@ const hero = useHeroImage('about')
         variant="solid"
         size="lg"
         trailing-icon="i-lucide-arrow-right"
-        class="min-h-11 font-medium"
       />
       <UButton
         label="Кадровый резерв"
@@ -83,7 +81,6 @@ const hero = useHeroImage('about')
         variant="outline"
         size="lg"
         trailing-icon="i-lucide-arrow-right"
-        class="min-h-11 font-medium"
       />
     </div>
   </UContainer>

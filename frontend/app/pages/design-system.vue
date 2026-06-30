@@ -86,7 +86,6 @@
             variant="outline"
             to="/vacancies"
             label="Вакансии"
-            class="min-h-11 font-medium"
           />
         </template>
       </DsSectionHeading>
@@ -96,25 +95,21 @@
           color="primary"
           variant="solid"
           label="Primary"
-          class="min-h-11 font-medium"
         />
         <UButton
           color="primary"
           variant="outline"
           label="Secondary"
-          class="min-h-11 font-medium"
         />
         <UButton
           color="neutral"
           variant="outline"
           label="Neutral"
-          class="min-h-11 font-medium"
         />
         <UButton
           color="neutral"
           variant="ghost"
           label="Ghost"
-          class="min-h-11 font-medium"
         />
       </div>
 

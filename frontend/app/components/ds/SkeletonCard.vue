@@ -1,29 +1,28 @@
 <template>
   <div
-    class="ds-surface animate-pulse"
-    data-elevation="xs"
-    data-padding="lg"
+    class="flex h-full min-h-96 flex-col rounded-2xl border border-default bg-default p-6 sm:p-8"
     aria-hidden="true"
   >
-    <div class="flex justify-between items-start mb-4">
-      <div class="flex-1 space-y-2">
-        <div class="h-5 bg-surface-sunken rounded w-3/4" />
-        <div class="h-4 bg-surface-sunken rounded w-1/2" />
+    <div class="flex items-start justify-between">
+      <div class="size-11 animate-pulse rounded-full bg-elevated" />
+      <div class="h-5 w-14 animate-pulse rounded-full bg-elevated" />
+    </div>
+    <div class="mt-4 flex flex-col gap-2">
+      <div class="h-4 w-2/3 animate-pulse rounded bg-elevated" />
+      <div class="h-6 w-full animate-pulse rounded bg-elevated" />
+      <div class="h-6 w-4/5 animate-pulse rounded bg-elevated" />
+    </div>
+    <div class="mt-3 flex gap-2">
+      <div class="h-6 w-16 animate-pulse rounded-lg bg-elevated" />
+      <div class="h-6 w-20 animate-pulse rounded-lg bg-elevated" />
+    </div>
+    <div class="flex-1" />
+    <div class="mt-6 flex items-end justify-between gap-4 border-t border-default pt-4">
+      <div class="flex flex-col gap-2">
+        <div class="h-5 w-24 animate-pulse rounded bg-elevated" />
+        <div class="h-4 w-32 animate-pulse rounded bg-elevated" />
       </div>
-      <div class="h-5 w-14 bg-surface-sunken rounded-full" />
-    </div>
-    <div class="space-y-2 mb-6">
-      <div class="h-4 bg-surface-sunken rounded w-2/3" />
-      <div class="h-4 bg-surface-sunken rounded w-1/2" />
-      <div class="h-4 bg-surface-sunken rounded w-3/5" />
-    </div>
-    <div class="flex gap-2 mb-6">
-      <div class="h-6 w-16 bg-surface-sunken rounded-full" />
-      <div class="h-6 w-20 bg-surface-sunken rounded-full" />
-    </div>
-    <div class="flex gap-3 pt-4 border-t border-border-default">
-      <div class="h-11 bg-surface-sunken rounded-lg flex-[2]" />
-      <div class="h-11 bg-surface-sunken rounded-lg flex-1" />
+      <div class="h-9 w-28 animate-pulse rounded-md bg-elevated" />
     </div>
   </div>
 </template>

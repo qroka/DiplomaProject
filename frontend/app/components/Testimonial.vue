@@ -1,5 +1,5 @@
 <template>
-  <div class="w-4/5 mx-auto py-20">
+  <div class="ds-container py-20">
     <UPageCTA
       :ui="{
         root: 'bg-white/60 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-2xl relative overflow-visible backdrop-blur-sm',
