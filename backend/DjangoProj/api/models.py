@@ -303,17 +303,9 @@ class Feedback(models.Model):
 
 
 class VacancySubscription(models.Model):
+    name = models.CharField('Имя', max_length=150, blank=True)
     email = models.EmailField('Email')
-    branch = models.CharField('Орган/отдел', max_length=255, blank=True)
-    work_schedule = models.ForeignKey(
-        WorkSchedule, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='График работы'
-    )
-    required_experience = models.ForeignKey(
-        RequiredExperience, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Требуемый опыт'
-    )
-    job_type = models.ForeignKey(
-        JobType, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Тип должности'
-    )
+    branch = models.CharField('Отраслевой функциональный орган', max_length=255, blank=True)
     is_active = models.BooleanField('Активна', default=True)
     created_at = models.DateTimeField('Дата подписки', auto_now_add=True)
 
@@ -323,7 +315,9 @@ class VacancySubscription(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f'{self.email} ({self.created_at.strftime("%d.%m.%Y")})'
+        who = self.name.strip() if self.name else self.email
+        ofo = self.branch.strip() if self.branch else 'любой ОФО'
+        return f'{who} — {ofo} ({self.created_at.strftime("%d.%m.%Y")})'
 
 
 class Competition(models.Model):

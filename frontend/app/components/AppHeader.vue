@@ -3,13 +3,18 @@
     <template #left>
       <NuxtLink
         to="/"
-        class="flex items-center gap-2 min-w-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 rounded-md"
+        class="flex min-w-0 items-center gap-2.5 rounded-md"
         aria-label="На главную — Кадровый портал Администрации Сургутского района"
       >
-        <AppLogo />
-        <span class="font-bold text-lg text-highlighted truncate hidden sm:inline">
-          Кадровый портал
-        </span>
+        <AppLogo :size="28" />
+        <div class="hidden min-w-0 flex-col sm:flex">
+          <span class="truncate font-semibold text-highlighted">
+            {{ siteContact.portalName }}
+          </span>
+          <span class="truncate text-xs text-muted">
+            {{ siteContact.organization }}
+          </span>
+        </div>
       </NuxtLink>
     </template>
 
@@ -97,7 +102,7 @@
 </template>
 
 <script setup lang="ts">
-import { buildDesktopNavItems, buildMobileNavItems } from '~/data/navigation'
+import { buildDesktopNavItems, buildMobileNavItems, siteContact } from '~/data/navigation'
 
 const desktopNavItems = buildDesktopNavItems()
 const mobileNavItems = buildMobileNavItems()

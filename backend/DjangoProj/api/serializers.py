@@ -158,7 +158,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
 class VacancySubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = VacancySubscription
-        fields = ['id', 'email', 'branch', 'work_schedule', 'required_experience', 'job_type', 'created_at']
+        fields = ['id', 'name', 'email', 'branch', 'created_at']
         read_only_fields = ['id', 'created_at']
 
     def validate_email(self, value):

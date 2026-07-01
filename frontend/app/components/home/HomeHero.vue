@@ -69,7 +69,7 @@
             v-for="item in careerItems"
             :key="item.to"
             :to="item.to"
-            class="group flex flex-col gap-4 rounded-2xl border border-default bg-default p-5 transition hover:border-primary/40 hover:bg-elevated focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary motion-reduce:transition-none"
+            class="group flex flex-col gap-4 rounded-2xl border border-default bg-default p-5 transition hover:border-primary/40 hover:bg-elevated motion-reduce:transition-none"
           >
             <div class="flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition group-hover:bg-primary group-hover:text-inverted">
               <UIcon

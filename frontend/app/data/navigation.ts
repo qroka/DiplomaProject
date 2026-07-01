@@ -72,6 +72,9 @@ export const navGroups: NavGroup[] = [
   },
 ]
 
+export const teamNavGroup = navGroups[0]!
+export const careerNavGroup = navGroups[1]!
+
 /** Плоский список для футера и поиска */
 export const mainNavItems: NavItem[] = [
   { label: 'Главная', to: '/' },
@@ -81,6 +84,55 @@ export const mainNavItems: NavItem[] = [
 ]
 
 export const footerNavItems: NavItem[] = mainNavItems
+
+export const siteContact = {
+  organization: 'Администрация Сургутского района',
+  portalName: 'Кадровый портал',
+  address: '628400, ХМАО-Югра, г. Сургут, ул. Энгельса, 10',
+  phone: '+7 (3462) 52-00-00',
+  phoneHref: 'tel:+73462520000',
+  email: 'info@admsr.ru',
+  hours: 'ПН 08:30-17:00, ВТ-ПТ 08:30-16:00',
+}
+
+export const footerResourceLinks: NavItem[] = [
+  { label: 'Администрация Сургутского района', to: 'https://admsr.ru' },
+  { label: 'ФСС России', to: 'https://lk.fss.ru/' },
+  { label: 'Минтруд России', to: 'https://mintrud.gov.ru' },
+]
+
+export const footerLegalLinks: NavItem[] = [
+  { label: 'Обратная связь', to: '/feedback' },
+  { label: 'Политика персональных данных', to: '/privacy' },
+  { label: 'Анти-коррупционная политика', to: '/anti-corruption' },
+]
+
+export interface SocialLink {
+  label: string
+  to: string
+  icon: string
+  /** Прямой путь к SVG, если иконку нельзя подключить через Iconify */
+  image?: string
+}
+
+/** Официальные соцсети администрации Сургутского района (из t.me/mysurgutdistrict) */
+export const socialLinks: SocialLink[] = [
+  { label: 'ВКонтакте', to: 'https://vk.com/mysurgutdistrict', icon: 'i-simple-icons-vk' },
+  { label: 'Telegram', to: 'https://t.me/mysurgutdistrict', icon: 'i-simple-icons-telegram' },
+  { label: 'Одноклассники', to: 'https://ok.ru/group/62232614142167', icon: 'i-simple-icons-odnoklassniki' },
+  {
+    label: 'MAX',
+    to: 'https://max.ru/id8617011350_gos',
+    icon: 'i-custom-max-messenger',
+    image: '/Icons/max.svg',
+  },
+]
+
+export const footerCareerLinks: NavItem[] = [
+  ...careerNavGroup.items,
+  { label: 'Вакансии', to: '/vacancies' },
+  { label: 'Нет коррупции!', to: '/anti-corruption' },
+]
 
 export interface NavigationMenuItem {
   label: string

@@ -1,6 +1,6 @@
 <template>
-  <section class="border-t border-default">
-    <UContainer class="flex flex-col gap-10 py-16 lg:py-20">
+  <section class="border-t border-default bg-elevated/40">
+    <UContainer class="flex flex-col gap-8 py-16 lg:py-20">
       <div class="flex max-w-2xl flex-col gap-3">
         <UBadge
           label="Новости"
@@ -20,119 +20,52 @@
       </div>
 
       <div
-        v-if="posts?.length"
-        class="grid gap-4 lg:grid-cols-12"
+        v-if="displayPosts.length"
+        class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
       >
         <article
-          v-if="featured"
-          class="group flex flex-col overflow-hidden rounded-2xl border border-default bg-default transition hover:border-primary/40 hover:bg-elevated motion-reduce:transition-none lg:col-span-7"
+          v-for="(post, index) in displayPosts"
+          :key="post.id"
+          class="group"
         >
           <NuxtLink
-            :to="postLink(featured)"
-            class="flex flex-1 flex-col"
+            :to="postLink(post)"
+            class="flex h-full flex-col overflow-hidden rounded-2xl border border-default bg-default transition hover:border-primary/40 hover:bg-elevated motion-reduce:transition-none"
           >
             <div
-              v-if="featured.imageUrl"
-              class="aspect-16/10 overflow-hidden bg-elevated"
+              v-if="post.imageUrl"
+              class="aspect-3/2 overflow-hidden bg-elevated"
             >
               <img
-                :src="featured.imageUrl"
-                :alt="featured.title"
+                :src="post.imageUrl"
+                :alt="post.title"
                 class="size-full object-cover transition duration-500 group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                loading="eager"
+                :loading="index === 0 ? 'eager' : 'lazy'"
               >
             </div>
 
-            <div class="flex flex-col gap-4 p-6 lg:p-8">
+            <div class="flex flex-1 flex-col gap-2 p-4">
               <time
-                v-if="featured.date"
-                :datetime="featured.date"
-                class="w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
+                v-if="post.date"
+                :datetime="post.date"
+                class="w-fit rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
               >
-                {{ formatDate(featured.date) }}
+                {{ formatDate(post.date) }}
               </time>
 
-              <div class="flex flex-col gap-3">
-                <h3 class="text-2xl font-semibold tracking-tight text-highlighted text-balance sm:text-3xl">
-                  {{ featured.title }}
-                </h3>
-                <p
-                  v-if="featured.description"
-                  class="text-pretty text-base leading-7 text-muted line-clamp-3"
-                >
-                  {{ featured.description }}
-                </p>
-              </div>
+              <h3 class="text-base font-semibold leading-snug text-highlighted line-clamp-2 group-hover:text-primary">
+                {{ post.title }}
+              </h3>
 
-              <span class="inline-flex items-center gap-1 text-sm font-medium text-primary">
-                Читать
-                <UIcon
-                  name="i-lucide-arrow-right"
-                  class="size-4 transition group-hover:translate-x-0.5"
-                  aria-hidden="true"
-                />
-              </span>
+              <p
+                v-if="post.description"
+                class="text-sm leading-5 text-muted line-clamp-2"
+              >
+                {{ post.description }}
+              </p>
             </div>
           </NuxtLink>
         </article>
-
-        <div
-          v-if="rest.length"
-          class="flex flex-col gap-4 lg:col-span-5"
-        >
-          <article
-            v-for="post in rest"
-            :key="post.id"
-            class="group flex flex-1 flex-col rounded-2xl border border-default bg-default transition hover:border-primary/40 hover:bg-elevated motion-reduce:transition-none"
-          >
-            <NuxtLink
-              :to="postLink(post)"
-              class="flex flex-1 flex-col gap-4 p-5 sm:flex-row sm:items-start"
-            >
-              <div
-                v-if="post.imageUrl"
-                class="aspect-video w-full shrink-0 overflow-hidden rounded-xl bg-elevated sm:w-28"
-              >
-                <img
-                  :src="post.imageUrl"
-                  :alt="post.title"
-                  class="size-full object-cover transition duration-500 group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                  loading="lazy"
-                >
-              </div>
-
-              <div class="flex min-w-0 flex-1 flex-col gap-3">
-                <time
-                  v-if="post.date"
-                  :datetime="post.date"
-                  class="text-xs font-medium text-muted"
-                >
-                  {{ formatDate(post.date) }}
-                </time>
-
-                <h3 class="font-semibold text-highlighted line-clamp-2">
-                  {{ post.title }}
-                </h3>
-
-                <p
-                  v-if="post.description"
-                  class="text-sm leading-6 text-muted line-clamp-2"
-                >
-                  {{ post.description }}
-                </p>
-
-                <span class="inline-flex items-center gap-1 text-sm font-medium text-primary">
-                  Читать
-                  <UIcon
-                    name="i-lucide-arrow-right"
-                    class="size-4 transition group-hover:translate-x-0.5"
-                    aria-hidden="true"
-                  />
-                </span>
-              </div>
-            </NuxtLink>
-          </article>
-        </div>
       </div>
 
       <div
@@ -171,8 +104,7 @@ const props = defineProps<{
   posts?: NewsPost[] | null
 }>()
 
-const featured = computed(() => props.posts?.[0])
-const rest = computed(() => props.posts?.slice(1, 3) ?? [])
+const displayPosts = computed(() => props.posts?.slice(0, 3) ?? [])
 
 function postLink(post: NewsPost) {
   return post.url ?? `/news/${post.id}`

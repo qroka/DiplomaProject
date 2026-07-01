@@ -104,7 +104,7 @@
       >
         <div
           ref="trackRef"
-          class="vacancy-track flex gap-4 overflow-x-auto pb-1 scroll-smooth snap-x snap-mandatory ps-4 pe-4 sm:ps-6 sm:pe-6 lg:ps-6 lg:pe-8"
+          class="vacancy-track flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory ps-4 pe-4 sm:ps-6 sm:pe-6 lg:ps-6 lg:pe-8"
           @scroll="updateScrollState"
         >
           <div

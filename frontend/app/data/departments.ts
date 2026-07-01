@@ -101,10 +101,14 @@ export const deputies: Deputy[] = [
   }
 ]
 
-export const socialLinks = [
-  { label: 'ВКонтакте', url: 'https://vk.com/admsr', icon: 'i-simple-icons-vk' },
-  { label: 'MAX', url: 'https://max.ru/' }
-]
+import { socialLinks as portalSocialLinks } from './navigation'
+
+export const socialLinks = portalSocialLinks.map(({ label, to, icon, image }) => ({
+  label,
+  url: to,
+  icon,
+  image,
+}))
 
 const defaultIntro =
   'Отраслевой (функциональный) орган администрации Сургутского района обеспечивает реализацию полномочий в своей сфере деятельности и взаимодействует с жителями района.'

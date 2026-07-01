@@ -57,11 +57,21 @@ const hero = useHeroImage('about')
           :key="link.url"
           :to="link.url"
           target="_blank"
-          :icon="link.icon"
+          :icon="link.image ? undefined : link.icon"
           :label="link.label"
           color="neutral"
           variant="outline"
-        />
+        >
+          <template
+            v-if="link.image"
+            #leading
+          >
+            <span
+              class="size-5 bg-current mask-[url('/Icons/max.svg')] mask-contain mask-center mask-no-repeat"
+              aria-hidden="true"
+            />
+          </template>
+        </UButton>
       </div>
     </DsSurface>
 

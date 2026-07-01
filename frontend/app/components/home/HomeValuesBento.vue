@@ -1,5 +1,5 @@
 <template>
-  <section class="border-t border-default">
+  <section class="border-t border-default bg-default">
     <UContainer class="flex flex-col gap-10 py-16 lg:py-20">
       <div class="flex flex-col gap-3">
         <UBadge

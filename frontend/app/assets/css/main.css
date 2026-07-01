@@ -41,6 +41,7 @@
 @import "./components/surfaces.css";
 @import "./components/buttons.css";
 @import "./components/a11y-overrides.css";
+@import "./components/scrollbar.css";
 
 @import "./utilities/prose.css";
 
@@ -80,24 +81,6 @@ body {
 .dark {
   background: var(--color-surface-default);
   color: var(--color-text-primary);
-}
-
-/* Skip link */
-.skip-link {
-  position: absolute;
-  left: -9999px;
-  top: 0;
-  z-index: 9999;
-  padding: 0.75rem 1rem;
-  background: #0d0a24;
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.skip-link:focus {
-  left: 0.5rem;
-  top: 0.5rem;
 }
 
 /* Версия для слабовидящих (ГОСТ Р 52872-2024) */
@@ -168,10 +151,4 @@ input::placeholder,
 textarea::placeholder {
   color: var(--color-text-muted);
   opacity: 1;
-}
-
-/* WCAG: focus ring for interactive elements */
-:focus-visible {
-  outline: 2px solid var(--color-focus-ring);
-  outline-offset: 2px;
 }

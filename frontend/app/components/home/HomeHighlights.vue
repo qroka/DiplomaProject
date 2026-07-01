@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="border-t border-default bg-default">
     <UContainer class="flex flex-col gap-10 py-16 lg:py-20">
       <div class="flex max-w-2xl flex-col gap-3">
         <UBadge
@@ -20,6 +20,8 @@
         <article
           v-for="item in items"
           :key="item.title"
+          tabindex="0"
+          :aria-label="`${item.title}. ${item.description}`"
           class="group flex flex-col gap-4 rounded-2xl border border-default bg-default p-5 transition hover:border-primary/40 hover:bg-elevated motion-reduce:transition-none"
         >
           <div class="inline-flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition group-hover:bg-primary group-hover:text-inverted">

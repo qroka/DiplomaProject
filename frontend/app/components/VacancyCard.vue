@@ -1,12 +1,12 @@
 <template>
   <article
-    class="flex h-full flex-col rounded-2xl border border-default bg-default transition hover:border-primary/40 hover:bg-elevated motion-reduce:transition-none"
+    class="group relative flex h-full flex-col rounded-2xl border border-default bg-default transition hover:border-primary/40 hover:bg-elevated has-[>a:focus-visible]:ring-2 has-[>a:focus-visible]:ring-inset has-[>a:focus-visible]:ring-primary motion-reduce:transition-none"
     :class="[
       vacancy.isNew && 'border-primary/30',
       size === 'lg' ? 'min-h-96 p-6 sm:p-8' : 'p-5 sm:p-6',
     ]"
   >
-    <div class="flex items-start justify-between gap-3">
+    <div class="relative z-10 flex items-start justify-between gap-3 pointer-events-none">
       <div
         class="flex shrink-0 items-center justify-center rounded-full bg-elevated text-primary"
         :class="size === 'lg' ? 'size-12' : 'size-11'"
@@ -29,7 +29,7 @@
     </div>
 
     <div
-      class="flex flex-wrap items-center gap-x-2 gap-y-1"
+      class="relative z-10 flex flex-wrap items-center gap-x-2 gap-y-1 pointer-events-none"
       :class="size === 'lg' ? 'mt-5 text-base' : 'mt-4 text-sm'"
     >
       <span class="font-medium text-highlighted">
@@ -50,20 +50,15 @@
     </div>
 
     <h3
-      class="mt-3 font-bold leading-snug text-highlighted text-balance"
+      class="relative z-10 mt-3 font-bold leading-snug text-highlighted text-balance transition group-hover:text-primary"
       :class="size === 'lg' ? 'text-xl sm:text-2xl' : 'text-lg sm:text-xl'"
     >
-      <NuxtLink
-        :to="detailsLink"
-        class="outline-none transition hover:text-primary focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-      >
-        {{ vacancy.title }}
-      </NuxtLink>
+      {{ vacancy.title }}
     </h3>
 
     <div
       v-if="tags.length"
-      class="mt-3 flex flex-wrap gap-2"
+      class="relative z-10 mt-3 flex flex-wrap gap-2 pointer-events-none"
     >
       <span
         v-for="tag in tags"
@@ -75,10 +70,10 @@
       </span>
     </div>
 
-    <div class="flex-1" />
+    <div class="relative z-10 flex-1 pointer-events-none" />
 
     <div
-      class="flex items-end justify-between gap-4 border-t border-default"
+      class="relative z-10 flex items-end justify-between gap-4 border-t border-default pointer-events-none"
       :class="size === 'lg' ? 'mt-8 pt-5' : 'mt-6 pt-4'"
     >
       <div class="min-w-0 flex flex-col gap-1">
@@ -102,10 +97,22 @@
         :aria-label="`Откликнуться на вакансию: ${vacancy.title}`"
         color="primary"
         :size="size === 'lg' ? 'md' : 'sm'"
-        class="shrink-0 rounded-full"
+        class="pointer-events-auto shrink-0 rounded-full"
         @click="$emit('apply', vacancy)"
       />
     </div>
+
+    <ULink
+      :to="detailsLink"
+      :aria-label="`Подробнее о вакансии: ${vacancy.title}`"
+      class="absolute inset-0 z-0 rounded-2xl focus:outline-none"
+      raw
+    >
+      <span
+        class="absolute inset-0"
+        aria-hidden="true"
+      />
+    </ULink>
   </article>
 </template>
 
@@ -190,3 +197,4 @@ const tags = computed(() => {
   return items.slice(0, 3)
 })
 </script>
+

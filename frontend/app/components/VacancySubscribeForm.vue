@@ -1,161 +1,127 @@
 <template>
-  <div :class="embedded ? undefined : 'ds-container py-8 lg:py-10'">
-    <DsSurface
-      :elevation="promo ? 'sm' : 'sm'"
-      :padding="promo ? 'lg' : 'lg'"
-      :class="promo ? 'ring-1 ring-border-brand/30' : undefined"
+  <component
+    :is="promo ? 'section' : 'div'"
+    :class="promo ? 'border-t border-default bg-default' : embedded ? undefined : 'ds-container py-8 lg:py-10'"
+  >
+    <UContainer
+      v-if="promo"
+      class="py-16 lg:py-20"
     >
-      <div :class="promo ? 'grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:gap-12 items-start' : 'max-w-2xl'">
-        <div v-if="promo">
-          <UBadge
-            color="primary"
-            variant="subtle"
-            size="sm"
-            class="mb-3"
-          >
-            Уведомления
-          </UBadge>
-          <h2 class="text-h2 text-text-primary text-balance mb-3">
-            Подписка на новые вакансии
-          </h2>
-          <p class="text-body text-text-secondary mb-6 text-pretty">
-            Укажите email и критерии — мы сообщим о публикации подходящих вакансий в администрации района.
-          </p>
-          <ul class="space-y-3 text-body text-text-secondary">
-            <li class="flex items-start gap-2">
-              <UIcon
-                name="i-lucide-bell"
-                class="h-5 w-5 shrink-0 text-primary-500 mt-0.5"
-                aria-hidden="true"
+      <article class="overflow-hidden rounded-3xl border border-default bg-elevated/30 p-6 sm:p-8 lg:p-10 xl:p-12">
+        <div class="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-12 xl:gap-16">
+          <div class="flex flex-col gap-8">
+            <div class="flex flex-col gap-4">
+              <UBadge
+                label="Уведомления о вакансиях"
+                color="primary"
+                variant="subtle"
+                size="lg"
+                class="w-fit rounded-full"
               />
-              <span>Уведомления только по выбранным критериям</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <UIcon
-                name="i-lucide-shield-check"
-                class="h-5 w-5 shrink-0 text-primary-500 mt-0.5"
-                aria-hidden="true"
-              />
-              <span>Данные обрабатываются в соответствии с 152-ФЗ</span>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <template v-if="!promo">
-            <h2 class="text-h2 text-text-primary mb-2">
-              Подписка на новые вакансии
-            </h2>
-            <p class="text-body text-text-secondary mb-6">
-              Укажите email и критерии — мы сообщим о публикации подходящих вакансий
-            </p>
-          </template>
-
-          <UForm
-            :state="form"
-            :validate="validate"
-            class="space-y-4"
-            @submit="onSubmit"
-          >
-            <UFormField
-              label="Email"
-              name="email"
-              required
-            >
-              <UInput
-                v-model="form.email"
-                type="email"
-                placeholder="example@email.com"
-                autocomplete="email"
-              />
-            </UFormField>
-
-            <UFormField
-              label="Орган / отдел (необязательно)"
-              name="branch"
-            >
-              <UInput
-                v-model="form.branch"
-                placeholder="Например: Департамент образования"
-              />
-            </UFormField>
-
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <UFormField
-                label="График работы"
-                name="work_schedule"
+              <h2
+                id="vacancy-subscribe"
+                class="text-3xl font-bold tracking-tight text-highlighted text-balance sm:text-4xl lg:text-[2.5rem] lg:leading-tight"
               >
-                <USelect
-                  v-model="form.work_schedule"
-                  :items="workScheduleOptions"
-                  placeholder="Любой"
-                  value-key="value"
-                />
-              </UFormField>
-
-              <UFormField
-                label="Опыт работы"
-                name="required_experience"
-              >
-                <USelect
-                  v-model="form.required_experience"
-                  :items="experienceOptions"
-                  placeholder="Любой"
-                  value-key="value"
-                />
-              </UFormField>
-
-              <UFormField
-                label="Тип должности"
-                name="job_type"
-              >
-                <USelect
-                  v-model="form.job_type"
-                  :items="jobTypeOptions"
-                  placeholder="Любой"
-                  value-key="value"
-                />
-              </UFormField>
+                Не пропустите подходящую должность
+              </h2>
+              <p class="max-w-lg text-pretty text-lg leading-8 text-muted">
+                Укажите имя и email — сообщим, когда в выбранном ОФО появится новая вакансия в администрации района.
+              </p>
             </div>
 
-            <UFormField name="consentPersonalData">
-              <UCheckbox
-                v-model="form.consentPersonalData"
-                required
+            <ul class="flex flex-col gap-5">
+              <li
+                v-for="item in highlights"
+                :key="item.title"
+                class="flex items-start gap-4"
               >
-                <template #label>
-                  <span class="text-sm text-text-secondary">
-                    Даю согласие на обработку персональных данных в соответствии с Федеральным законом № 152-ФЗ
+                <span class="inline-flex size-12 shrink-0 items-center justify-center rounded-full border border-default bg-default text-primary">
+                  <UIcon
+                    :name="item.icon"
+                    class="size-5"
+                    aria-hidden="true"
+                  />
+                </span>
+                <div class="flex min-w-0 flex-col gap-0.5 pt-0.5">
+                  <span class="font-semibold text-highlighted">
+                    {{ item.title }}
                   </span>
-                </template>
-              </UCheckbox>
-            </UFormField>
+                  <NuxtLink
+                    v-if="item.to"
+                    :to="item.to"
+                    class="text-sm leading-6 text-muted text-pretty transition hover:text-primary"
+                  >
+                    {{ item.text }}
+                  </NuxtLink>
+                  <p
+                    v-else
+                    class="text-sm leading-6 text-muted text-pretty"
+                  >
+                    {{ item.text }}
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
 
-            <UButton
-              type="submit"
-              label="Подписаться"
-              color="primary"
-              :loading="loading"
-            />
-          </UForm>
+          <SubscribeFormPanel
+            :form="form"
+            :loading="loading"
+            :submitted="submitted"
+            :submitted-email="submittedEmail"
+            :submitted-ofo="submittedOfo"
+            :validate="validate"
+            accent
+            plain
+            @submit="onSubmit"
+            @reset="resetForm"
+          />
         </div>
+      </article>
+    </UContainer>
+
+    <div
+      v-else
+      :class="embedded ? 'ds-container py-8 lg:py-10' : undefined"
+    >
+      <div class="mx-auto flex max-w-2xl flex-col gap-4">
+        <div class="flex flex-col gap-2">
+          <h2 class="text-2xl font-bold tracking-tight text-highlighted sm:text-3xl">
+            Подписка на новые вакансии
+          </h2>
+          <p class="text-pretty leading-7 text-muted">
+            Укажите email и выберите отраслевой функциональный орган — мы сообщим о новых вакансиях.
+          </p>
+        </div>
+
+        <SubscribeFormPanel
+          :form="form"
+          :loading="loading"
+          :submitted="submitted"
+          :submitted-email="submittedEmail"
+          :submitted-ofo="submittedOfo"
+          :validate="validate"
+          @submit="onSubmit"
+          @reset="resetForm"
+        />
       </div>
-    </DsSurface>
-  </div>
+    </div>
+  </component>
 </template>
 
 <script setup lang="ts">
+import SubscribeFormPanel from './VacancySubscribeFormPanel.vue'
+import { ofoAnyValue, ofoApiBranch, ofoLabel, ofoList } from '~/data/ofo-list'
+
 const props = defineProps({
   initialBranch: {
     type: String,
     default: '',
   },
-  /** Встроенный блок без внешнего контейнера страницы */
   embedded: {
     type: Boolean,
     default: false,
   },
-  /** Промо-раскладка для главной: текст слева, форма справа */
   promo: {
     type: Boolean,
     default: false,
@@ -165,39 +131,64 @@ const props = defineProps({
 const config = useRuntimeConfig()
 const toast = useToast()
 const loading = ref(false)
+const submitted = ref(false)
+const submittedEmail = ref('')
+const submittedOfo = ref('')
+
+const highlights = [
+  {
+    icon: 'i-lucide-bell',
+    title: 'По выбранному ОФО',
+    text: 'Или сразу по всем вакансиям — пункт «Любой ОФО / не имеет значения»',
+  },
+  {
+    icon: 'i-lucide-briefcase',
+    title: 'Актуальные должности',
+    text: 'Смотреть открытые вакансии на сайте',
+    to: '/vacancies',
+  },
+]
 
 const form = reactive({
+  name: '',
   email: '',
-  branch: props.initialBranch,
-  work_schedule: null as number | null,
-  required_experience: null as number | null,
-  job_type: null as number | null,
+  branch: resolveInitialBranch(props.initialBranch) || ofoAnyValue,
   consentPersonalData: false,
 })
 
 watch(() => props.initialBranch, (value) => {
-  if (value) form.branch = value
+  if (value) form.branch = resolveInitialBranch(value)
 })
 
-const { data: workSchedules } = await useAsyncData('sub-ws', () =>
-  $fetch(`${config.public.apiBaseUrl}/api/vacancy-filters/work_schedule/`), { server: false })
-const { data: experiences } = await useAsyncData('sub-exp', () =>
-  $fetch(`${config.public.apiBaseUrl}/api/vacancy-filters/required_experience/`), { server: false })
-const { data: jobTypes } = await useAsyncData('sub-jt', () =>
-  $fetch(`${config.public.apiBaseUrl}/api/vacancy-filters/job_type/`), { server: false })
-
-const toOptions = (items: { id: number, name: string }[] | null) =>
-  (items ?? []).map(i => ({ label: i.name, value: i.id }))
-
-const workScheduleOptions = computed(() => toOptions(workSchedules.value))
-const experienceOptions = computed(() => toOptions(experiences.value))
-const jobTypeOptions = computed(() => toOptions(jobTypes.value))
+function resolveInitialBranch(value: string): string {
+  if (!value) return ofoAnyValue
+  const match = ofoList.find(ofo => ofo === value || value.includes(ofo) || ofo.includes(value))
+  return match ?? ofoAnyValue
+}
 
 function validate(state: typeof form) {
   const errors: { name: string, message: string }[] = []
+  if (!state.name?.trim()) errors.push({ name: 'name', message: 'Укажите имя' })
   if (!state.email?.trim()) errors.push({ name: 'email', message: 'Укажите email' })
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email.trim())) {
+    errors.push({ name: 'email', message: 'Проверьте формат email' })
+  }
   if (!state.consentPersonalData) errors.push({ name: 'consentPersonalData', message: 'Необходимо согласие' })
   return errors
+}
+
+function clearFields() {
+  form.name = ''
+  form.email = ''
+  form.branch = resolveInitialBranch(props.initialBranch)
+  form.consentPersonalData = false
+}
+
+function resetForm() {
+  submitted.value = false
+  submittedEmail.value = ''
+  submittedOfo.value = ''
+  clearFields()
 }
 
 async function onSubmit() {
@@ -206,24 +197,23 @@ async function onSubmit() {
     await $fetch(`${config.public.apiBaseUrl}/api/vacancy-subscribe/`, {
       method: 'POST',
       body: {
+        name: form.name.trim(),
         email: form.email.trim(),
-        branch: form.branch.trim(),
-        work_schedule: form.work_schedule || null,
-        required_experience: form.required_experience || null,
-        job_type: form.job_type || null,
+        branch: ofoApiBranch(form.branch),
       },
     })
+
+    submittedEmail.value = form.email.trim()
+    submittedOfo.value = ofoLabel(form.branch)
+    submitted.value = true
+
     toast.add({
       title: 'Подписка оформлена',
       description: 'Уведомления о новых вакансиях будут приходить на указанный email.',
       color: 'success',
     })
-    form.email = ''
-    form.branch = props.initialBranch
-    form.work_schedule = null
-    form.required_experience = null
-    form.job_type = null
-    form.consentPersonalData = false
+
+    clearFields()
   } catch {
     toast.add({
       title: 'Не удалось оформить подписку',

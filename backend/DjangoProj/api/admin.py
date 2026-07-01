@@ -84,10 +84,16 @@ class BranchesGlobalAdmin(admin.ModelAdmin):
 
 
 class VacancySubscriptionAdmin(admin.ModelAdmin):
-    list_display = ['email', 'branch', 'work_schedule', 'required_experience', 'job_type', 'is_active', 'created_at']
-    list_filter = ['is_active', 'work_schedule', 'required_experience', 'job_type', 'created_at']
-    search_fields = ['email', 'branch']
+    list_display = ['name', 'email', 'branch_display', 'is_active', 'created_at']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['name', 'email', 'branch']
     list_editable = ['is_active']
+    readonly_fields = ['created_at']
+    fields = ['name', 'email', 'branch', 'is_active', 'created_at']
+
+    @admin.display(description='Отраслевой функциональный орган')
+    def branch_display(self, obj):
+        return obj.branch.strip() if obj.branch else 'Любой ОФО / не имеет значения'
 
 
 class CompetitionAdmin(admin.ModelAdmin):

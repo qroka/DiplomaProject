@@ -1,38 +1,62 @@
 <template>
   <DsPageHero
     variant="inner"
-    title="Политика конфиденциальности"
-    description="Политика обработки и защиты персональных данных"
+    :title="privacyPolicyIntro"
+    description="Порядок обработки персональных данных и меры по их защите"
     :image="hero.src"
     :image-alt="hero.alt"
   />
   <DsBreadcrumbs :items="breadcrumbItems" />
 
-  <UContainer class="py-8">
-    <div class="ds-prose max-w-none">
-      <h2>1. Общие положения</h2>
-      <p>Настоящая политика конфиденциальности определяет порядок обработки и защиты персональных данных пользователей сайта Администрации Сургутского района.</p>
+  <UContainer class="py-8 lg:py-12">
+    <article class="ds-prose max-w-none">
+      <section
+        v-for="section in privacyPolicySections"
+        :key="section.id"
+        class="not-first:mt-10"
+      >
+        <h2>{{ section.title }}</h2>
 
-      <h2>2. Сбор персональных данных</h2>
-      <p>Мы собираем персональные данные только когда вы добровольно предоставляете их нам, например, при заполнении формы отклика на вакансию.</p>
+        <p
+          v-for="(paragraph, index) in section.paragraphs ?? []"
+          :key="`${section.id}-p-${index}`"
+        >
+          {{ paragraph }}
+        </p>
 
-      <h2>3. Использование персональных данных</h2>
-      <p>Собранные данные используются исключительно для целей, связанных с рассмотрением вашей кандидатуры на вакантную должность.</p>
+        <div
+          v-for="(list, listIndex) in section.lists ?? []"
+          :key="`${section.id}-l-${listIndex}`"
+          class="not-first:mt-4"
+        >
+          <p v-if="list.title">
+            <strong>{{ list.title }}</strong>
+          </p>
+          <ul>
+            <li
+              v-for="(item, itemIndex) in list.items"
+              :key="`${section.id}-li-${itemIndex}`"
+            >
+              {{ item }}
+            </li>
+          </ul>
+        </div>
+      </section>
 
-      <h2>4. Защита данных</h2>
-      <p>Мы принимаем необходимые организационные и технические меры для защиты персональных данных от неправомерного доступа.</p>
-
-      <h2>5. Контакты</h2>
-      <p>По вопросам обработки персональных данных обращайтесь через раздел <NuxtLink to="/contacts">Контакты</NuxtLink>.</p>
-    </div>
+      <p class="mt-10 text-muted">
+        По вопросам обработки персональных данных также можно обратиться через раздел
+        <NuxtLink to="/contacts">Контакты</NuxtLink>.
+      </p>
+    </article>
   </UContainer>
 </template>
 
 <script setup lang="ts">
 import { buildBreadcrumbs } from '~/data/breadcrumbs'
+import { privacyPolicyIntro, privacyPolicySections } from '~/data/privacy-policy'
 
-useHead({ title: 'Политика конфиденциальности' })
+useHead({ title: privacyPolicyIntro })
 
-const breadcrumbItems = buildBreadcrumbs({ label: 'Политика конфиденциальности' })
+const breadcrumbItems = buildBreadcrumbs({ label: privacyPolicyIntro })
 const hero = useHeroImage('privacy')
 </script>
