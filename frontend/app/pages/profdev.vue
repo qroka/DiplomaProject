@@ -1,120 +1,146 @@
-<template>
-  <div>
-    <DsPageHero
-      variant="inner"
-      title="Профессиональное развитие"
-      description="Расписание обучающих мероприятий и предложения по организации обучения"
-      :image="hero.src"
-      :image-alt="hero.alt"
-    />
-
-    <DsBreadcrumbs :items="breadcrumbItems" />
-
-    <UContainer class="py-8 lg:py-12 space-y-10">
-      <section>
-        <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-            Расписание мероприятий
-          </h2>
-          <USelect
-            v-model="typeFilter"
-            :items="typeOptions"
-            placeholder="Все типы"
-            value-key="value"
-            class="min-w-48"
-          />
-        </div>
-
-        <div v-if="filteredEvents.length" class="space-y-4">
-          <article
-            v-for="event in filteredEvents"
-            :key="event.id"
-            class="rounded-xl border border-gray-200 dark:border-gray-800 bg-white/60 dark:bg-gray-900/50 p-5 lg:p-6"
-            :class="{ 'opacity-70': isPast(event.event_date) }"
-          >
-            <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
-              <UBadge color="primary" variant="subtle">
-                {{ event.eventTypeLabel }}
-              </UBadge>
-              <time
-                :datetime="event.event_date"
-                class="text-sm text-gray-500 dark:text-gray-400 shrink-0"
-              >
-                {{ formatDateTime(event.event_date) }}
-              </time>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-              {{ event.title }}
-            </h3>
-            <p
-              v-if="event.description"
-              class="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line mb-3"
-            >
-              {{ event.description }}
-            </p>
-            <p
-              v-if="event.location"
-              class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400"
-            >
-              <UIcon name="i-lucide-map-pin" class="h-4 w-4 shrink-0" />
-              {{ event.location }}
-            </p>
-          </article>
-        </div>
-
-        <div
-          v-else
-          class="text-center py-12 rounded-xl border border-dashed border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400"
-        >
-          Мероприятия пока не запланированы
-        </div>
-      </section>
-
-      <TrainingFeedbackForm />
-    </UContainer>
-  </div>
-</template>
-
-<script setup>
-import { buildBreadcrumbs } from '~/data/breadcrumbs'
+<script setup lang="ts">
+import type { TabsItem } from '@nuxt/ui'
+import type { TrainingEvent } from '~/components/TrainingEventsList.vue'
 
 useHead({ title: 'Профессиональное развитие' })
 
-const breadcrumbItems = buildBreadcrumbs({ label: 'Профразвитие' })
-const hero = useHeroImage('profdev')
-
+const route = useRoute()
+const router = useRouter()
 const config = useRuntimeConfig()
-const typeFilter = ref(null)
 
-const typeOptions = [
-  { label: 'Все типы', value: null },
-  { label: 'Обучающие мероприятия', value: 'training' },
-  { label: 'Встречи с руководством', value: 'leadership' },
-  { label: 'Мастер-классы', value: 'masterclass' },
-  { label: 'Лучшие практики', value: 'best_practice' }
+type ProfdevTab = 'all' | 'training' | 'leadership' | 'masterclass' | 'best_practice' | 'feedback'
+
+const activeTab = ref<ProfdevTab>('all')
+
+const tabItems: TabsItem[] = [
+  { label: 'Все', value: 'all', icon: 'i-lucide-layout-grid' },
+  { label: 'Обучение', value: 'training', icon: 'i-lucide-graduation-cap' },
+  { label: 'Встречи', value: 'leadership', icon: 'i-lucide-users' },
+  { label: 'Мастер-классы', value: 'masterclass', icon: 'i-lucide-presentation' },
+  { label: 'Лучшие практики', value: 'best_practice', icon: 'i-lucide-award' },
+  { label: 'Обратная связь', value: 'feedback', icon: 'i-lucide-message-square-plus' },
 ]
 
-const { data: events } = await useAsyncData('training-events', () =>
-  $fetch(`${config.public.apiBaseUrl}/api/training-events/`), { server: false }
+function resolveTab(value: unknown): ProfdevTab {
+  const allowed: ProfdevTab[] = ['all', 'training', 'leadership', 'masterclass', 'best_practice', 'feedback']
+  return allowed.includes(value as ProfdevTab) ? value as ProfdevTab : 'all'
+}
+
+watch(
+  () => route.query.tab,
+  (value) => {
+    activeTab.value = resolveTab(value)
+  },
+  { immediate: true },
 )
 
-const filteredEvents = computed(() => {
-  const items = events.value ?? []
-  if (!typeFilter.value) return items
-  return items.filter(e => e.event_type === typeFilter.value)
+watch(activeTab, (value) => {
+  const nextQuery = { ...route.query }
+  if (value === 'all') {
+    delete nextQuery.tab
+  }
+  else {
+    nextQuery.tab = value
+  }
+  if (route.query.tab !== nextQuery.tab) {
+    router.replace({ query: nextQuery })
+  }
 })
 
-function formatDateTime(dateStr) {
-  return new Date(dateStr).toLocaleString('ru-RU', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
+const { data: events, pending } = await useAsyncData('training-events', () =>
+  $fetch<TrainingEvent[]>(`${config.public.apiBaseUrl}/api/training-events/`), {
+  server: false,
+})
+
+function filterEventsByTab(tab: ProfdevTab) {
+  const items = events.value ?? []
+  if (tab === 'feedback') return []
+  if (tab === 'all') return items
+  return items.filter(event => event.event_type === tab)
 }
 
-function isPast(dateStr) {
-  return new Date(dateStr) < new Date()
+function sectionMetaForTab(tab: ProfdevTab) {
+  switch (tab) {
+    case 'training':
+      return {
+        title: 'Обучающие мероприятия',
+        description: 'Программы повышения квалификации и профессиональные курсы для сотрудников администрации района.',
+        overline: 'Обучение',
+      }
+    case 'leadership':
+      return {
+        title: 'Встречи с руководством',
+        description: 'Диалоги с руководителями администрации: актуальные вопросы, обмен опытом и обратная связь.',
+        overline: 'Встречи',
+      }
+    case 'masterclass':
+      return {
+        title: 'Мастер-классы',
+        description: 'Практические занятия и разбор кейсов от специалистов отраслевых органов.',
+        overline: 'Мастер-классы',
+      }
+    case 'best_practice':
+      return {
+        title: 'Лучшие практики',
+        description: 'Успешные подходы и решения, которыми делятся команды администрации Сургутского района.',
+        overline: 'Практики',
+      }
+    case 'feedback':
+      return {
+        title: 'Предложения по организации обучения',
+        description: 'Поделитесь идеями по темам, форматам и расписанию мероприятий. Форма не предназначена для подачи официальных обращений.',
+        overline: 'Обратная связь',
+      }
+    default:
+      return {
+        title: 'Расписание мероприятий',
+        description: 'Перечень и расписание обучающих мероприятий, встреч с руководством, мастер-классов и лучших практик для сотрудников администрации.',
+        overline: 'Расписание',
+      }
+  }
 }
 </script>
+
+<template>
+  <DsStandardPage
+    title="Профессиональное развитие"
+    description="Раздел для действующих сотрудников администрации Сургутского района: расписание обучающих программ, встреч с руководством, мастер-классов и лучших практик, а также форма предложений по организации обучения."
+  >
+    <UTabs
+      v-model="activeTab"
+      color="primary"
+      variant="pill"
+      size="lg"
+      :items="tabItems"
+      :unmount-on-hide="false"
+      class="w-full"
+    >
+      <template #content="{ item }">
+        <div class="mt-6">
+          <DsContentSection
+            :title="sectionMetaForTab(item.value as ProfdevTab).title"
+            :description="sectionMetaForTab(item.value as ProfdevTab).description"
+            :overline="sectionMetaForTab(item.value as ProfdevTab).overline"
+            :heading-id="`profdev-${item.value}`"
+            spacing="lg"
+          >
+            <TrainingEventsList
+              v-if="item.value !== 'feedback'"
+              :events="filterEventsByTab(item.value as ProfdevTab)"
+              :pending="pending"
+              :show-type-badge="item.value === 'all'"
+              :empty-title="item.value === 'all'
+                ? 'Мероприятия пока не запланированы'
+                : 'В этой категории пока нет мероприятий'"
+              :empty-description="item.value === 'all'
+                ? 'Загляните позже — расписание обновляется по мере появления новых программ.'
+                : 'Попробуйте другую вкладку или загляните позже.'"
+            />
+
+            <TrainingFeedbackForm v-else />
+          </DsContentSection>
+        </div>
+      </template>
+    </UTabs>
+  </DsStandardPage>
+</template>

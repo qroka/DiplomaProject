@@ -8,15 +8,22 @@
       :class="align === 'center' && 'sm:flex-col sm:items-center'"
     >
       <div :class="align === 'center' ? 'text-center' : ''">
-        <p
+        <div
           v-if="overline"
-          class="text-overline uppercase tracking-wide text-text-muted mb-2"
+          class="mb-3"
+          :class="align === 'center' ? 'flex justify-center' : undefined"
         >
-          {{ overline }}
-        </p>
+          <UBadge
+            :label="overline"
+            color="primary"
+            variant="subtle"
+            size="lg"
+            class="rounded-full"
+          />
+        </div>
         <h2
           :id="headingId"
-          class="text-h2 text-text-primary text-balance"
+          class="text-h2 text-text-primary text-balance scroll-mt-28"
         >
           {{ title }}
         </h2>

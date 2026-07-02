@@ -111,7 +111,7 @@
       <UButton
         type="submit"
         label="Подписаться"
-        trailing-icon="i-lucide-send"
+        trailing-icon="i-lucide-arrow-right"
         size="lg"
         color="primary"
         :loading="loading"

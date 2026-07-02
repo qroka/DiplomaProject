@@ -3,7 +3,7 @@
     icon="i-lucide-search"
     color="neutral"
     variant="ghost"
-    size="md"
+    size="lg"
     aria-label="Поиск по порталу"
     @click="open = true"
   />

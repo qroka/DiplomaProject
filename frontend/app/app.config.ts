@@ -12,12 +12,23 @@ export default defineAppConfig({
     },
     input: {
       slots: {
-        root: 'ring-[var(--color-border-default)] bg-surface-raised text-text-primary',
+        root: 'relative inline-flex items-center',
+        base: 'rounded-md ring-[var(--color-border-default)] bg-surface-raised text-text-primary',
       },
     },
     textarea: {
       slots: {
-        root: 'ring-[var(--color-border-default)] bg-surface-raised text-text-primary',
+        base: 'rounded-md ring-[var(--color-border-default)] bg-surface-raised text-text-primary',
+      },
+    },
+    select: {
+      slots: {
+        base: 'rounded-md',
+      },
+    },
+    inputDate: {
+      slots: {
+        base: 'rounded-md',
       },
     },
     formField: {
@@ -28,6 +39,29 @@ export default defineAppConfig({
     },
     container: {
       base: 'w-full max-w-(--ui-container) mx-auto px-4 sm:px-6 lg:px-8',
+    },
+    button: {
+      slots: {
+        base: 'rounded-full',
+      },
+      defaultVariants: {
+        size: 'lg',
+      },
+    },
+    badge: {
+      defaultVariants: {
+        size: 'lg',
+      },
+    },
+    checkbox: {
+      slots: {
+        base: 'rounded-md',
+      },
+    },
+    pagination: {
+      slots: {
+        root: 'pagination-controls',
+      },
     },
   },
 })

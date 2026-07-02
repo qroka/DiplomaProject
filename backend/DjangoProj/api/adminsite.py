@@ -24,11 +24,19 @@ class CustomAdminSite(AdminSite):
             },
             'Сотрудники': {
                 'app_label': 'staff_group',
-                'models': ['StaffMember', 'Branch'],
+                'models': ['ContactStaffMember', 'Branch'],
+            },
+            'Доска почёта': {
+                'app_label': 'honorboard_group',
+                'models': ['HonorBoardStaffMember'],
+            },
+            'Структура администрации': {
+                'app_label': 'admin_structure_group',
+                'models': ['Department', 'Deputy'],
             },
             'Кадровый резерв': {
                 'app_label': 'staff_reserve_group',
-                'models': ['StaffReserveInfo'],
+                'models': ['StaffReserveInfo', 'StaffReservePosition'],
             },
             'Молодёжь': {
                 'app_label': 'youth_group',

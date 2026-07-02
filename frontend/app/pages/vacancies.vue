@@ -1,15 +1,9 @@
 <template>
-  <div>
-    <DsPageHero
-      variant="inner"
-      title="Вакансии"
-      description="Актуальный перечень вакантных должностей в администрации Сургутского района"
-      :image="hero.src"
-      :image-alt="hero.alt"
-    />
-
-    <DsBreadcrumbs :items="breadcrumbItems" />
-
+  <DsStandardPage
+    title="Вакансии"
+    description="Актуальный перечень вакантных должностей в администрации Сургутского района"
+    intro="Квалификационные требования, оплата труда и условия поступления на муниципальную службу — в одном разделе."
+  >
     <DsFilterBar
       :filter-defs="vacancyFilterDefs"
       :total="vacanciesData?.length ?? 0"
@@ -23,7 +17,7 @@
         <UBadge
           color="neutral"
           variant="subtle"
-          size="md"
+          size="lg"
         >
           Орган: {{ orgFilter }}
         </UBadge>
@@ -31,13 +25,13 @@
           label="Сбросить орган"
           color="neutral"
           variant="link"
-          size="sm"
+          size="lg"
           @click="clearOrgFilter"
         />
       </div>
     </DsFilterBar>
 
-    <div class="ds-container pb-4">
+    <div>
       <UButton
         label="Конкурсы на замещение должностей"
         to="/tenders"
@@ -49,7 +43,7 @@
 
     <VacancyCards
       title="Актуальные вакансии"
-      subtitle="Квалификационные требования, оплата труда и условия поступления на муниципальную службу"
+      subtitle="Выберите подходящую должность и откликнитесь онлайн"
       :vacancies="vacanciesData ?? []"
       :pending="pending"
       :skeleton-count="6"
@@ -59,16 +53,11 @@
       embedded
       :initial-branch="orgFilter"
     />
-  </div>
+  </DsStandardPage>
 </template>
 
 <script setup lang="ts">
-import { buildBreadcrumbs } from '~/data/breadcrumbs'
-
 useHead({ title: 'Вакансии' })
-
-const breadcrumbItems = buildBreadcrumbs({ label: 'Вакансии' })
-const hero = useHeroImage('vacancies')
 
 const route = useRoute()
 const router = useRouter()

@@ -11,7 +11,7 @@ const STORAGE_KEY = 'hr-portal-a11y'
 
 function readSettings(): A11ySettings {
   if (!import.meta.client) {
-    return { enabled: false, fontScale: 'normal', contrast: 'default' }
+    return { enabled: false, fontScale: 'large', contrast: 'default' }
   }
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
@@ -19,7 +19,7 @@ function readSettings(): A11ySettings {
   } catch {
     /* ignore */
   }
-  return { enabled: false, fontScale: 'normal', contrast: 'default' }
+  return { enabled: false, fontScale: 'large', contrast: 'default' }
 }
 
 function applyToDocument(settings: A11ySettings) {
@@ -28,12 +28,14 @@ function applyToDocument(settings: A11ySettings) {
   html.classList.toggle('a11y-enabled', settings.enabled)
   html.classList.toggle('a11y-solid-surfaces', settings.enabled)
   html.classList.remove(
+    'a11y-font-normal',
     'a11y-font-large',
     'a11y-font-xlarge',
     'a11y-contrast-high',
     'a11y-contrast-inverted'
   )
   if (!settings.enabled) return
+  if (settings.fontScale === 'normal') html.classList.add('a11y-font-normal')
   if (settings.fontScale === 'large') html.classList.add('a11y-font-large')
   if (settings.fontScale === 'xlarge') html.classList.add('a11y-font-xlarge')
   if (settings.contrast === 'high') html.classList.add('a11y-contrast-high')
@@ -72,7 +74,7 @@ export function useAccessibility() {
   }
 
   function reset() {
-    settings.value = { enabled: false, fontScale: 'normal', contrast: 'default' }
+    settings.value = { enabled: false, fontScale: 'large', contrast: 'default' }
     persist()
   }
 

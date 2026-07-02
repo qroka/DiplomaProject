@@ -5,7 +5,7 @@
       :label="compact ? undefined : 'Для слабовидящих'"
       color="neutral"
       variant="ghost"
-      size="md"
+      size="lg"
       :aria-label="settings.enabled ? 'Настройки версии для слабовидящих (включена)' : 'Включить версию для слабовидящих'"
       :aria-pressed="settings.enabled"
     />
@@ -23,19 +23,19 @@
           <p class="text-xs font-medium text-gray-700 dark:text-gray-300">Размер текста</p>
           <div class="flex flex-wrap gap-2">
             <UButton
-              size="xs"
+              size="lg"
               :variant="settings.fontScale === 'normal' ? 'solid' : 'outline'"
               label="Обычный"
               @click="setFontScale('normal')"
             />
             <UButton
-              size="xs"
+              size="lg"
               :variant="settings.fontScale === 'large' ? 'solid' : 'outline'"
               label="Крупный"
               @click="setFontScale('large')"
             />
             <UButton
-              size="xs"
+              size="lg"
               :variant="settings.fontScale === 'xlarge' ? 'solid' : 'outline'"
               label="Очень крупный"
               @click="setFontScale('xlarge')"
@@ -47,19 +47,19 @@
           <p class="text-xs font-medium text-gray-700 dark:text-gray-300">Контраст</p>
           <div class="flex flex-wrap gap-2">
             <UButton
-              size="xs"
+              size="lg"
               :variant="settings.contrast === 'default' ? 'solid' : 'outline'"
               label="Стандарт"
               @click="setContrast('default')"
             />
             <UButton
-              size="xs"
+              size="lg"
               :variant="settings.contrast === 'high' ? 'solid' : 'outline'"
               label="Высокий"
               @click="setContrast('high')"
             />
             <UButton
-              size="xs"
+              size="lg"
               :variant="settings.contrast === 'inverted' ? 'solid' : 'outline'"
               label="Инверсия"
               @click="setContrast('inverted')"
@@ -69,7 +69,7 @@
 
         <UButton
           block
-          size="sm"
+          size="lg"
           color="neutral"
           variant="soft"
           label="Сбросить настройки"

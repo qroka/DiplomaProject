@@ -18,7 +18,7 @@
             label="Скачать"
             icon="i-lucide-download"
             color="primary"
-            size="sm"
+            size="lg"
             :aria-label="'Скачать: ' + doc.name"
           />
         </div>

@@ -23,7 +23,7 @@
         label="Новое"
         color="primary"
         variant="subtle"
-        size="sm"
+        size="lg"
         class="rounded-full"
       />
     </div>
@@ -96,7 +96,7 @@
         label="Откликнуться"
         :aria-label="`Откликнуться на вакансию: ${vacancy.title}`"
         color="primary"
-        :size="size === 'lg' ? 'md' : 'sm'"
+        size="lg"
         class="pointer-events-auto shrink-0 rounded-full"
         @click="$emit('apply', vacancy)"
       />

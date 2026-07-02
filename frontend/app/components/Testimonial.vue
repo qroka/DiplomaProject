@@ -1,55 +1,63 @@
 <template>
-  <div class="ds-container py-20">
-    <UPageCTA
-      :ui="{
-        root: 'bg-white/60 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-2xl relative overflow-visible backdrop-blur-sm',
-        container: 'grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 -my-16 items-center py-6 lg:py-10',
-        wrapper: 'col-span-2'
-      }"
-      orientation="horizontal"
-      reverse
-    >
-      <!-- Image slot - left third (1/3) that bleeds over -->
-      <template #default>
-        <div class="relative">
-          <img
-            :src="image"
-            :alt="alt"
-            class="w-full h-full object-cover rounded-xl shadow-2xl"
-          />
-        </div>
-      </template>
+  <UCard
+    variant="subtle"
+    :ui="{
+      root: 'overflow-hidden',
+      body: 'p-0',
+    }"
+  >
+    <div class="grid grid-cols-1 lg:grid-cols-5">
+      <div class="relative lg:col-span-2 min-h-56 lg:min-h-full">
+        <img
+          :src="image"
+          :alt="alt"
+          class="size-full object-cover"
+          loading="lazy"
+        >
+        <div
+          class="absolute inset-0 bg-linear-to-t from-default/80 via-default/20 to-transparent lg:bg-linear-to-r lg:from-transparent lg:via-default/10 lg:to-default/40"
+          aria-hidden="true"
+        />
+      </div>
 
-      <!-- Quote text - right two thirds (2/3) -->
-      <template #description>
-        <p class="text-gray-700 dark:text-gray-300 text-lg lg:text-xl leading-relaxed italic">
-          "{{ quote }}"
-        </p>
-        <p class="text-right text-gray-500 dark:text-gray-400 text-sm lg:text-base font-medium">
-          {{ author }}
-        </p>
-      </template>
-    </UPageCTA>
-  </div>
+      <div class="flex flex-col justify-center gap-5 p-6 lg:col-span-3 lg:p-8 lg:pl-6">
+        <UIcon
+          name="i-lucide-quote"
+          class="size-8 text-primary/70"
+          aria-hidden="true"
+        />
+
+        <blockquote class="text-body-lg lg:text-xl text-text-secondary leading-relaxed text-pretty">
+          «{{ quote }}»
+        </blockquote>
+
+        <footer class="flex items-center gap-3 border-t border-border-default pt-5">
+          <div>
+            <p class="text-body font-semibold text-text-primary">
+              {{ author }}
+            </p>
+            <p
+              v-if="role"
+              class="text-caption text-text-muted"
+            >
+              {{ role }}
+            </p>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </UCard>
 </template>
 
-<script setup>
-const props = defineProps({
-  image: {
-    type: String,
-    required: true
-  },
-  quote: {
-    type: String,
-    required: true
-  },
-  alt: {
-    type: String,
-    default: 'Testimonial image'
-  },
-  author: {
-    type: String,
-    required: true
-  }
+<script setup lang="ts">
+withDefaults(defineProps<{
+  image: string
+  quote: string
+  author: string
+  role?: string
+  alt?: string
+}>(), {
+  role: undefined,
+  alt: 'Фото руководителя',
 })
 </script>

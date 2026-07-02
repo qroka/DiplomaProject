@@ -1,2 +1,10 @@
-/* Thin CTA layer over Nuxt UI — semantic intents */
-/* Focus: use Nuxt UI component defaults (no global override) */
+/* Pill shape for Nuxt UI buttons */
+button[data-slot='base'],
+a[data-slot='base'] {
+  border-radius: 9999px;
+}
+
+/* Pagination — default Nuxt UI rounding (rounded-md) */
+.pagination-controls [data-slot='base'] {
+  border-radius: 0.375rem;
+}

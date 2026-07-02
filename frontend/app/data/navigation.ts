@@ -41,7 +41,7 @@ export const navGroups: NavGroup[] = [
       {
         label: 'Контакты',
         to: '/contacts',
-        description: 'Телефоны и адреса кадровых подразделений',
+        description: 'Телефоны и адреса кадровых отделов',
       },
     ],
   },
@@ -140,7 +140,36 @@ export interface NavigationMenuItem {
   icon?: string
   description?: string
   type?: 'label' | 'trigger' | 'link'
+  active?: boolean
   children?: NavigationMenuItem[]
+}
+
+function isNavPathActive(currentPath: string, itemPath: string): boolean {
+  if (currentPath === itemPath) return true
+  if (itemPath !== '/' && currentPath.startsWith(`${itemPath}/`)) return true
+  return false
+}
+
+function applyNavActiveState(
+  items: NavigationMenuItem[],
+  currentPath: string,
+): NavigationMenuItem[] {
+  return items.map((item) => {
+    if (item.children?.length) {
+      const children = item.children.map(child => ({
+        ...child,
+        active: child.to ? isNavPathActive(currentPath, child.to) : false,
+      }))
+      const active = children.some(child => child.active)
+
+      return { ...item, children, active }
+    }
+
+    return {
+      ...item,
+      active: item.to ? isNavPathActive(currentPath, item.to) : false,
+    }
+  })
 }
 
 function mapGroupChildren(items: NavItem[]): NavigationMenuItem[] {
@@ -153,25 +182,25 @@ function mapGroupChildren(items: NavItem[]): NavigationMenuItem[] {
 }
 
 /** Desktop: Главная + dropdown-группы + «Нет коррупции!» */
-export function buildDesktopNavItems(): NavigationMenuItem[] {
-  return [
+export function buildDesktopNavItems(currentPath: string): NavigationMenuItem[] {
+  return applyNavActiveState([
     { label: 'Главная', to: '/' },
     ...navGroups.map(group => ({
       label: group.label,
       children: mapGroupChildren(group.items),
     })),
     { label: 'Нет коррупции!', to: '/anti-corruption' },
-  ]
+  ], currentPath)
 }
 
 /** Mobile drawer: аккордеон групп */
-export function buildMobileNavItems(): NavigationMenuItem[] {
-  return [
+export function buildMobileNavItems(currentPath: string): NavigationMenuItem[] {
+  return applyNavActiveState([
     { label: 'Главная', to: '/' },
     ...navGroups.map(group => ({
       label: group.label,
       children: mapGroupChildren(group.items),
     })),
     { label: 'Нет коррупции!', to: '/anti-corruption' },
-  ]
+  ], currentPath)
 }

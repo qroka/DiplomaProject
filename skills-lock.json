@@ -78,6 +78,12 @@
       "sourceType": "github",
       "skillPath": "skills/stitch-skill/SKILL.md",
       "computedHash": "c96b580192b34167efa01f460bbc669ff4315cf97f3cf6ff85ded8029aa720b8"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "skillPath": ".cursor/skills/ui-ux-pro-max/SKILL.md",
+      "computedHash": "8334c47f9831740e48ff46fa2079139cacf5d848efb355ee24dd20392ce48f94"
     }
   }
 }

@@ -1,79 +1,151 @@
 <template>
-  <div class="rounded-xl border border-gray-200 dark:border-gray-800 bg-white/60 dark:bg-gray-900/50 p-6 lg:p-8">
-    <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-      Предложения по организации обучения
-    </h2>
-    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
-      Форма не предназначена для подачи официальных обращений. Идентификация не требуется.
-    </p>
+  <DsSurface
+    elevation="none"
+    padding="lg"
+    class="w-full"
+  >
+    <UForm
+      :state="form"
+      :validate="validate"
+      class="flex flex-col gap-6"
+      @submit="onSubmit"
+    >
+      <div
+        class="flex items-start gap-3 rounded-xl border border-default bg-elevated/40 px-4 py-4 sm:px-5"
+        role="note"
+      >
+        <UIcon
+          name="i-lucide-info"
+          class="size-5 shrink-0 text-primary mt-0.5"
+          aria-hidden="true"
+        />
+        <div class="min-w-0 space-y-1">
+          <p class="text-body font-medium text-text-primary">
+            Не для официальных обращений
+          </p>
+          <p class="text-caption text-text-secondary leading-relaxed text-pretty">
+            Форма предназначена для предложений по организации обучения. Идентификация не требуется — имя и подразделение можно не указывать.
+          </p>
+        </div>
+      </div>
 
-    <UForm :state="form" :validate="validate" class="space-y-4" @submit="onSubmit">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <UFormField label="Имя (необязательно)" name="name">
-          <UInput v-model="form.name" placeholder="Как к вам обращаться" />
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <UFormField
+          label="Имя"
+          name="name"
+        >
+          <UInput
+            v-model="form.name"
+            size="lg"
+            placeholder="Как к вам обращаться"
+            autocomplete="name"
+            class="w-full"
+          />
         </UFormField>
-        <UFormField label="Подразделение (необязательно)" name="department">
-          <UInput v-model="form.department" placeholder="Орган / управление" />
+
+        <UFormField
+          label="Подразделение"
+          name="department"
+        >
+          <USelectMenu
+            v-model="form.department"
+            :items="departmentOptions"
+            size="lg"
+            value-key="value"
+            placeholder="Выберите орган"
+            :search-input="{
+              placeholder: 'Поиск ОФО…',
+              icon: 'i-lucide-search',
+            }"
+            class="w-full"
+          />
         </UFormField>
       </div>
 
-      <UFormField label="Ваше предложение" name="message" required>
+      <UFormField name="message">
+        <template #label>
+          <DsRequiredLabel label="Ваше предложение" />
+        </template>
         <UTextarea
           v-model="form.message"
-          :rows="4"
-          placeholder="Опишите тему, формат или пожелания по обучению"
+          :rows="5"
+          size="lg"
+          placeholder="Опишите тему, формат или пожелания по обучению, встречам и мастер-классам"
+          class="w-full"
         />
       </UFormField>
 
-      <UButton type="submit" label="Отправить предложение" color="primary" :loading="loading" />
+      <UButton
+        type="submit"
+        label="Отправить предложение"
+        color="primary"
+        size="lg"
+        trailing-icon="i-lucide-arrow-right"
+        :loading="loading"
+        class="w-full justify-center sm:w-auto"
+      />
     </UForm>
-  </div>
+  </DsSurface>
 </template>
 
 <script setup lang="ts">
+import { ofoAnyValue, ofoApiBranch, ofoList } from '~/data/ofo-list'
+
 const config = useRuntimeConfig()
 const toast = useToast()
 const loading = ref(false)
 
+const departmentOptions = [
+  { label: 'Не указано', value: ofoAnyValue },
+  ...ofoList.map(name => ({ label: name, value: name })),
+]
+
 const form = reactive({
   name: '',
-  department: '',
-  message: ''
+  department: ofoAnyValue,
+  message: '',
 })
 
 function validate(state: typeof form) {
-  const errors: { name: string; message: string }[] = []
+  const errors: { name: string, message: string }[] = []
   if (!state.message?.trim()) errors.push({ name: 'message', message: 'Введите текст предложения' })
   return errors
+}
+
+function resetForm() {
+  form.name = ''
+  form.department = ofoAnyValue
+  form.message = ''
 }
 
 async function onSubmit() {
   loading.value = true
   try {
+    const department = ofoApiBranch(form.department)
     await $fetch(`${config.public.apiBaseUrl}/api/training-feedback/`, {
       method: 'POST',
       body: {
         name: form.name.trim(),
-        department: form.department.trim(),
-        message: form.message.trim()
-      }
+        department,
+        message: form.message.trim(),
+      },
     })
     toast.add({
       title: 'Предложение отправлено',
-      description: 'Спасибо за обратную связь!',
-      color: 'success'
+      description: 'Спасибо за обратную связь по организации обучения.',
+      color: 'success',
     })
-    form.name = ''
-    form.department = ''
-    form.message = ''
-  } catch (error: unknown) {
+    resetForm()
+  }
+  catch (error: unknown) {
     const err = error as { data?: { error?: string } }
     toast.add({
       title: 'Не удалось отправить',
       description: err.data?.error || 'Попробуйте позже',
-      color: 'error'
+      color: 'error',
     })
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }

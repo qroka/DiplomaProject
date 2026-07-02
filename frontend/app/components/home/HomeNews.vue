@@ -6,6 +6,7 @@
           label="Новости"
           color="primary"
           variant="subtle"
+          size="lg"
           class="w-fit rounded-full"
         />
         <h2
@@ -45,13 +46,17 @@
             </div>
 
             <div class="flex flex-1 flex-col gap-2 p-4">
-              <time
+              <UBadge
                 v-if="post.date"
-                :datetime="post.date"
-                class="w-fit rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
+                color="primary"
+                variant="subtle"
+                size="lg"
+                class="w-fit rounded-full"
               >
-                {{ formatDate(post.date) }}
-              </time>
+                <time :datetime="post.date">
+                  {{ formatDate(post.date) }}
+                </time>
+              </UBadge>
 
               <h3 class="text-base font-semibold leading-snug text-highlighted line-clamp-2 group-hover:text-primary">
                 {{ post.title }}

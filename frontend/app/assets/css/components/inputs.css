@@ -1,0 +1,19 @@
+/* Form fields — standard Nuxt UI rounding (rounded-md), not pill buttons */
+
+input[data-slot='base'],
+textarea[data-slot='base'] {
+  border-radius: 0.375rem;
+}
+
+button[data-slot='base'][role='combobox'],
+button[data-slot='base'][aria-haspopup='listbox'] {
+  border-radius: 0.375rem;
+}
+
+.group.relative.inline-flex.items-center.rounded-md {
+  border-radius: 0.375rem;
+}
+
+button[data-slot='base'][role='checkbox'] {
+  border-radius: 0.375rem;
+}

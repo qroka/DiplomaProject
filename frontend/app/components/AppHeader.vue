@@ -51,7 +51,7 @@
           to="/vacancies"
           icon="i-lucide-briefcase"
           color="primary"
-          size="md"
+          size="lg"
           class="hidden rounded-full lg:inline-flex"
         />
       </div>
@@ -65,7 +65,7 @@
         icon="i-lucide-search"
         label="Поиск по порталу"
         class="mb-4"
-        size="md"        
+        size="lg"        
         @click="openSearch"
       />
 
@@ -104,7 +104,8 @@
 <script setup lang="ts">
 import { buildDesktopNavItems, buildMobileNavItems, siteContact } from '~/data/navigation'
 
-const desktopNavItems = buildDesktopNavItems()
-const mobileNavItems = buildMobileNavItems()
+const route = useRoute()
+const desktopNavItems = computed(() => buildDesktopNavItems(route.path))
+const mobileNavItems = computed(() => buildMobileNavItems(route.path))
 const { openSearch } = usePortalSearch()
 </script>

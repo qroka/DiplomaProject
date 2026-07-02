@@ -1,97 +1,110 @@
 <script setup lang="ts">
 import { headOfDistrict, socialLinks } from '~/data/departments'
-import { buildBreadcrumbs } from '~/data/breadcrumbs'
 
 useHead({ title: 'О нас' })
 
 const headFullName = `${headOfDistrict.surname} ${headOfDistrict.name} ${headOfDistrict.patronymic}`
-const breadcrumbItems = buildBreadcrumbs({ label: 'О нас' })
-const hero = useHeroImage('about')
+
+const missionCards = [
+  {
+    title: 'Муниципальное управление',
+    icon: 'i-lucide-landmark',
+    description: 'Реализуем полномочия местного самоуправления и обеспечиваем устойчивое развитие Сургутского района.',
+  },
+  {
+    title: 'Команда профессионалов',
+    icon: 'i-lucide-users',
+    description: 'Объединяем специалистов отраслевых органов, которые ежедневно работают на благополучие жителей.',
+  },
+  {
+    title: 'Открытость и доверие',
+    icon: 'i-lucide-shield-check',
+    description: 'Делимся информацией о кадровой политике, вакансиях и возможностях профессионального роста.',
+  },
+]
 </script>
 
 <template>
-  <DsPageHero
-    variant="inner"
+  <DsStandardPage
     title="О нас"
-    description="Администрация Сургутского района: миссия, полномочия и структура"
-    :image="hero.src"
-    :image-alt="hero.alt"
-  />
-
-  <DsBreadcrumbs :items="breadcrumbItems" />
-
-  <UContainer class="py-8 lg:py-12">
-    <div class="max-w-3xl mx-auto text-center mb-4">
-      <p class="text-body-lg text-text-secondary leading-relaxed">
-        Администрация Сургутского района — орган местного самоуправления, который обеспечивает
-        реализацию полномочий муниципального образования, координирует работу отраслевых органов
-        и отвечает за развитие района и благополучие его жителей.
-      </p>
-    </div>
-  </UContainer>
-
-  <Testimonial
-    :image="headOfDistrict.image"
-    :quote="headOfDistrict.quote"
-    :author="`${headOfDistrict.role} ${headFullName}`"
-    :alt="`Фото: ${headFullName}`"
-  />
-
-  <DeputyStructure />
-
-  <UContainer class="py-8 lg:py-12">
-    <DsSurface
-      elevation="sm"
-      padding="lg"
-      class="text-center"
+    description="Администрация Сургутского района — орган местного самоуправления, который обеспечивает реализацию полномочий муниципального образования, координирует работу отраслевых органов и отвечает за развитие района и благополучие его жителей."
+  >
+    <DsContentSection
+      title="Направления работы"
+      description="Ключевые принципы, на которых строится деятельность администрации Сургутского района"
+      overline="Миссия"
+      heading-id="about-mission"
+      spacing="lg"
     >
-      <h2 class="text-h2 text-text-primary mb-2">
-        Команда Сургутского района
-      </h2>
-      <p class="text-body text-text-secondary mb-6">
-        Следите за новостями и жизнью администрации в официальных социальных сетях
-      </p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <UButton
-          v-for="link in socialLinks"
-          :key="link.url"
-          :to="link.url"
-          target="_blank"
-          :icon="link.image ? undefined : link.icon"
-          :label="link.label"
-          color="neutral"
-          variant="outline"
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <DsInfoCard
+          v-for="card in missionCards"
+          :key="card.title"
+          :title="card.title"
+          :icon="card.icon"
         >
-          <template
-            v-if="link.image"
-            #leading
-          >
-            <span
-              class="size-5 bg-current mask-[url('/Icons/max.svg')] mask-contain mask-center mask-no-repeat"
-              aria-hidden="true"
-            />
-          </template>
-        </UButton>
+          {{ card.description }}
+        </DsInfoCard>
       </div>
-    </DsSurface>
+    </DsContentSection>
 
-    <div class="flex flex-wrap justify-center gap-4 mt-10">
-      <UButton
-        label="Доска почёта"
-        to="/honorboard"
-        color="primary"
-        variant="solid"
-        size="lg"
-        trailing-icon="i-lucide-arrow-right"
+    <DsContentSection
+      title="Слово главы района"
+      description="О команде, ответственности и вкладе каждого сотрудника в развитие муниципалитета"
+      overline="Руководство"
+      heading-id="about-leader"
+      spacing="lg"
+    >
+      <Testimonial
+        :image="headOfDistrict.image"
+        :quote="headOfDistrict.quote"
+        :author="headFullName"
+        :role="headOfDistrict.role"
+        :alt="`Фото: ${headFullName}`"
       />
-      <UButton
-        label="Кадровый резерв"
-        to="/staffreserve"
+    </DsContentSection>
+
+    <DeputyStructure />
+
+    <DsContentSection
+      title="Будьте в курсе жизни администрации"
+      description="Новости, события и проекты района — в официальных социальных сетях"
+      overline="Сообщество"
+      heading-id="about-community"
+      spacing="lg"
+    >
+      <DsCalloutPanel
+        title="Присоединяйтесь к команде Сургутского района"
+        description="Следите за новостями администрации и узнайте, как стать частью муниципальной службы."
+        icon="i-lucide-users"
         color="primary"
-        variant="outline"
-        size="lg"
-        trailing-icon="i-lucide-arrow-right"
-      />
-    </div>
-  </UContainer>
+        variant="soft"
+      >
+        <div class="flex flex-wrap gap-2">
+          <UButton
+            v-for="link in socialLinks"
+            :key="link.url"
+            :to="link.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            :icon="link.image ? undefined : link.icon"
+            :label="link.label"
+            color="neutral"
+            variant="outline"
+            class="cursor-pointer transition-colors duration-200"
+          >
+            <template
+              v-if="link.image"
+              #leading
+            >
+              <span
+                class="size-5 bg-current mask-[url('/Icons/max.svg')] mask-contain mask-center mask-no-repeat"
+                aria-hidden="true"
+              />
+            </template>
+          </UButton>
+        </div>
+      </DsCalloutPanel>
+    </DsContentSection>
+  </DsStandardPage>
 </template>

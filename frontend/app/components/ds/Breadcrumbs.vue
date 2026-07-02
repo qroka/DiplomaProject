@@ -2,14 +2,22 @@
   <nav
     v-if="items.length > 1"
     :aria-label="ariaLabel"
-    class="ds-container pt-4 pb-2"
+    :class="embedded ? undefined : 'ds-container pt-4 pb-2'"
   >
     <UBreadcrumb
-      :items="items"
+      :items="breadcrumbItems"
       separator-icon="i-lucide-chevron-right"
       :ui="{
-        link: 'text-caption text-text-secondary hover:text-text-accent',
-        linkLabel: 'text-caption',
+        root: embedded ? 'mb-0' : undefined,
+        list: 'flex-wrap gap-y-1',
+        link: [
+          'text-caption text-text-muted hover:text-text-accent transition-colors duration-200',
+          embedded && 'px-0',
+        ],
+        linkLeadingIcon: 'size-3.5 text-text-muted',
+        linkLabel: 'text-caption font-normal',
+        separator: 'text-text-muted/50',
+        separatorIcon: 'size-3.5',
       }"
     />
   </nav>
@@ -18,10 +26,30 @@
 <script setup lang="ts">
 import type { BreadcrumbItem } from '~/data/breadcrumbs'
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   items: BreadcrumbItem[]
   ariaLabel?: string
+  embedded?: boolean
 }>(), {
   ariaLabel: 'Навигационная цепочка',
+  embedded: false,
 })
+
+/** Последний пункт — текущая страница, без ссылки */
+const breadcrumbItems = computed(() =>
+  props.items.map((item, index) => {
+    const isLast = index === props.items.length - 1
+    if (isLast) {
+      return {
+        label: item.label,
+        icon: item.icon,
+      }
+    }
+    return {
+      label: item.label,
+      to: item.to,
+      icon: item.icon,
+    }
+  }),
+)
 </script>

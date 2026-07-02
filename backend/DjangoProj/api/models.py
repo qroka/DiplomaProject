@@ -4,20 +4,21 @@ from django.core.exceptions import ValidationError
 
 class Tender(models.Model):
     CATEGORY_CHOICES = [
-        ('info', 'Информация о тендерах'),
-        ('results', 'Результаты тендеров'),
-        ('rules', 'Правила тендеров'),
+        ('info', 'Информация'),
+        ('results', 'Результаты'),
+        ('rules', 'Положения и правила'),
     ]
 
     category = models.CharField('Категория', max_length=20, choices=CATEGORY_CHOICES)
     name = models.CharField('Название', max_length=255)
     link = models.FileField('Файл', upload_to='tenders/')
-    show_on_main_page = models.BooleanField('Показывать на главной странице тендеров', default=False)
+    is_active = models.BooleanField('Активен', default=True, help_text='Неактивные документы не публикуются на сайте')
+    show_on_main_page = models.BooleanField('Показывать на главной странице конкурсов', default=False)
     created_at = models.DateTimeField('Дата создания', auto_now_add=True)
 
     class Meta:
-        verbose_name = 'Тендер'
-        verbose_name_plural = 'Тендеры'
+        verbose_name = 'Документ'
+        verbose_name_plural = 'Документы'
         ordering = ['-created_at']
 
     def __str__(self):
@@ -29,8 +30,8 @@ class Branch(models.Model):
     address = models.CharField('Адрес', max_length=255)
 
     class Meta:
-        verbose_name = 'Отделение'
-        verbose_name_plural = 'Отделения'
+        verbose_name = 'Отдел'
+        verbose_name_plural = 'Отделы'
 
     def __str__(self):
         return self.name
@@ -44,12 +45,14 @@ class StaffMember(models.Model):
     email = models.EmailField('Email', blank=True)
     cabinet_number = models.CharField('Номер кабинета', max_length=50, blank=True)
     role = models.CharField('Должность', max_length=255)
-    branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Отделение')
+    branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Отдел')
     description = models.TextField('Описание', blank=True)
     image = models.ImageField('Фото', upload_to='staff/', blank=True, null=True)
     order = models.PositiveIntegerField('Порядок', default=0)
     is_active = models.BooleanField('Активен', default=True)
     show_on_honorboard = models.BooleanField('Показывать на доске почёта', default=True)
+    show_on_contacts = models.BooleanField('Показывать в контактах', default=False)
+    is_management_head = models.BooleanField('Начальник управления (блок на странице контактов)', default=False)
     show_on_reserve = models.BooleanField('Показывать в кадровом резерве', default=False)
     created_at = models.DateTimeField('Дата создания', auto_now_add=True)
 
@@ -63,6 +66,14 @@ class StaffMember(models.Model):
             raise ValidationError(
                 'Сотрудник не может быть одновременно активным и в кадровом резерве'
             )
+        if self.is_management_head:
+            others = StaffMember.objects.filter(is_management_head=True)
+            if self.pk:
+                others = others.exclude(pk=self.pk)
+            if others.exists():
+                raise ValidationError(
+                    'Начальником управления может быть только один сотрудник'
+                )
 
     def save(self, *args, **kwargs):
         self.clean()
@@ -70,6 +81,24 @@ class StaffMember(models.Model):
 
     def __str__(self):
         return f'{self.surname} {self.name} {self.patronym or ""}'.strip()
+
+
+class ContactStaffMember(StaffMember):
+    """Сотрудники для справочника контактов (proxy)."""
+
+    class Meta:
+        proxy = True
+        verbose_name = 'Сотрудник'
+        verbose_name_plural = 'Сотрудники'
+
+
+class HonorBoardStaffMember(StaffMember):
+    """Лауреаты доски почёта (proxy)."""
+
+    class Meta:
+        proxy = True
+        verbose_name = 'Лауреат доски почёта'
+        verbose_name_plural = 'Лауреаты доски почёта'
 
 
 class WorkSchedule(models.Model):
@@ -350,6 +379,12 @@ class Competition(models.Model):
 
 class CompetitionResult(models.Model):
     title = models.CharField('Название', max_length=255)
+    competition_type = models.CharField(
+        'Тип результата',
+        max_length=20,
+        choices=Competition.TYPE_CHOICES,
+        default=Competition.TYPE_VACANCY,
+    )
     decree_conduct = models.FileField('Постановление о проведении конкурса', upload_to='competitions/conduct/')
     decree_results = models.FileField('Постановление о результатах конкурса', upload_to='competitions/results/')
     completed_at = models.DateField('Дата завершения', null=True, blank=True)
@@ -392,6 +427,25 @@ class StaffReserveInfo(models.Model):
         return obj
 
 
+class StaffReservePosition(models.Model):
+    title = models.CharField('Должность', max_length=255)
+    description = models.TextField(
+        'Описание',
+        help_text='Кратко: зона ответственности и требования к кандидату в резерв на эту должность',
+    )
+    order = models.PositiveIntegerField('Порядок', default=0)
+    is_active = models.BooleanField('Показывать на сайте', default=True)
+    created_at = models.DateTimeField('Создано', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Должность кадрового резерва'
+        verbose_name_plural = 'Должности кадрового резерва'
+        ordering = ['order', 'title']
+
+    def __str__(self):
+        return self.title
+
+
 class YouthInfo(models.Model):
     intro = models.TextField(
         'Вводный текст',
@@ -406,7 +460,8 @@ class YouthInfo(models.Model):
     practice_steps = models.TextField(
         'Этапы: как попасть на практику в АСР',
         blank=True,
-        default='1. Ознакомьтесь с перечнем учебных заведений, с которыми заключены соглашения.\n'
+        default='1. Определитесь, в каком отраслевом функциональном органе вы хотите проходить практику. '
+                'Со структурой администрации можно ознакомиться в разделе [«О нас»](/about#admin-structure).\n'
                 '2. Согласуйте прохождение практики с учебным заведением.\n'
                 '3. Заполните и отправьте заявку на практику через форму на этой странице.\n'
                 '4. Дождитесь ответа специалиста управления муниципальной службы, кадров и наград.',
@@ -447,7 +502,7 @@ class PracticeApplication(models.Model):
     course = models.CharField('Курс', max_length=50)
     specialty = models.CharField('Специальность', max_length=255)
     practice_period = models.CharField('Желаемый период практики', max_length=255)
-    preferred_department = models.CharField('Желаемое подразделение', max_length=255, blank=True)
+    preferred_department = models.CharField('Желаемый орган', max_length=255, blank=True)
     comment = models.TextField('Комментарий', blank=True)
     application_letter = models.FileField(
         'Сопроводительное письмо',
@@ -513,6 +568,114 @@ class TrainingFeedback(models.Model):
     def __str__(self):
         label = self.name or 'Анонимно'
         return f'{label} ({self.created_at.strftime("%d.%m.%Y %H:%M")})'
+
+
+class Department(models.Model):
+    slug = models.SlugField('URL-идентификатор', max_length=100, unique=True)
+    name = models.CharField('Название', max_length=500)
+    intro = models.TextField(
+        'Краткое описание',
+        blank=True,
+        default='Отраслевой (функциональный) орган администрации Сургутского района обеспечивает '
+                'реализацию полномочий в своей сфере деятельности и взаимодействует с жителями района.',
+    )
+    about_paragraphs = models.TextField(
+        'О деятельности',
+        blank=True,
+        help_text='Каждый абзац с новой строки',
+    )
+    units = models.TextField(
+        'Структурные подразделения',
+        blank=True,
+        help_text='Каждое подразделение с новой строки',
+    )
+    tasks = models.TextField(
+        'Задачи',
+        blank=True,
+        help_text='Каждая задача с новой строки',
+    )
+    head_name = models.CharField('Руководитель: ФИО', max_length=255, blank=True)
+    head_role = models.CharField('Руководитель: должность', max_length=255, blank=True)
+    head_phone = models.CharField('Руководитель: телефон', max_length=255, blank=True)
+    head_email = models.EmailField('Руководитель: email', blank=True)
+    phone = models.CharField('Телефон', max_length=255, blank=True)
+    email = models.EmailField('Email', blank=True)
+    image = models.ImageField('Фото', upload_to='departments/', blank=True, null=True)
+    vacancy_branch = models.CharField(
+        'Название для вакансий',
+        max_length=500,
+        blank=True,
+        help_text='Должно совпадать с полем «Отдел» в вакансиях',
+    )
+    is_published = models.BooleanField('Опубликовано', default=True)
+    order = models.PositiveIntegerField('Порядок', default=0)
+    updated_at = models.DateTimeField('Обновлено', auto_now=True)
+
+    class Meta:
+        verbose_name = 'Орган администрации'
+        verbose_name_plural = 'Органы администрации'
+        ordering = ['order', 'name']
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.vacancy_branch:
+            self.vacancy_branch = self.name
+        super().save(*args, **kwargs)
+
+
+class Deputy(models.Model):
+    role = models.CharField('Должность', max_length=255)
+    surname = models.CharField('Фамилия', max_length=100)
+    name = models.CharField('Имя', max_length=100)
+    patronymic = models.CharField('Отчество', max_length=100)
+    image = models.CharField(
+        'Фото (URL или путь)',
+        max_length=500,
+        blank=True,
+        help_text='Например: /images/people/markova.png',
+    )
+    order = models.PositiveIntegerField('Порядок', default=0)
+    is_published = models.BooleanField('Опубликовано', default=True)
+    departments = models.ManyToManyField(
+        Department,
+        through='DeputyDepartment',
+        related_name='deputies',
+        verbose_name='Органы',
+    )
+
+    class Meta:
+        verbose_name = 'Заместитель главы'
+        verbose_name_plural = 'Заместители главы'
+        ordering = ['order', 'surname']
+
+    def __str__(self):
+        return f'{self.surname} {self.name} {self.patronymic}'
+
+
+class DeputyDepartment(models.Model):
+    deputy = models.ForeignKey(
+        Deputy,
+        on_delete=models.CASCADE,
+        related_name='deputy_departments',
+        verbose_name='Заместитель',
+    )
+    department = models.ForeignKey(
+        Department,
+        on_delete=models.CASCADE,
+        verbose_name='Орган',
+    )
+    order = models.PositiveIntegerField('Порядок', default=0)
+
+    class Meta:
+        verbose_name = 'Орган заместителя'
+        verbose_name_plural = 'Органы заместителей'
+        ordering = ['order']
+        unique_together = [['deputy', 'department']]
+
+    def __str__(self):
+        return f'{self.deputy} — {self.department}'
 
 
 class NewsPost(models.Model):

@@ -30,7 +30,7 @@
           label="Сбросить всё"
           color="error"
           variant="outline"
-          size="sm"
+          size="lg"
           aria-label="Сбросить все фильтры"
           @click="resetAll"
         />
@@ -48,7 +48,7 @@
         :key="chip.field"
         color="neutral"
         variant="subtle"
-        size="md"
+        size="lg"
         role="listitem"
         class="cursor-pointer gap-1 min-h-9 px-3"
         :aria-label="`Убрать фильтр: ${chip.label}`"

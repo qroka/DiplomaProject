@@ -11,7 +11,7 @@
             v-if="badge"
             color="primary"
             variant="subtle"
-            size="sm"
+            size="lg"
             class="w-fit mb-4"
           >
             {{ badge }}
@@ -86,7 +86,7 @@
           v-if="badge"
           color="primary"
           variant="subtle"
-          size="sm"
+          size="lg"
           class="w-fit mb-4"
         >
           {{ badge }}
@@ -120,7 +120,7 @@
         v-if="badge"
         color="primary"
         variant="subtle"
-        size="sm"
+        size="lg"
         class="w-fit mb-3"
       >
         {{ badge }}

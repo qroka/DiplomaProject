@@ -7,7 +7,7 @@
 
     <UContainer class="relative flex min-h-[calc(100dvh-var(--ui-header-height,4rem))] flex-col justify-center gap-14 py-16 lg:py-24">
       <!-- Centered headline block -->
-      <div class="hero-in mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
+      <div class="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
         <UBadge
           label="Кадровый портал администрации Сургутского района"
           color="primary"
@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <div class="hero-in-delayed flex w-full flex-col gap-4">
+      <div class="flex w-full flex-col gap-4">
         <div class="relative h-[420px] w-full overflow-hidden rounded-2xl border border-default">
           <img
             src="/images/Picture.png"
@@ -131,34 +131,3 @@ const careerItems = [
   },
 ]
 </script>
-
-<style scoped>
-@keyframes hero-rise {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-    filter: blur(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-
-.hero-in,
-.hero-in-delayed {
-  animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.hero-in-delayed {
-  animation-delay: 0.12s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-in,
-  .hero-in-delayed {
-    animation: none;
-  }
-}
-</style>

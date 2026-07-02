@@ -1,14 +1,9 @@
 <template>
-  <DsPageHero
-    variant="inner"
+  <DsStandardPage
     :title="privacyPolicyIntro"
     description="Порядок обработки персональных данных и меры по их защите"
-    :image="hero.src"
-    :image-alt="hero.alt"
-  />
-  <DsBreadcrumbs :items="breadcrumbItems" />
-
-  <UContainer class="py-8 lg:py-12">
+    intro="Документ определяет порядок обработки персональных данных посетителей кадрового портала и меры по их защите в соответствии с законодательством Российской Федерации."
+  >
     <article class="ds-prose max-w-none">
       <section
         v-for="section in privacyPolicySections"
@@ -43,20 +38,23 @@
         </div>
       </section>
 
-      <p class="mt-10 text-muted">
+      <UCard
+        variant="subtle"
+        class="mt-10"
+        :ui="{ body: 'p-5 text-body text-text-secondary' }"
+      >
         По вопросам обработки персональных данных также можно обратиться через раздел
-        <NuxtLink to="/contacts">Контакты</NuxtLink>.
-      </p>
+        <NuxtLink
+          to="/contacts"
+          class="text-text-accent hover:underline"
+        >Контакты</NuxtLink>.
+      </UCard>
     </article>
-  </UContainer>
+  </DsStandardPage>
 </template>
 
 <script setup lang="ts">
-import { buildBreadcrumbs } from '~/data/breadcrumbs'
 import { privacyPolicyIntro, privacyPolicySections } from '~/data/privacy-policy'
 
 useHead({ title: privacyPolicyIntro })
-
-const breadcrumbItems = buildBreadcrumbs({ label: privacyPolicyIntro })
-const hero = useHeroImage('privacy')
 </script>

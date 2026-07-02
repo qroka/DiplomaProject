@@ -9,7 +9,7 @@ from .models import (
     Tender, Vacancy, StaffMember, WorkSchedule, RequiredExperience, JobType,
     AntiCorruptionDocument, AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription,
     Competition, CompetitionResult, StaffReserveInfo, YouthInfo, PracticeApplication,
-    TrainingEvent, TrainingFeedback, NewsPost,
+    TrainingEvent, TrainingFeedback, NewsPost, Department, Deputy,
 )
 from .serializers import (
     TenderSerializer, VacancySerializer, StaffMemberSerializer,
@@ -20,6 +20,7 @@ from .serializers import (
     CompetitionSerializer, CompetitionResultSerializer, StaffReserveInfoSerializer,
     YouthInfoSerializer, PracticeApplicationSerializer,
     TrainingEventSerializer, TrainingFeedbackSerializer, NewsPostSerializer,
+    DepartmentSerializer, DeputySerializer,
 )
 
 
@@ -30,7 +31,7 @@ def hello(request):
 
 @api_view(['GET'])
 def tenders(request):
-    items = Tender.objects.filter(category='rules')
+    items = Tender.objects.filter(is_active=True)
     serializer = TenderSerializer(items, many=True, context={'request': request})
     return Response(serializer.data)
 
@@ -130,18 +131,28 @@ def submit_training_feedback(request):
 @api_view(['GET'])
 def competition_results(request):
     items = CompetitionResult.objects.all()
+    competition_type = request.query_params.get('type')
+    if competition_type in (Competition.TYPE_VACANCY, Competition.TYPE_RESERVE):
+        items = items.filter(competition_type=competition_type)
     serializer = CompetitionResultSerializer(items, many=True, context={'request': request})
     return Response(serializer.data)
 
 
 @api_view(['GET'])
 def staff_members(request):
+    if request.query_params.get('management_head'):
+        items = StaffMember.objects.filter(is_management_head=True, is_active=True)
+        serializer = StaffMemberSerializer(items, many=True, context={'request': request})
+        return Response(serializer.data)
+
     if request.query_params.get('reserve'):
         items = StaffMember.objects.filter(show_on_reserve=True)
     else:
         items = StaffMember.objects.filter(is_active=True, show_on_reserve=False)
         if request.query_params.get('honorboard'):
             items = items.filter(show_on_honorboard=True)
+        if request.query_params.get('contacts'):
+            items = items.filter(show_on_contacts=True, is_management_head=False)
 
     serializer = StaffMemberSerializer(items, many=True, context={'request': request})
     return Response(serializer.data)
@@ -278,6 +289,29 @@ def submit_corruption_report(request):
 def branches_global(request):
     items = BranchesGlobal.objects.all()
     serializer = BranchesGlobalSerializer(items, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def departments(request):
+    items = Department.objects.filter(is_published=True)
+    serializer = DepartmentSerializer(items, many=True, context={'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def department_detail(request, slug):
+    item = get_object_or_404(Department, slug=slug, is_published=True)
+    serializer = DepartmentSerializer(item, context={'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def deputies(request):
+    items = Deputy.objects.filter(is_published=True).prefetch_related(
+        'deputy_departments__department'
+    )
+    serializer = DeputySerializer(items, many=True)
     return Response(serializer.data)
 
 

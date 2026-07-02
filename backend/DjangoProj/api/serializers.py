@@ -2,8 +2,8 @@ from rest_framework import serializers
 from .models import (
     Tender, StaffMember, Vacancy, JobApplication, Branch, WorkSchedule, RequiredExperience,
     JobType, AntiCorruptionDocument, AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription,
-    Competition, CompetitionResult, StaffReserveInfo, YouthInfo, PracticeApplication,
-    TrainingEvent, TrainingFeedback, NewsPost,
+    Competition, CompetitionResult, StaffReserveInfo, StaffReservePosition, YouthInfo, PracticeApplication,
+    TrainingEvent, TrainingFeedback, NewsPost, Department, Deputy,
 )
 
 
@@ -32,7 +32,7 @@ class StaffMemberSerializer(serializers.ModelSerializer):
         model = StaffMember
         fields = ['name', 'surname', 'patronym', 'phone', 'email', 'cabinet_number',
                   'role', 'branch', 'branch_name', 'branch_address', 'description', 'image',
-                  'show_on_honorboard', 'show_on_reserve', 'order']
+                  'show_on_honorboard', 'show_on_contacts', 'is_management_head', 'show_on_reserve', 'order']
 
     def get_image(self, obj):
         if obj.image:
@@ -180,10 +180,14 @@ class CompetitionSerializer(serializers.ModelSerializer):
 class CompetitionResultSerializer(serializers.ModelSerializer):
     decreeConductLink = serializers.SerializerMethodField()
     decreeResultsLink = serializers.SerializerMethodField()
+    competitionTypeLabel = serializers.CharField(source='get_competition_type_display', read_only=True)
 
     class Meta:
         model = CompetitionResult
-        fields = ['id', 'title', 'decreeConductLink', 'decreeResultsLink', 'completed_at', 'created_at']
+        fields = [
+            'id', 'title', 'competition_type', 'competitionTypeLabel',
+            'decreeConductLink', 'decreeResultsLink', 'completed_at', 'created_at',
+        ]
 
     def _file_url(self, obj, field_name):
         file_field = getattr(obj, field_name)
@@ -201,15 +205,22 @@ class CompetitionResultSerializer(serializers.ModelSerializer):
         return self._file_url(obj, 'decree_results')
 
 
+class StaffReservePositionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StaffReservePosition
+        fields = ['id', 'title', 'description', 'order']
+
+
 class StaffReserveInfoSerializer(serializers.ModelSerializer):
-    positionsList = serializers.SerializerMethodField()
+    positions = serializers.SerializerMethodField()
 
     class Meta:
         model = StaffReserveInfo
-        fields = ['purpose', 'positions', 'positionsList', 'additional_content', 'updated_at']
+        fields = ['purpose', 'positions', 'additional_content', 'updated_at']
 
-    def get_positionsList(self, obj):
-        return [line.strip() for line in obj.positions.splitlines() if line.strip()]
+    def get_positions(self, obj):
+        items = StaffReservePosition.objects.filter(is_active=True)
+        return StaffReservePositionSerializer(items, many=True).data
 
 
 class YouthInfoSerializer(serializers.ModelSerializer):
@@ -281,3 +292,71 @@ class NewsPostSerializer(serializers.ModelSerializer):
         if request:
             return request.build_absolute_uri(obj.image.url)
         return obj.image.url
+
+
+def _split_lines(value):
+    return [line.strip() for line in value.splitlines() if line.strip()]
+
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    aboutParagraphs = serializers.SerializerMethodField()
+    units = serializers.SerializerMethodField()
+    tasks = serializers.SerializerMethodField()
+    head = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
+    vacancyBranch = serializers.CharField(source='vacancy_branch', read_only=True)
+
+    class Meta:
+        model = Department
+        fields = [
+            'slug', 'name', 'intro', 'aboutParagraphs', 'units', 'tasks',
+            'head', 'phone', 'email', 'image', 'vacancyBranch',
+        ]
+
+    def get_aboutParagraphs(self, obj):
+        paragraphs = _split_lines(obj.about_paragraphs)
+        return paragraphs or None
+
+    def get_units(self, obj):
+        items = _split_lines(obj.units)
+        return items or None
+
+    def get_tasks(self, obj):
+        items = _split_lines(obj.tasks)
+        return items or None
+
+    def get_head(self, obj):
+        if not obj.head_name:
+            return None
+        head = {
+            'name': obj.head_name,
+            'role': obj.head_role,
+        }
+        if obj.head_phone:
+            head['phone'] = obj.head_phone
+        if obj.head_email:
+            head['email'] = obj.head_email
+        return head
+
+    def get_image(self, obj):
+        if not obj.image:
+            return None
+        request = self.context.get('request')
+        if request:
+            return request.build_absolute_uri(obj.image.url)
+        return obj.image.url
+
+
+class DeputySerializer(serializers.ModelSerializer):
+    departmentSlugs = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Deputy
+        fields = ['role', 'surname', 'name', 'patronymic', 'image', 'departmentSlugs']
+
+    def get_departmentSlugs(self, obj):
+        return list(
+            obj.deputy_departments.select_related('department')
+            .order_by('order')
+            .values_list('department__slug', flat=True)
+        )

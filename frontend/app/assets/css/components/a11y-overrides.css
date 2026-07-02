@@ -1,10 +1,21 @@
 /* A11y mode — solid surfaces, no blur (ГОСТ Р 52872-2024) */
 
 html.a11y-enabled {
-  --color-surface-raised: #ffffff;
-  --color-surface-default: #ffffff;
   --glass-blur: 0;
   --glass-opacity: 1;
+}
+
+/* Light theme — opaque white surfaces */
+html.a11y-enabled:not(.dark) {
+  --color-surface-raised: #ffffff;
+  --color-surface-default: #ffffff;
+}
+
+/* Dark theme — keep dark palette, only remove translucency */
+html.a11y-enabled.dark {
+  --color-surface-raised: #0f172a;
+  --color-surface-default: #020617;
+  --color-surface-sunken: #1e293b;
 }
 
 html.a11y-enabled .ds-surface,
@@ -15,12 +26,23 @@ html.a11y-enabled .ds-surface-glass {
   opacity: 1;
 }
 
-html.a11y-enabled.a11y-contrast-high {
+/* High contrast — light theme */
+html.a11y-enabled.a11y-contrast-high:not(.dark) {
   --color-surface-raised: #ffffff;
   --color-surface-default: #ffffff;
   --color-text-primary: #000000;
   --color-text-secondary: #000000;
   --color-border-default: #000000;
+}
+
+/* High contrast — dark theme */
+html.a11y-enabled.a11y-contrast-high.dark {
+  --color-surface-raised: #000000;
+  --color-surface-default: #000000;
+  --color-surface-sunken: #171717;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #ffffff;
+  --color-border-default: #ffffff;
 }
 
 html.a11y-enabled.a11y-contrast-inverted {

@@ -3,7 +3,7 @@ from .views import (
     hello, tenders, competitions, competition_results, staff_members, vacancies, vacancy_detail,
     vacancy_filters, apply, anti_corruption_info, anti_corruption_documents, submit_corruption_report, branches_global,
     submit_feedback, vacancy_subscribe, staff_reserve_info, youth_info, submit_practice_application,
-    training_events, submit_training_feedback, news_posts,
+    training_events, submit_training_feedback, news_posts, departments, department_detail, deputies,
 )
 
 urlpatterns = [
@@ -27,5 +27,8 @@ urlpatterns = [
     path('anti-corruption-documents/', anti_corruption_documents),
     path('submit-corruption-report/', submit_corruption_report),
     path('branches-global/', branches_global),
+    path('departments/<slug:slug>/', department_detail),
+    path('departments/', departments),
+    path('deputies/', deputies),
     path('submit-feedback/', submit_feedback),
 ]

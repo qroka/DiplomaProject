@@ -1,6 +1,21 @@
+from django.db.models import Q
 from django.contrib import admin
-from .models import Tender, StaffMember, Vacancy, JobApplication, Branch, WorkSchedule, RequiredExperience, JobType, WorkingHours, AntiCorruptionDocument, AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription, Competition, CompetitionResult, StaffReserveInfo, YouthInfo, PracticeApplication, TrainingEvent, TrainingFeedback, NewsPost
+from .models import (
+    Tender, ContactStaffMember, HonorBoardStaffMember, Vacancy, JobApplication, Branch,
+    WorkSchedule, RequiredExperience, JobType, WorkingHours, AntiCorruptionDocument,
+    AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription,
+    Competition, CompetitionResult, StaffReserveInfo, StaffReservePosition, YouthInfo,
+    PracticeApplication, TrainingEvent, TrainingFeedback, NewsPost, Department, Deputy,
+    DeputyDepartment,
+)
 from .adminsite import custom_admin_site
+
+
+STAFF_MEMBER_FORM_FIELDS = [
+    'surname', 'name', 'patronym', 'role', 'branch',
+    'phone', 'email', 'cabinet_number', 'description', 'image',
+    'order', 'is_active', 'is_management_head', 'show_on_reserve',
+]
 
 
 class BranchAdmin(admin.ModelAdmin):
@@ -9,17 +24,50 @@ class BranchAdmin(admin.ModelAdmin):
 
 
 class TenderAdmin(admin.ModelAdmin):
-    list_display = ['name', 'category', 'show_on_main_page', 'created_at']
-    list_filter = ['category']
+    list_display = ['name', 'category', 'is_active', 'show_on_main_page', 'created_at']
+    list_filter = ['category', 'is_active']
     search_fields = ['name']
-    list_editable = ['show_on_main_page']
+    list_editable = ['is_active', 'show_on_main_page']
 
 
-class StaffMemberAdmin(admin.ModelAdmin):
-    list_display = ['name', 'branch', 'surname', 'role', 'cabinet_number', 'order', 'is_active', 'show_on_honorboard', 'show_on_reserve']
-    list_filter = ['is_active', 'show_on_honorboard', 'show_on_reserve']
-    search_fields = ['name', 'surname', 'role', 'phone', 'email']
-    list_editable = ['order', 'is_active', 'show_on_honorboard', 'show_on_reserve']
+class ContactStaffMemberAdmin(admin.ModelAdmin):
+    list_display = [
+        'surname', 'name', 'role', 'branch', 'cabinet_number', 'phone',
+        'order', 'is_active', 'is_management_head', 'show_on_reserve',
+    ]
+    list_filter = ['is_active', 'is_management_head', 'show_on_reserve', 'branch']
+    search_fields = ['name', 'surname', 'patronym', 'role', 'phone', 'email']
+    list_editable = ['order', 'is_active', 'is_management_head', 'show_on_reserve']
+    fields = STAFF_MEMBER_FORM_FIELDS
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(Q(show_on_contacts=True) | Q(is_management_head=True))
+
+    def save_model(self, request, obj, form, change):
+        obj.show_on_contacts = True
+        if not change:
+            obj.show_on_honorboard = False
+        super().save_model(request, obj, form, change)
+
+
+class HonorBoardStaffMemberAdmin(admin.ModelAdmin):
+    list_display = [
+        'surname', 'name', 'role', 'branch', 'order', 'is_active', 'show_on_reserve',
+    ]
+    list_filter = ['is_active', 'show_on_reserve', 'branch']
+    search_fields = ['name', 'surname', 'patronym', 'role', 'description']
+    list_editable = ['order', 'is_active', 'show_on_reserve']
+    fields = STAFF_MEMBER_FORM_FIELDS
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).filter(show_on_honorboard=True)
+
+    def save_model(self, request, obj, form, change):
+        obj.show_on_honorboard = True
+        if not change:
+            obj.show_on_contacts = False
+        super().save_model(request, obj, form, change)
 
 
 class VacancyAdmin(admin.ModelAdmin):
@@ -104,14 +152,24 @@ class CompetitionAdmin(admin.ModelAdmin):
 
 
 class CompetitionResultAdmin(admin.ModelAdmin):
-    list_display = ['title', 'completed_at', 'created_at']
-    list_filter = ['completed_at', 'created_at']
+    list_display = ['title', 'competition_type', 'completed_at', 'created_at']
+    list_editable = ['competition_type']
+    list_filter = ['competition_type', 'completed_at', 'created_at']
     search_fields = ['title']
+    fields = ['title', 'competition_type', 'decree_conduct', 'decree_results', 'completed_at']
 
 
 class StaffReserveInfoAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'updated_at']
-    fields = ['purpose', 'positions', 'additional_content']
+    fields = ['purpose', 'additional_content']
+
+
+class StaffReservePositionAdmin(admin.ModelAdmin):
+    list_display = ['title', 'order', 'is_active', 'created_at']
+    list_editable = ['order', 'is_active']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['title', 'description']
+    fields = ['title', 'description', 'order', 'is_active']
 
 
 class YouthInfoAdmin(admin.ModelAdmin):
@@ -155,9 +213,42 @@ class NewsPostAdmin(admin.ModelAdmin):
     date_hierarchy = 'published_at'
 
 
+class DepartmentAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug', 'vacancy_branch', 'is_published', 'order', 'updated_at']
+    list_filter = ['is_published']
+    search_fields = ['name', 'slug', 'vacancy_branch']
+    list_editable = ['is_published', 'order']
+    prepopulated_fields = {'slug': ('name',)}
+    fieldsets = [
+        ('Основное', {'fields': ['slug', 'name', 'intro', 'image', 'is_published', 'order']}),
+        ('О деятельности', {'fields': ['about_paragraphs', 'units', 'tasks']}),
+        ('Руководитель', {'fields': ['head_name', 'head_role', 'head_phone', 'head_email']}),
+        ('Контакты', {'fields': ['phone', 'email', 'vacancy_branch']}),
+    ]
+
+
+class DeputyDepartmentInline(admin.TabularInline):
+    model = DeputyDepartment
+    extra = 1
+    ordering = ['order']
+    autocomplete_fields = ['department']
+
+
+class DeputyAdmin(admin.ModelAdmin):
+    list_display = ['surname', 'name', 'patronymic', 'role', 'is_published', 'order']
+    list_filter = ['is_published']
+    search_fields = ['surname', 'name', 'patronymic', 'role']
+    list_editable = ['is_published', 'order']
+    inlines = [DeputyDepartmentInline]
+    fieldsets = [
+        ('Основное', {'fields': ['role', 'surname', 'name', 'patronymic', 'image', 'is_published', 'order']}),
+    ]
+
+
 custom_admin_site.register(Branch, BranchAdmin)
 custom_admin_site.register(Tender, TenderAdmin)
-custom_admin_site.register(StaffMember, StaffMemberAdmin)
+custom_admin_site.register(ContactStaffMember, ContactStaffMemberAdmin)
+custom_admin_site.register(HonorBoardStaffMember, HonorBoardStaffMemberAdmin)
 custom_admin_site.register(Vacancy, VacancyAdmin)
 custom_admin_site.register(WorkSchedule, WorkScheduleAdmin)
 custom_admin_site.register(RequiredExperience, RequiredExperienceAdmin)
@@ -180,8 +271,11 @@ custom_admin_site.register(VacancySubscription, VacancySubscriptionAdmin)
 custom_admin_site.register(Competition, CompetitionAdmin)
 custom_admin_site.register(CompetitionResult, CompetitionResultAdmin)
 custom_admin_site.register(StaffReserveInfo, StaffReserveInfoAdmin)
+custom_admin_site.register(StaffReservePosition, StaffReservePositionAdmin)
 custom_admin_site.register(YouthInfo, YouthInfoAdmin)
 custom_admin_site.register(PracticeApplication, PracticeApplicationAdmin)
 custom_admin_site.register(TrainingEvent, TrainingEventAdmin)
 custom_admin_site.register(TrainingFeedback, TrainingFeedbackAdmin)
 custom_admin_site.register(NewsPost, NewsPostAdmin)
+custom_admin_site.register(Department, DepartmentAdmin)
+custom_admin_site.register(Deputy, DeputyAdmin)
