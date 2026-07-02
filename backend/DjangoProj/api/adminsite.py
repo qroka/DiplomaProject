@@ -52,7 +52,7 @@ class CustomAdminSite(AdminSite):
             },
             'Антикоррупция': {
                 'app_label': 'anticorruption_group',
-                'models': ['AntiCorruptionInfo', 'AntiCorruptionDocument', 'CorruptionReport'],
+                'models': ['AntiCorruptionInfo', 'AntiCorruptionDocumentCategory', 'AntiCorruptionDocument', 'CorruptionReport'],
             },
             'Отделы': {
                 'app_label': 'branches_group',

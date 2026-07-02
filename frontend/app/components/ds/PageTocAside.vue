@@ -6,6 +6,7 @@
     }"
   >
     <UContentToc
+      :key="linksKey"
       title="На этой странице"
       highlight
       color="primary"
@@ -26,6 +27,8 @@ const props = defineProps<{
   links: ContentTocLink[]
   hasSectionToolbar?: boolean
 }>()
+
+const linksKey = computed(() => props.links.map(link => link.id).join('|'))
 
 const asideRootClass = computed(() => {
   const base = 'hidden overflow-y-auto lg:block lg:sticky py-8 lg:ps-4 lg:-ms-4 lg:pe-6.5'

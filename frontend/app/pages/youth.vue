@@ -120,6 +120,7 @@ function parseStepParts(step: string): StepPart[] {
             description="Пошаговый порядок для студентов, которые планируют пройти практику в органах местного самоуправления"
             overline="Этапы"
             heading-id="youth-practice-steps"
+            :toc-active="activeTab === 'practice'"
             spacing="lg"
           >
             <div
@@ -187,6 +188,7 @@ function parseStepParts(step: string): StepPart[] {
             description="Заполните форму — специалист управления муниципальной службы, кадров и наград свяжется с вами для согласования прохождения практики"
             overline="Подать заявку"
             heading-id="youth-practice-form"
+            :toc-active="activeTab === 'practice'"
             spacing="lg"
           >
             <PracticeApplicationForm />
@@ -202,6 +204,7 @@ function parseStepParts(step: string): StepPart[] {
             description="Программы стажировки для молодых специалистов в администрации Сургутского района"
             overline="Раздел в разработке"
             heading-id="youth-internship"
+            :toc-active="activeTab === 'internship'"
             spacing="lg"
           >
             <p
@@ -229,6 +232,7 @@ function parseStepParts(step: string): StepPart[] {
             description="Профориентационные материалы и программы для школьников, интересующихся муниципальной службой"
             overline="Раздел в разработке"
             heading-id="youth-school"
+            :toc-active="activeTab === 'school'"
             spacing="lg"
           >
             <p

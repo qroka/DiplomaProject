@@ -4,10 +4,11 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
 from .models import (
     Tender, Vacancy, StaffMember, WorkSchedule, RequiredExperience, JobType,
-    AntiCorruptionDocument, AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription,
+    AntiCorruptionDocument, AntiCorruptionDocumentCategory, AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription,
     Competition, CompetitionResult, StaffReserveInfo, YouthInfo, PracticeApplication,
     TrainingEvent, TrainingFeedback, NewsPost, Department, Deputy,
 )
@@ -15,7 +16,7 @@ from .serializers import (
     TenderSerializer, VacancySerializer, StaffMemberSerializer,
     JobApplicationSerializer, WorkScheduleSerializer,
     RequiredExperienceSerializer, JobTypeSerializer,
-    AntiCorruptionDocumentSerializer, AntiCorruptionInfoSerializer, CorruptionReportSerializer,
+    AntiCorruptionDocumentSerializer, AntiCorruptionDocumentCategorySerializer, AntiCorruptionInfoSerializer, CorruptionReportSerializer,
     BranchesGlobalSerializer, FeedbackSerializer, VacancySubscriptionSerializer,
     CompetitionSerializer, CompetitionResultSerializer, StaffReserveInfoSerializer,
     YouthInfoSerializer, PracticeApplicationSerializer,
@@ -27,6 +28,76 @@ from .serializers import (
 @api_view(['GET'])
 def hello(request):
     return Response({"message": "Hello from Django!"})
+
+@api_view(['GET'])
+def portal_search(request):
+    query = (request.query_params.get('q') or '').strip()
+    if len(query) < 2:
+        return Response({'vacancies': [], 'contacts': [], 'documents': []})
+
+    limit = 8
+
+    vacancies = list(
+        Vacancy.objects.filter(is_active=True, title__icontains=query)
+        .values('id', 'title', 'branch')[:limit]
+    )
+
+    contacts = list(
+        StaffMember.objects.filter(
+            is_active=True,
+            show_on_contacts=True,
+        )
+        .filter(
+            Q(surname__icontains=query)
+            | Q(name__icontains=query)
+            | Q(patronym__icontains=query)
+            | Q(role__icontains=query)
+            | Q(phone__icontains=query)
+            | Q(email__icontains=query)
+        )
+        .values('id', 'surname', 'name', 'patronym', 'role', 'phone', 'email')[:limit]
+    )
+
+    documents = []
+
+    for item in Tender.objects.filter(is_active=True, name__icontains=query).values('id', 'name')[:limit]:
+        documents.append({
+            'kind': 'tender',
+            'id': item['id'],
+            'title': item['name'],
+            'section': 'Конкурсы — документы',
+            'to': '/tenders#competition-rules',
+        })
+        if len(documents) >= limit:
+            break
+
+    if len(documents) < limit:
+        remaining = limit - len(documents)
+        for item in CompetitionResult.objects.filter(title__icontains=query).values('id', 'title', 'competition_type')[:remaining]:
+            documents.append({
+                'kind': 'competition_result',
+                'id': item['id'],
+                'title': item['title'],
+                'section': 'Конкурсы — результаты',
+                'to': '/tenders?tab=results',
+            })
+
+    if len(documents) < limit:
+        remaining = limit - len(documents)
+        for item in AntiCorruptionDocument.objects.filter(name__icontains=query).values('id', 'name')[:remaining]:
+            documents.append({
+                'kind': 'anti_corruption',
+                'id': item['id'],
+                'title': item['name'],
+                'section': 'Противодействие коррупции — документы',
+                'to': '/anti-corruption#anticorruption-documents',
+            })
+
+    return Response({
+        'vacancies': vacancies,
+        'contacts': contacts,
+        'documents': documents,
+    })
 
 
 @api_view(['GET'])
@@ -80,6 +151,17 @@ def submit_practice_application(request):
 def news_posts(request):
     items = NewsPost.objects.filter(is_published=True, show_on_main=True)
     serializer = NewsPostSerializer(items, many=True, context={'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def news_post_detail(request, pk: int):
+    try:
+        item = NewsPost.objects.get(pk=pk, is_published=True)
+    except NewsPost.DoesNotExist:
+        return Response({'error': 'News post not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = NewsPostSerializer(item, context={'request': request})
     return Response(serializer.data)
 
 
@@ -176,7 +258,8 @@ def vacancies(request):
 
     branch = request.query_params.get('branch') or request.query_params.get('org')
     if branch:
-        items = items.filter(branch__icontains=branch.strip())
+        branch = branch.strip()
+        items = items.filter(branch__iexact=branch)
 
     serializer = VacancySerializer(items, many=True)
     return Response(serializer.data)
@@ -244,8 +327,19 @@ def anti_corruption_info(request):
 
 @api_view(['GET'])
 def anti_corruption_documents(request):
-    items = AntiCorruptionDocument.objects.all()
-    serializer = AntiCorruptionDocumentSerializer(items, many=True, context={'request': request})
+    from django.db.models import Prefetch
+
+    categories = AntiCorruptionDocumentCategory.objects.prefetch_related(
+        Prefetch(
+            'documents',
+            queryset=AntiCorruptionDocument.objects.order_by('-created_at'),
+        ),
+    ).order_by('order', 'tab_label')
+    serializer = AntiCorruptionDocumentCategorySerializer(
+        categories,
+        many=True,
+        context={'request': request},
+    )
     return Response(serializer.data)
 
 

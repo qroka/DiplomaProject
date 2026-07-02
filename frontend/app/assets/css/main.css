@@ -43,6 +43,7 @@
 @import "./components/inputs.css";
 @import "./components/a11y-overrides.css";
 @import "./components/scrollbar.css";
+@import "./components/esia-gosuslugi-card.css";
 
 @import "./utilities/prose.css";
 
@@ -95,11 +96,48 @@ html.a11y-enabled.a11y-font-normal {
 }
 
 html.a11y-enabled.a11y-font-large {
-  font-size: 112.5%;
+  font-size: 125%;
 }
 
 html.a11y-enabled.a11y-font-xlarge {
-  font-size: 125%;
+  font-size: 150%;
+}
+
+html.a11y-enabled.a11y-font-xxlarge {
+  font-size: 200%;
+}
+
+.skip-link {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link:focus {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  border-radius: 9999px;
+  background: var(--color-surface-raised);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ui-primary);
+  box-shadow: 0 0 0 2px var(--ui-primary);
+  outline: none;
 }
 
 html.a11y-enabled.a11y-contrast-high:not(.dark) body {

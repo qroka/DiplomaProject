@@ -3,7 +3,7 @@
     <UContainer class="flex flex-col gap-10 py-16 lg:py-20">
       <div class="flex max-w-2xl flex-col gap-3">
         <UBadge
-          label="FAQ"
+          label="Вопрос - ответ"
           color="primary"
           variant="subtle"
           class="w-fit rounded-full"

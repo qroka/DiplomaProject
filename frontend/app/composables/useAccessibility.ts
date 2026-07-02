@@ -1,25 +1,57 @@
-export type A11yFontScale = 'normal' | 'large' | 'xlarge'
+export type A11yFontScale = 'normal' | 'large' | 'xlarge' | 'xxlarge'
 export type A11yContrast = 'default' | 'high' | 'inverted'
+export type A11yColorScheme = 'default' | 'bw' | 'wb' | 'brown' | 'blue'
 
 interface A11ySettings {
   enabled: boolean
   fontScale: A11yFontScale
   contrast: A11yContrast
+  colorScheme: A11yColorScheme
+  imagesEnabled: boolean
+  screenReaderMode: boolean
+  bigCursor: boolean
 }
 
 const STORAGE_KEY = 'hr-portal-a11y'
 
 function readSettings(): A11ySettings {
   if (!import.meta.client) {
-    return { enabled: false, fontScale: 'large', contrast: 'default' }
+    return {
+      enabled: false,
+      fontScale: 'normal',
+      contrast: 'default',
+      colorScheme: 'default',
+      imagesEnabled: true,
+      screenReaderMode: false,
+      bigCursor: false,
+    }
   }
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw) return JSON.parse(raw) as A11ySettings
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<A11ySettings>
+      return {
+        enabled: Boolean(parsed.enabled),
+        fontScale: parsed.fontScale ?? 'normal',
+        contrast: parsed.contrast ?? 'default',
+        colorScheme: parsed.colorScheme ?? 'default',
+        imagesEnabled: parsed.imagesEnabled ?? true,
+        screenReaderMode: parsed.screenReaderMode ?? false,
+        bigCursor: parsed.bigCursor ?? false,
+      }
+    }
   } catch {
     /* ignore */
   }
-  return { enabled: false, fontScale: 'large', contrast: 'default' }
+  return {
+    enabled: false,
+    fontScale: 'normal',
+    contrast: 'default',
+    colorScheme: 'default',
+    imagesEnabled: true,
+    screenReaderMode: false,
+    bigCursor: false,
+  }
 }
 
 function applyToDocument(settings: A11ySettings) {
@@ -28,18 +60,26 @@ function applyToDocument(settings: A11ySettings) {
   html.classList.toggle('a11y-enabled', settings.enabled)
   html.classList.toggle('a11y-solid-surfaces', settings.enabled)
   html.classList.remove(
-    'a11y-font-normal',
-    'a11y-font-large',
-    'a11y-font-xlarge',
     'a11y-contrast-high',
-    'a11y-contrast-inverted'
+    'a11y-contrast-inverted',
+    'a11y-scheme-bw',
+    'a11y-scheme-wb',
+    'a11y-scheme-brown',
+    'a11y-scheme-blue',
+    'a11y-images-off',
+    'a11y-screenreader',
+    'a11y-big-cursor',
   )
   if (!settings.enabled) return
-  if (settings.fontScale === 'normal') html.classList.add('a11y-font-normal')
-  if (settings.fontScale === 'large') html.classList.add('a11y-font-large')
-  if (settings.fontScale === 'xlarge') html.classList.add('a11y-font-xlarge')
   if (settings.contrast === 'high') html.classList.add('a11y-contrast-high')
   if (settings.contrast === 'inverted') html.classList.add('a11y-contrast-inverted')
+  if (settings.colorScheme === 'bw') html.classList.add('a11y-scheme-bw')
+  if (settings.colorScheme === 'wb') html.classList.add('a11y-scheme-wb')
+  if (settings.colorScheme === 'brown') html.classList.add('a11y-scheme-brown')
+  if (settings.colorScheme === 'blue') html.classList.add('a11y-scheme-blue')
+  if (!settings.imagesEnabled) html.classList.add('a11y-images-off')
+  if (settings.screenReaderMode) html.classList.add('a11y-screenreader')
+  if (settings.bigCursor) html.classList.add('a11y-big-cursor')
 }
 
 export function useAccessibility() {
@@ -73,8 +113,40 @@ export function useAccessibility() {
     persist()
   }
 
+  function setColorScheme(scheme: A11yColorScheme) {
+    settings.value.colorScheme = scheme
+    settings.value.enabled = true
+    persist()
+  }
+
+  function setImagesEnabled(value: boolean) {
+    settings.value.imagesEnabled = value
+    settings.value.enabled = true
+    persist()
+  }
+
+  function setScreenReaderMode(value: boolean) {
+    settings.value.screenReaderMode = value
+    settings.value.enabled = true
+    persist()
+  }
+
+  function setBigCursor(value: boolean) {
+    settings.value.bigCursor = value
+    settings.value.enabled = true
+    persist()
+  }
+
   function reset() {
-    settings.value = { enabled: false, fontScale: 'large', contrast: 'default' }
+    settings.value = {
+      enabled: false,
+      fontScale: 'normal',
+      contrast: 'default',
+      colorScheme: 'default',
+      imagesEnabled: true,
+      screenReaderMode: false,
+      bigCursor: false,
+    }
     persist()
   }
 
@@ -84,6 +156,10 @@ export function useAccessibility() {
     toggleEnabled,
     setFontScale,
     setContrast,
+    setColorScheme,
+    setImagesEnabled,
+    setScreenReaderMode,
+    setBigCursor,
     reset,
   }
 }

@@ -1,13 +1,14 @@
 from django.urls import path
 from .views import (
-    hello, tenders, competitions, competition_results, staff_members, vacancies, vacancy_detail,
+    hello, portal_search, tenders, competitions, competition_results, staff_members, vacancies, vacancy_detail,
     vacancy_filters, apply, anti_corruption_info, anti_corruption_documents, submit_corruption_report, branches_global,
     submit_feedback, vacancy_subscribe, staff_reserve_info, youth_info, submit_practice_application,
-    training_events, submit_training_feedback, news_posts, departments, department_detail, deputies,
+    training_events, submit_training_feedback, news_posts, news_post_detail, departments, department_detail, deputies,
 )
 
 urlpatterns = [
     path('hello/', hello),
+    path('search/', portal_search),
     path('tenders/', tenders),
     path('competitions/', competitions),
     path('competition-results/', competition_results),
@@ -17,6 +18,7 @@ urlpatterns = [
     path('training-events/', training_events),
     path('training-feedback/', submit_training_feedback),
     path('news/', news_posts),
+    path('news/<int:pk>/', news_post_detail),
     path('staff/', staff_members),
     path('vacancies/<int:pk>/', vacancy_detail),
     path('vacancies/', vacancies),

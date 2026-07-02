@@ -1,8 +1,8 @@
 <template>
-  <div class="flex-1 pb-6">
+  <div :class="embedded ? undefined : 'flex-1 pb-6'">
     <UModal
       v-model:open="isApplicationFormOpen"
-      title="Отклик на вакансию"
+      :ui="{ content: 'max-w-3xl w-[calc(100vw-2rem)] sm:w-full' }"
     >
       <template #body>
         <ApplicationForm
@@ -21,7 +21,10 @@
       {{ liveMessage }}
     </div>
 
-    <DsSection :spacing="spacing">
+    <DsSection
+      :bare="embedded"
+      :spacing="embedded ? 'none' : spacing"
+    >
       <DsSectionHeading
         v-if="title"
         :title="title"
@@ -31,7 +34,7 @@
 
       <div
         v-if="pending"
-        class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        class="grid grid-cols-1 gap-4 sm:grid-cols-2"
       >
         <DsSkeletonCard
           v-for="i in skeletonCount"
@@ -48,7 +51,7 @@
 
       <div
         v-else
-        class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        class="grid grid-cols-1 gap-4 sm:grid-cols-2"
       >
         <VacancyCard
           v-for="vacancy in vacancies"
@@ -165,6 +168,10 @@ const handleFormSubmit = async (formData) => {
 }
 
 defineProps({
+  embedded: {
+    type: Boolean,
+    default: false,
+  },
   title: {
     type: String,
     default: 'Последние вакансии',

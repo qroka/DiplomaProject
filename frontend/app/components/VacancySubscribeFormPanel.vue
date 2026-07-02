@@ -35,12 +35,10 @@
       v-else
       :state="form"
       :validate="validate"
-      class="flex flex-col gap-4"
+      class="flex min-w-0 w-full max-w-full flex-col gap-4"
       @submit="$emit('submit')"
     >
-      <UFormField
-        name="name"
-      >
+      <UFormField name="name">
         <template #label>
           <DsRequiredLabel label="Имя" />
         </template>
@@ -50,13 +48,11 @@
           size="lg"
           placeholder="Иван Иванов"
           autocomplete="name"
-          class="w-full"
+          class="w-full min-w-0"
         />
       </UFormField>
 
-      <UFormField
-        name="email"
-      >
+      <UFormField name="email">
         <template #label>
           <DsRequiredLabel label="Email" />
         </template>
@@ -66,13 +62,14 @@
           size="lg"
           placeholder="name@example.com"
           autocomplete="email"
-          class="w-full"
+          class="w-full min-w-0"
         />
       </UFormField>
 
       <UFormField
         label="Отраслевой функциональный орган"
         name="branch"
+        class="min-w-0 w-full"
       >
         <USelectMenu
           v-model="form.branch"
@@ -83,16 +80,30 @@
             placeholder: 'Поиск ОФО…',
             icon: 'i-lucide-search',
           }"
-          class="w-full"
+          class="w-full min-w-0 max-w-full"
+          :ui="{
+            base: 'w-full min-w-0 max-w-full',
+            value: 'truncate',
+            trailing: 'shrink-0',
+            trailingIcon: 'shrink-0',
+          }"
         />
       </UFormField>
 
-      <UFormField name="consentPersonalData">
+      <UFormField
+        name="consentPersonalData"
+        class="min-w-0 w-full"
+      >
         <UCheckbox
           v-model="form.consentPersonalData"
+          :ui="{
+            root: 'relative flex items-start gap-1',
+            wrapper: 'min-w-0 flex-1',
+            label: 'min-w-0 text-pretty',
+          }"
         >
           <template #label>
-            <span class="text-pretty text-sm leading-6 text-muted">
+            <span class="block min-w-0 text-pretty text-sm leading-6 text-muted">
               Согласен на
               <NuxtLink
                 to="/privacy"
@@ -101,7 +112,10 @@
                 обработку персональных данных
               </NuxtLink>
               (152-ФЗ)
-              <span class="text-error" aria-hidden="true"> *</span>
+              <span
+                class="text-error"
+                aria-hidden="true"
+              > *</span>
               <span class="text-xs text-muted"> обязательно</span>
             </span>
           </template>
@@ -115,7 +129,7 @@
         size="lg"
         color="primary"
         :loading="loading"
-        class="w-full justify-center rounded-full sm:w-fit"
+        class="w-full justify-center rounded-full"
       />
     </UForm>
   </div>
@@ -157,9 +171,10 @@ const submittedOfoHint = computed(() =>
 )
 
 const panelClass = computed(() => {
+  const base = 'min-w-0 w-full max-w-full rounded-2xl border border-default bg-default'
   if (props.accent || props.plain) {
-    return 'rounded-2xl border border-default bg-default p-6 sm:p-8'
+    return `${base} p-4 sm:p-6 lg:p-8`
   }
-  return 'rounded-2xl border border-default bg-default p-5 sm:p-6'
+  return `${base} p-4 sm:p-5 lg:p-6`
 })
 </script>

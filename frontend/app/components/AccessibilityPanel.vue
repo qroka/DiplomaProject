@@ -1,5 +1,5 @@
 <template>
-  <UPopover :ui="{ content: 'p-4 w-72' }">
+  <UPopover :ui="{ content: 'p-4 w-80 max-w-[calc(100vw-2rem)]' }">
     <UButton
       icon="i-lucide-eye"
       :label="compact ? undefined : 'Для слабовидящих'"
@@ -11,58 +11,55 @@
     />
 
     <template #content>
-      <div class="space-y-4">
-        <p class="text-sm font-semibold text-gray-900 dark:text-white">
+      <div class="space-y-5" data-a11y-panel>
+        <p class="text-sm font-semibold text-text-primary">
           Версия для слабовидящих
-        </p>
-        <p class="text-xs text-gray-500 dark:text-gray-400">
-          Масштабирование текста и контрастная схема (ГОСТ Р 52872-2024)
         </p>
 
         <div class="space-y-2">
-          <p class="text-xs font-medium text-gray-700 dark:text-gray-300">Размер текста</p>
+          <p class="text-xs font-medium text-text-secondary">Цветовая схема</p>
           <div class="flex flex-wrap gap-2">
             <UButton
               size="lg"
-              :variant="settings.fontScale === 'normal' ? 'solid' : 'outline'"
-              label="Обычный"
-              @click="setFontScale('normal')"
+              :variant="settings.colorScheme === 'default' ? 'solid' : 'outline'"
+              label="Стандарт"
+              @click="setColorScheme('default')"
             />
             <UButton
               size="lg"
-              :variant="settings.fontScale === 'large' ? 'solid' : 'outline'"
-              label="Крупный"
-              @click="setFontScale('large')"
+              :variant="settings.colorScheme === 'bw' ? 'solid' : 'outline'"
+              label="Ч/Б"
+              @click="setColorScheme('bw')"
             />
             <UButton
               size="lg"
-              :variant="settings.fontScale === 'xlarge' ? 'solid' : 'outline'"
-              label="Очень крупный"
-              @click="setFontScale('xlarge')"
+              :variant="settings.colorScheme === 'brown' ? 'solid' : 'outline'"
+              label="Коричн."
+              @click="setColorScheme('brown')"
+            />
+            <UButton
+              size="lg"
+              :variant="settings.colorScheme === 'blue' ? 'solid' : 'outline'"
+              label="Синяя"
+              @click="setColorScheme('blue')"
             />
           </div>
         </div>
 
         <div class="space-y-2">
-          <p class="text-xs font-medium text-gray-700 dark:text-gray-300">Контраст</p>
+          <p class="text-xs font-medium text-text-secondary">Изображения</p>
           <div class="flex flex-wrap gap-2">
             <UButton
               size="lg"
-              :variant="settings.contrast === 'default' ? 'solid' : 'outline'"
-              label="Стандарт"
-              @click="setContrast('default')"
+              :variant="settings.imagesEnabled ? 'solid' : 'outline'"
+              label="Вкл"
+              @click="setImagesEnabled(true)"
             />
             <UButton
               size="lg"
-              :variant="settings.contrast === 'high' ? 'solid' : 'outline'"
-              label="Высокий"
-              @click="setContrast('high')"
-            />
-            <UButton
-              size="lg"
-              :variant="settings.contrast === 'inverted' ? 'solid' : 'outline'"
-              label="Инверсия"
-              @click="setContrast('inverted')"
+              :variant="!settings.imagesEnabled ? 'solid' : 'outline'"
+              label="Выкл"
+              @click="setImagesEnabled(false)"
             />
           </div>
         </div>
@@ -88,5 +85,10 @@ defineProps({
   },
 })
 
-const { settings, setFontScale, setContrast, reset } = useAccessibility()
+const {
+  settings,
+  setColorScheme,
+  setImagesEnabled,
+  reset,
+} = useAccessibility()
 </script>

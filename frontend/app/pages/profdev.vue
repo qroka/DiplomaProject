@@ -8,7 +8,7 @@ const route = useRoute()
 const router = useRouter()
 const config = useRuntimeConfig()
 
-type ProfdevTab = 'all' | 'training' | 'leadership' | 'masterclass' | 'best_practice' | 'feedback'
+type ProfdevTab = 'all' | 'training' | 'leadership' | 'masterclass' | 'best_practice'
 
 const activeTab = ref<ProfdevTab>('all')
 
@@ -18,11 +18,10 @@ const tabItems: TabsItem[] = [
   { label: 'Встречи', value: 'leadership', icon: 'i-lucide-users' },
   { label: 'Мастер-классы', value: 'masterclass', icon: 'i-lucide-presentation' },
   { label: 'Лучшие практики', value: 'best_practice', icon: 'i-lucide-award' },
-  { label: 'Обратная связь', value: 'feedback', icon: 'i-lucide-message-square-plus' },
 ]
 
 function resolveTab(value: unknown): ProfdevTab {
-  const allowed: ProfdevTab[] = ['all', 'training', 'leadership', 'masterclass', 'best_practice', 'feedback']
+  const allowed: ProfdevTab[] = ['all', 'training', 'leadership', 'masterclass', 'best_practice']
   return allowed.includes(value as ProfdevTab) ? value as ProfdevTab : 'all'
 }
 
@@ -54,7 +53,6 @@ const { data: events, pending } = await useAsyncData('training-events', () =>
 
 function filterEventsByTab(tab: ProfdevTab) {
   const items = events.value ?? []
-  if (tab === 'feedback') return []
   if (tab === 'all') return items
   return items.filter(event => event.event_type === tab)
 }
@@ -85,12 +83,6 @@ function sectionMetaForTab(tab: ProfdevTab) {
         description: 'Успешные подходы и решения, которыми делятся команды администрации Сургутского района.',
         overline: 'Практики',
       }
-    case 'feedback':
-      return {
-        title: 'Предложения по организации обучения',
-        description: 'Поделитесь идеями по темам, форматам и расписанию мероприятий. Форма не предназначена для подачи официальных обращений.',
-        overline: 'Обратная связь',
-      }
     default:
       return {
         title: 'Расписание мероприятий',
@@ -116,16 +108,16 @@ function sectionMetaForTab(tab: ProfdevTab) {
       class="w-full"
     >
       <template #content="{ item }">
-        <div class="mt-6">
+        <div class="mt-6 space-y-10 lg:space-y-12">
           <DsContentSection
             :title="sectionMetaForTab(item.value as ProfdevTab).title"
             :description="sectionMetaForTab(item.value as ProfdevTab).description"
             :overline="sectionMetaForTab(item.value as ProfdevTab).overline"
             :heading-id="`profdev-${item.value}`"
+            :toc-active="activeTab === item.value"
             spacing="lg"
           >
             <TrainingEventsList
-              v-if="item.value !== 'feedback'"
               :events="filterEventsByTab(item.value as ProfdevTab)"
               :pending="pending"
               :show-type-badge="item.value === 'all'"
@@ -136,8 +128,17 @@ function sectionMetaForTab(tab: ProfdevTab) {
                 ? 'Загляните позже — расписание обновляется по мере появления новых программ.'
                 : 'Попробуйте другую вкладку или загляните позже.'"
             />
+          </DsContentSection>
 
-            <TrainingFeedbackForm v-else />
+          <DsContentSection
+            v-if="activeTab === item.value"
+            title="Предложения по организации обучения"
+            description="Поделитесь идеями по темам, форматам и расписанию мероприятий. Форма не предназначена для подачи официальных обращений."
+            overline="Обратная связь"
+            heading-id="profdev-feedback"
+            spacing="lg"
+          >
+            <TrainingFeedbackForm />
           </DsContentSection>
         </div>
       </template>

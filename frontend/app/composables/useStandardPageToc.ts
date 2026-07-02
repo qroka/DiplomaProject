@@ -1,5 +1,6 @@
 import type { ContentTocLink } from '@nuxt/ui'
-import type { InjectionKey, Ref } from 'vue'
+import type { InjectionKey, MaybeRefOrGetter, Ref } from 'vue'
+import { toValue } from 'vue'
 
 export interface StandardPageTocItem {
   id: string
@@ -41,11 +42,27 @@ export function provideStandardPageToc() {
   return context
 }
 
-export function useStandardPageTocRegister(item: StandardPageTocItem) {
+export function useStandardPageTocRegister(
+  item: StandardPageTocItem,
+  active: MaybeRefOrGetter<boolean> = true,
+) {
   const context = inject(standardPageTocKey, null)
 
   if (!context) return
 
-  onMounted(() => context.register(item))
+  function syncRegistration() {
+    if (toValue(active)) {
+      context.register(item)
+    }
+    else {
+      context.unregister(item.id)
+    }
+  }
+
+  onMounted(() => {
+    syncRegistration()
+    watch(() => toValue(active), syncRegistration)
+  })
+
   onUnmounted(() => context.unregister(item.id))
 }

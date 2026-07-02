@@ -2,7 +2,7 @@
   <section class="border-t border-default bg-elevated/40">
     <UModal
       v-model:open="isApplicationFormOpen"
-      title="Отклик на вакансию"
+      :ui="{ content: 'max-w-3xl w-[calc(100vw-2rem)] sm:w-full' }"
     >
       <template #body>
         <ApplicationForm
@@ -105,6 +105,9 @@
         <div
           ref="trackRef"
           class="vacancy-track flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory ps-4 pe-4 sm:ps-6 sm:pe-6 lg:ps-6 lg:pe-8"
+          role="region"
+          aria-label="Список вакансий"
+          tabindex="0"
           @scroll="updateScrollState"
         >
           <div

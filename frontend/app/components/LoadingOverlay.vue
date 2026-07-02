@@ -3,8 +3,20 @@
     <div
       v-if="showOverlay"
       class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-slate-950"
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
     >
-      <svg width="162" height="214" viewBox="0 0 81 107" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <span class="sr-only">Загрузка портала</span>
+      <svg
+        width="162"
+        height="214"
+        viewBox="0 0 81 107"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+      >
         <g id="i-custom-admsr 1" clip-path="url(#clip0_1_3)">
           <g id="bckGreen">
             <path id="green" d="M0 0H40.0988V100.071H6.7964C3.04285 100.071 0 96.8385 0 92.8509V0Z" fill="#048E40"/>
@@ -45,9 +57,11 @@
 const showOverlay = ref(true)
 
 onMounted(() => {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const delay = reduceMotion ? 0 : 1500
   setTimeout(() => {
     showOverlay.value = false
-  }, 1500)
+  }, delay)
 })
 </script>
 

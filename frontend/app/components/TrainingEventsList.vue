@@ -66,7 +66,7 @@
         </h3>
         <ul class="flex flex-col gap-4">
           <li
-            v-for="event in pastEvents"
+            v-for="event in paginatedPastEvents"
             :key="event.id"
           >
             <TrainingEventCard
@@ -76,6 +76,19 @@
             />
           </li>
         </ul>
+
+        <div
+          v-if="pastEvents.length > itemsPerPage"
+          class="flex justify-center pt-2"
+        >
+          <UPagination
+            v-model:page="pastPage"
+            :total="pastEvents.length"
+            :items-per-page="itemsPerPage"
+            color="primary"
+            size="lg"
+          />
+        </div>
       </section>
     </div>
   </div>
@@ -105,6 +118,9 @@ const props = withDefaults(defineProps<{
   emptyDescription: 'Загляните позже — расписание обновляется по мере появления новых программ.',
 })
 
+const itemsPerPage = 5
+const pastPage = ref(1)
+
 function isPast(dateStr: string) {
   return new Date(dateStr) < new Date()
 }
@@ -116,4 +132,13 @@ const upcomingEvents = computed(() =>
 const pastEvents = computed(() =>
   props.events.filter(event => isPast(event.event_date)),
 )
+
+const paginatedPastEvents = computed(() => {
+  const start = (pastPage.value - 1) * itemsPerPage
+  return pastEvents.value.slice(start, start + itemsPerPage)
+})
+
+watch(() => props.events, () => {
+  pastPage.value = 1
+})
 </script>

@@ -27,19 +27,28 @@ const props = withDefaults(defineProps<{
   description?: string
   overline?: string
   headingId?: string
+  tocLabel?: string
   spacing?: 'md' | 'lg'
+  tocActive?: boolean
 }>(), {
   title: undefined,
   description: undefined,
   overline: undefined,
   headingId: undefined,
+  tocLabel: undefined,
   spacing: 'md',
+  tocActive: true,
 })
 
-if (props.headingId && props.title) {
-  useStandardPageTocRegister({
-    id: props.headingId,
-    label: props.title,
-  })
+const resolvedTocLabel = computed(() => props.title || props.tocLabel)
+
+if (props.headingId && resolvedTocLabel.value) {
+  useStandardPageTocRegister(
+    {
+      id: props.headingId,
+      label: resolvedTocLabel.value,
+    },
+    () => props.tocActive,
+  )
 }
 </script>

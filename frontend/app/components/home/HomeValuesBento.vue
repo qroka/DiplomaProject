@@ -1,7 +1,7 @@
 <template>
   <section class="border-t border-default bg-default">
-    <UContainer class="flex flex-col gap-10 py-16 lg:py-20">
-      <div class="flex flex-col gap-3">
+    <UContainer class="flex min-w-0 flex-col gap-8 py-12 sm:gap-10 sm:py-16 lg:py-20">
+      <div class="flex max-w-2xl flex-col gap-3">
         <UBadge
           label="Принципы"
           color="primary"
@@ -10,13 +10,13 @@
         />
         <h2
           id="values"
-          class="w-fit whitespace-nowrap text-2xl font-bold tracking-tight text-highlighted sm:text-3xl lg:text-4xl"
+          class="text-balance text-xl font-bold tracking-tight text-highlighted sm:text-3xl lg:text-4xl"
         >
           Для нас муниципальная служба — это:
         </h2>
       </div>
 
-      <div class="grid gap-4 lg:grid-cols-12">
+      <div class="grid min-w-0 gap-4 lg:grid-cols-12">
         <div
           class="flex flex-col gap-2 lg:col-span-4"
           role="tablist"
@@ -30,7 +30,7 @@
             role="tab"
             :aria-selected="selectedId === value.id"
             aria-controls="values-panel"
-            class="flex items-start gap-4 rounded-2xl border p-4 text-left transition motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          class="flex items-start gap-3 rounded-2xl border p-3 text-left transition motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:gap-4 sm:p-4"
             :class="selectedId === value.id
               ? 'border-primary/50 bg-elevated'
               : 'border-default bg-default hover:border-primary/30 hover:bg-elevated/60'"
@@ -64,7 +64,7 @@
           id="values-panel"
           role="tabpanel"
           :aria-labelledby="`value-tab-${activeValue.id}`"
-          class="flex flex-col gap-6 rounded-2xl border border-default bg-default p-6 lg:col-span-8 lg:p-8"
+          class="flex flex-col gap-5 rounded-2xl border border-default bg-default p-4 sm:gap-6 sm:p-6 lg:col-span-8 lg:p-8"
         >
           <div class="flex flex-col gap-2">
             <p class="text-sm font-medium text-primary">

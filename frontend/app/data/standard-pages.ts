@@ -69,10 +69,18 @@ export function toNavigationMenuItems(links: PageLink[]): NavigationMenuItem[] {
   }))
 }
 
+function isVacancyDetailPath(path: string) {
+  return path.startsWith('/vacancyinfo/')
+}
+
 export function resolveSidebarLinks(path: string): {
   title: string
   links: PageLink[]
 } | null {
+  if (isVacancyDetailPath(path)) {
+    return null
+  }
+
   const section = resolveStandardSection(path)
   if (section) {
     return {

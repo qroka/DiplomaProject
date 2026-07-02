@@ -1,9 +1,10 @@
 from django.db.models import Q
 from django.contrib import admin
+from .forms import DepartmentAdminForm, VacancyAdminForm
 from .models import (
     Tender, ContactStaffMember, HonorBoardStaffMember, Vacancy, JobApplication, Branch,
     WorkSchedule, RequiredExperience, JobType, WorkingHours, AntiCorruptionDocument,
-    AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription,
+    AntiCorruptionDocumentCategory, AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription,
     Competition, CompetitionResult, StaffReserveInfo, StaffReservePosition, YouthInfo,
     PracticeApplication, TrainingEvent, TrainingFeedback, NewsPost, Department, Deputy,
     DeputyDepartment,
@@ -71,6 +72,7 @@ class HonorBoardStaffMemberAdmin(admin.ModelAdmin):
 
 
 class VacancyAdmin(admin.ModelAdmin):
+    form = VacancyAdminForm
     list_display = ['title', 'branch', 'location', 'salary', 'work_schedule', 'required_experience', 'job_type', 'is_new', 'is_active', 'created_at']
     list_filter = ['is_active', 'is_new', 'employment_type', 'work_schedule', 'required_experience', 'job_type']
     search_fields = ['title', 'branch']
@@ -109,10 +111,19 @@ class JobApplicationAdmin(admin.ModelAdmin):
     readonly_fields = ['consent_false_info', 'consent_verification', 'consent_personal_data', 'consent_resume_forwarding']
 
 
+class AntiCorruptionDocumentCategoryAdmin(admin.ModelAdmin):
+    list_display = ['tab_label', 'slug', 'order']
+    list_editable = ['order']
+    search_fields = ['tab_label', 'slug', 'title']
+    ordering = ['order', 'tab_label']
+
+
 class AntiCorruptionDocumentAdmin(admin.ModelAdmin):
     list_display = ['name', 'category', 'created_at']
     list_filter = ['category']
-    search_fields = ['name', 'category']
+    search_fields = ['name']
+    ordering = ['category__order', '-created_at']
+    autocomplete_fields = ['category']
 
 
 class AntiCorruptionInfoAdmin(admin.ModelAdmin):
@@ -214,6 +225,7 @@ class NewsPostAdmin(admin.ModelAdmin):
 
 
 class DepartmentAdmin(admin.ModelAdmin):
+    form = DepartmentAdminForm
     list_display = ['name', 'slug', 'vacancy_branch', 'is_published', 'order', 'updated_at']
     list_filter = ['is_published']
     search_fields = ['name', 'slug', 'vacancy_branch']
@@ -255,6 +267,7 @@ custom_admin_site.register(RequiredExperience, RequiredExperienceAdmin)
 custom_admin_site.register(JobType, JobTypeAdmin)
 custom_admin_site.register(WorkingHours, WorkingHoursAdmin)
 custom_admin_site.register(JobApplication, JobApplicationAdmin)
+custom_admin_site.register(AntiCorruptionDocumentCategory, AntiCorruptionDocumentCategoryAdmin)
 custom_admin_site.register(AntiCorruptionDocument, AntiCorruptionDocumentAdmin)
 custom_admin_site.register(AntiCorruptionInfo, AntiCorruptionInfoAdmin)
 custom_admin_site.register(CorruptionReport, CorruptionReportAdmin)

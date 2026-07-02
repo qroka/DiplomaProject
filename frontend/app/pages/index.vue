@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative min-w-0 overflow-x-clip">
     <AppContainerGuides />
 
     <HomeHero />

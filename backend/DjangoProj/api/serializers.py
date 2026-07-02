@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import (
     Tender, StaffMember, Vacancy, JobApplication, Branch, WorkSchedule, RequiredExperience,
-    JobType, AntiCorruptionDocument, AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription,
+    JobType, AntiCorruptionDocument, AntiCorruptionDocumentCategory, AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription,
     Competition, CompetitionResult, StaffReserveInfo, StaffReservePosition, YouthInfo, PracticeApplication,
     TrainingEvent, TrainingFeedback, NewsPost, Department, Deputy,
 )
@@ -97,7 +97,7 @@ class AntiCorruptionDocumentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AntiCorruptionDocument
-        fields = ['id', 'category', 'name', 'file', 'created_at']
+        fields = ['id', 'name', 'file', 'created_at']
 
     def get_file(self, obj):
         if obj.file:
@@ -106,6 +106,14 @@ class AntiCorruptionDocumentSerializer(serializers.ModelSerializer):
                 return request.build_absolute_uri(obj.file.url)
             return obj.file.url
         return None
+
+
+class AntiCorruptionDocumentCategorySerializer(serializers.ModelSerializer):
+    documents = AntiCorruptionDocumentSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = AntiCorruptionDocumentCategory
+        fields = ['id', 'slug', 'tab_label', 'title', 'order', 'documents']
 
 
 class AntiCorruptionInfoSerializer(serializers.ModelSerializer):

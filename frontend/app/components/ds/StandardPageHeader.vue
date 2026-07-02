@@ -48,7 +48,13 @@ const resolvedHeadline = computed(() => {
     '/vacancies': 'Карьера',
     '/anti-corruption': 'Противодействие коррупции',
     '/privacy': 'Правовая информация',
+    '/feedback': 'Сервисы портала',
   }
+
+  if (route.path.startsWith('/vacancyinfo/')) {
+    return 'Карьера'
+  }
+
   return pathHeadlines[route.path] ?? 'Кадровый портал'
 })
 </script>

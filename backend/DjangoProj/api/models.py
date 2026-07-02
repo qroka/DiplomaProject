@@ -147,7 +147,12 @@ class WorkingHours(models.Model):
 
 class Vacancy(models.Model):
     title = models.CharField('Название', max_length=255) 
-    branch = models.CharField('Отдел', max_length=255, blank=True) 
+    branch = models.CharField(
+        'Подразделение',
+        max_length=255,
+        blank=True,
+        help_text='Отраслевой (функциональный) орган из утверждённого списка',
+    ) 
     location = models.CharField('Локация', max_length=255) 
     salary = models.CharField('Зарплата', max_length=255) 
     employment_type = models.CharField('Тип занятости', max_length=100, blank=True) 
@@ -184,8 +189,28 @@ class BranchesGlobal(models.Model):
         return self.name
 
 
+class AntiCorruptionDocumentCategory(models.Model):
+    slug = models.SlugField('Код вкладки', max_length=50, unique=True)
+    tab_label = models.CharField('Название вкладки', max_length=120)
+    title = models.CharField('Полное название категории', max_length=255)
+    order = models.PositiveSmallIntegerField('Порядок', default=0)
+
+    class Meta:
+        verbose_name = 'Категория антикоррупционных документов'
+        verbose_name_plural = 'Категории антикоррупционных документов'
+        ordering = ['order', 'tab_label']
+
+    def __str__(self):
+        return self.tab_label
+
+
 class AntiCorruptionDocument(models.Model):
-    category = models.CharField('Категория', max_length=255)
+    category = models.ForeignKey(
+        AntiCorruptionDocumentCategory,
+        on_delete=models.PROTECT,
+        related_name='documents',
+        verbose_name='Категория',
+    )
     name = models.CharField('Название', max_length=255)
     file = models.FileField('Файл', upload_to='anti_corruption_docs/')
     created_at = models.DateTimeField('Дата создания', auto_now_add=True)
@@ -602,10 +627,10 @@ class Department(models.Model):
     email = models.EmailField('Email', blank=True)
     image = models.ImageField('Фото', upload_to='departments/', blank=True, null=True)
     vacancy_branch = models.CharField(
-        'Название для вакансий',
+        'Подразделение для вакансий',
         max_length=500,
         blank=True,
-        help_text='Должно совпадать с полем «Отдел» в вакансиях',
+        help_text='ОФО из списка — должно совпадать с подразделением в вакансиях',
     )
     is_published = models.BooleanField('Опубликовано', default=True)
     order = models.PositiveIntegerField('Порядок', default=0)

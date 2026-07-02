@@ -163,37 +163,50 @@
     </DsContentSection>
 
     <DsContentSection
-      v-if="!vacanciesPending"
       title="Открытые вакансии"
       :description="careerDescription"
       overline="Карьера"
       heading-id="dept-vacancies"
       spacing="lg"
     >
-      <DsCalloutPanel
-        v-if="relatedVacancies.length"
-        title="Присоединяйтесь к команде"
-        :description="`Актуальные вакансии в «${department.name}» доступны в разделе «Вакансии».`"
-        icon="i-lucide-briefcase"
-        color="primary"
-        variant="soft"
+      <div
+        v-if="vacanciesPending"
+        class="grid grid-cols-1 gap-4 sm:grid-cols-2"
+        aria-busy="true"
       >
-        <template #actions>
+        <DsSkeletonCard
+          v-for="index in 2"
+          :key="index"
+        />
+      </div>
+
+      <div
+        v-else-if="relatedVacancies.length"
+        class="space-y-6"
+      >
+        <VacancyCards
+          embedded
+          title=""
+          :vacancies="relatedVacancies"
+          :skeleton-count="2"
+        />
+
+        <div class="flex flex-wrap gap-3">
           <UButton
-            :label="`Смотреть вакансии (${relatedVacancies.length})`"
+            :label="`Все вакансии органа (${relatedVacancies.length})`"
             :to="vacanciesLink"
             color="primary"
             size="lg"
             trailing-icon="i-lucide-arrow-right"
             class="cursor-pointer"
           />
-        </template>
-      </DsCalloutPanel>
+        </div>
+      </div>
 
       <DsCalloutPanel
         v-else
         title="Свободных вакансий пока нет"
-        description="В данном органе пока нет свободных вакансий, но вы можете найти что-то другое в общем разделе."
+        description="В данном органе пока нет свободных вакансий, но вы можете найти предложения в общем разделе."
         icon="i-lucide-briefcase"
         color="primary"
         variant="soft"
@@ -229,10 +242,11 @@ import {
   defaultDepartmentImage,
   type Department,
 } from '~/data/departments'
+import type { Vacancy } from '~/components/VacancyCard.vue'
 
 const props = defineProps<{
   department: Department
-  relatedVacancies: unknown[]
+  relatedVacancies: Vacancy[]
   vacanciesLink: string
   vacanciesPending?: boolean
 }>()

@@ -5,6 +5,8 @@
   >
     <div
       class="ds-container flex h-12 items-center max-lg:overflow-x-auto max-lg:overflow-y-hidden max-lg:scrollbar-none"
+      role="navigation"
+      aria-label="Навигация по разделу"
     >
       <UNavigationMenu
         :items="items"

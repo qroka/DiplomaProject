@@ -1,0 +1,36 @@
+.esia-gosuslugi-card {
+  --esia-gosuslugi-blue: #0057b8;
+  --esia-gosuslugi-blue-hover: #004494;
+
+  background-color: var(--esia-gosuslugi-blue) !important;
+  border: 1px solid rgb(255 255 255 / 12%);
+  box-shadow: 0 10px 24px rgb(0 87 184 / 22%);
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+}
+
+.esia-gosuslugi-card:hover {
+  background-color: var(--esia-gosuslugi-blue-hover) !important;
+  box-shadow: 0 14px 28px rgb(0 87 184 / 28%);
+}
+
+.esia-gosuslugi-card:focus-visible {
+  outline: 2px solid rgb(255 255 255 / 80%);
+  outline-offset: 2px;
+}
+
+.esia-gosuslugi-card .esia-gosuslugi-card__icon {
+  color: #fff;
+}
+
+.esia-gosuslugi-card .esia-gosuslugi-card__title {
+  color: #fff;
+}
+
+.esia-gosuslugi-card .esia-gosuslugi-card__description {
+  color: rgb(255 255 255 / 88%);
+}
+
+.esia-gosuslugi-card .esia-gosuslugi-card__badge {
+  background-color: rgb(255 255 255 / 16%);
+  color: #fff;
+}

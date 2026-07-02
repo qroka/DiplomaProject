@@ -3,6 +3,41 @@
 html.a11y-enabled {
   --glass-blur: 0;
   --glass-opacity: 1;
+  overflow-x: clip;
+  color-scheme: light;
+}
+
+html.a11y-enabled body {
+  overflow-x: clip;
+}
+
+html.a11y-enabled img,
+html.a11y-enabled video,
+html.a11y-enabled picture {
+  max-width: 100%;
+  height: auto;
+}
+
+html.a11y-enabled :where(p, li, h1, h2, h3, h4, h5, h6, label, span, a, button) {
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+}
+
+html.a11y-enabled table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+html.a11y-enabled pre,
+html.a11y-enabled code {
+  white-space: pre-wrap;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+html.a11y-enabled .animate-ping {
+  animation: none !important;
 }
 
 /* Light theme — opaque white surfaces */
@@ -51,4 +86,154 @@ html.a11y-enabled.a11y-contrast-inverted {
   --color-text-primary: #ffff00;
   --color-text-secondary: #ffff00;
   --color-border-default: #ffff00;
+}
+
+/* Color schemes (investsr.ru-like) */
+/* NOTE: These schemes intentionally override UI tokens to fully recolor the whole site. */
+html.a11y-enabled.a11y-scheme-bw,
+html.a11y-enabled.a11y-scheme-wb,
+html.a11y-enabled.a11y-scheme-brown,
+html.a11y-enabled.a11y-scheme-blue {
+  --a11y-bg: #ffffff;
+  --a11y-fg: #000000;
+  --a11y-muted: #111827;
+  --a11y-border: #111827;
+  --a11y-link: #0000cc;
+  --a11y-accent: #000000;
+
+  --color-surface-default: var(--a11y-bg) !important;
+  --color-surface-raised: var(--a11y-bg) !important;
+  --color-surface-sunken: var(--a11y-bg) !important;
+  --color-text-primary: var(--a11y-fg) !important;
+  --color-text-secondary: var(--a11y-muted) !important;
+  --color-text-muted: var(--a11y-muted) !important;
+  --color-border-default: var(--a11y-border) !important;
+
+  /* Nuxt UI palette */
+  --ui-color-primary-50: var(--a11y-bg);
+  --ui-color-primary-100: var(--a11y-bg);
+  --ui-color-primary-200: var(--a11y-bg);
+  --ui-color-primary-300: var(--a11y-bg);
+  --ui-color-primary-400: var(--a11y-accent);
+  --ui-color-primary-500: var(--a11y-accent);
+  --ui-color-primary-600: var(--a11y-accent);
+  --ui-color-primary-700: var(--a11y-accent);
+  --ui-color-primary-800: var(--a11y-accent);
+  --ui-color-primary-900: var(--a11y-accent);
+  --ui-color-primary-950: var(--a11y-accent);
+}
+
+html.a11y-enabled.a11y-scheme-bw {
+  --a11y-bg: #ffffff;
+  --a11y-fg: #000000;
+  --a11y-muted: #111827;
+  --a11y-border: #111827;
+  --a11y-link: #0000cc;
+  --a11y-accent: #000000;
+}
+
+html.a11y-enabled.a11y-scheme-bw body {
+  background: var(--a11y-bg) !important;
+  color: var(--a11y-fg) !important;
+}
+
+html.a11y-enabled.a11y-scheme-bw a {
+  color: var(--a11y-link) !important;
+  text-decoration: underline !important;
+}
+
+html.a11y-enabled.a11y-scheme-wb {
+  --a11y-bg: #000000;
+  --a11y-fg: #ffffff;
+  --a11y-muted: #e5e7eb;
+  --a11y-border: #e5e7eb;
+  --a11y-link: #93c5fd;
+  --a11y-accent: #ffffff;
+}
+
+html.a11y-enabled.a11y-scheme-wb body {
+  background: var(--a11y-bg) !important;
+  color: var(--a11y-fg) !important;
+}
+
+html.a11y-enabled.a11y-scheme-wb a {
+  color: var(--a11y-link) !important;
+  text-decoration: underline !important;
+}
+
+html.a11y-enabled.a11y-scheme-brown {
+  --a11y-bg: #f5f0dc;
+  --a11y-fg: #3b2b1f;
+  --a11y-muted: #4b3a2a;
+  --a11y-border: #3b2b1f;
+  --a11y-link: #1b5e20;
+  --a11y-accent: #3b2b1f;
+}
+
+html.a11y-enabled.a11y-scheme-brown body {
+  background: var(--a11y-bg) !important;
+  color: var(--a11y-fg) !important;
+}
+
+html.a11y-enabled.a11y-scheme-brown a {
+  color: var(--a11y-link) !important;
+  text-decoration: underline !important;
+}
+
+html.a11y-enabled.a11y-scheme-blue {
+  --a11y-bg: #0b2a4a;
+  --a11y-fg: #cfe8ff;
+  --a11y-muted: #a7d4ff;
+  --a11y-border: #cfe8ff;
+  --a11y-link: #7dd3fc;
+  --a11y-accent: #cfe8ff;
+}
+
+html.a11y-enabled.a11y-scheme-blue body {
+  background: var(--a11y-bg) !important;
+  color: var(--a11y-fg) !important;
+}
+
+html.a11y-enabled.a11y-scheme-blue a {
+  color: var(--a11y-link) !important;
+  text-decoration: underline !important;
+}
+
+html.a11y-enabled.a11y-scheme-bw :where(a, button, input, textarea, select),
+html.a11y-enabled.a11y-scheme-wb :where(a, button, input, textarea, select),
+html.a11y-enabled.a11y-scheme-brown :where(a, button, input, textarea, select),
+html.a11y-enabled.a11y-scheme-blue :where(a, button, input, textarea, select) {
+  accent-color: var(--a11y-accent);
+}
+
+html.a11y-enabled.a11y-scheme-bw :where(button, [role="button"]) {
+  border-color: var(--a11y-border) !important;
+}
+
+html.a11y-enabled.a11y-scheme-wb :where(button, [role="button"]) {
+  border-color: var(--a11y-border) !important;
+}
+
+/* Images toggle */
+html.a11y-enabled.a11y-images-off :where(img, picture, video, canvas) {
+  display: none !important;
+}
+
+/* Big cursor */
+html.a11y-enabled.a11y-big-cursor,
+html.a11y-enabled.a11y-big-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath fill='%23000' d='M6 4v34l9.4-9.4 6.6 13.8 4.4-2.1-6.6-13.8H33L6 4z'/%3E%3Cpath fill='%23fff' d='M8 9.2 27.3 24H18.5l6.2 13-1.1.5-6.2-13L8 34.1V9.2z'/%3E%3C/svg%3E") 6 4, auto !important;
+}
+
+/* Screen reader / reading mode */
+html.a11y-enabled.a11y-screenreader {
+  letter-spacing: 0.02em;
+}
+
+html.a11y-enabled.a11y-screenreader :where(p, li) {
+  line-height: 1.9;
+}
+
+html.a11y-enabled.a11y-screenreader :where(.prose, .ds-prose) {
+  max-width: 70ch;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="ds-container pb-6">
+  <div :class="embedded ? undefined : 'ds-container pb-6'">
     <div class="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
       <div
         class="flex flex-wrap gap-3"
@@ -82,8 +82,10 @@ const props = withDefaults(defineProps<{
   filterDefs: FilterDef[]
   total: number
   ariaLabel?: string
+  embedded?: boolean
 }>(), {
   ariaLabel: 'Фильтры вакансий',
+  embedded: false,
 })
 
 const emit = defineEmits<{

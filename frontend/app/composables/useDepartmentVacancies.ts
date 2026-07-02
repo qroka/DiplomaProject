@@ -1,9 +1,5 @@
+import type { Vacancy } from '~/components/VacancyCard.vue'
 import type { Department } from '~/data/departments'
-
-interface VacancyListItem {
-  branch?: string
-  is_active?: boolean
-}
 
 export function useDepartmentVacancies(department: Ref<Department | undefined>) {
   const config = useRuntimeConfig()
@@ -21,14 +17,9 @@ export function useDepartmentVacancies(department: Ref<Department | undefined>) 
       if (!branch) return []
 
       const params = new URLSearchParams({ org: branch })
-      const items = await $fetch<VacancyListItem[]>(
+      return $fetch<Vacancy[]>(
         `${config.public.apiBaseUrl}/api/vacancies/?${params.toString()}`,
       )
-
-      return items.filter((vacancy) => {
-        const value = (vacancy.branch || '').trim()
-        return value.length > 0 && vacancy.is_active !== false
-      })
     },
     {
       server: false,

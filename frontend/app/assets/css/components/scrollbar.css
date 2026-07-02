@@ -64,11 +64,9 @@ html {
 
 /* A11y — thicker, higher contrast, system-friendly */
 html.a11y-enabled {
-  --scrollbar-size: 14px;
   --scrollbar-track: var(--color-border-default);
   --scrollbar-thumb: var(--color-text-primary);
   --scrollbar-thumb-hover: var(--color-text-primary);
-  scrollbar-width: auto;
 }
 
 html.a11y-enabled.a11y-contrast-inverted {

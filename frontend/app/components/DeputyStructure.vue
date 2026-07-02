@@ -37,11 +37,8 @@
     >
 
       <nav
-
-        class="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0 lg:sticky lg:top-[calc(var(--ui-header-height,4rem)+3rem+1rem)] lg:self-start"
-
+        class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1 lg:sticky lg:top-[calc(var(--ui-header-height,4rem)+3rem+1rem)] lg:self-start"
         aria-label="Заместители главы района"
-
       >
 
         <button
@@ -52,7 +49,7 @@
 
           type="button"
 
-          class="group flex min-w-[240px] shrink-0 items-center gap-3 rounded-xl border px-3 py-3 text-left transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary lg:min-w-0 lg:w-full"
+          class="group flex w-full items-center gap-3 rounded-xl border px-3 py-3 text-left transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
 
           :class="selectedIndex === index
 
