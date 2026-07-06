@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { headOfDistrict, socialLinks } from '~/data/departments'
+import { headOfDistrict } from '~/data/departments'
+import { socialLinks } from '~/data/navigation'
 
 useHead({ title: 'О нас' })
 
@@ -83,8 +84,8 @@ const missionCards = [
         <div class="flex flex-wrap gap-2">
           <UButton
             v-for="link in socialLinks"
-            :key="link.url"
-            :to="link.url"
+            :key="link.to"
+            :to="link.to"
             target="_blank"
             rel="noopener noreferrer"
             :icon="link.image ? undefined : link.icon"

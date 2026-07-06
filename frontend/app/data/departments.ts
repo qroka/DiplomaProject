@@ -38,13 +38,4 @@ export const headOfDistrict = {
     'За каждым, даже скромным, улучшением жизни в Сургутском районе стоит конкретный человек в администрации Сургутского района. Мы верим, что вы внесёте свой вклад в развитие района и будете гордиться тем, что являетесь членом нашей команды.'
 }
 
-import { socialLinks as portalSocialLinks } from './navigation'
-
-export const socialLinks = portalSocialLinks.map(({ label, to, icon, image }) => ({
-  label,
-  url: to,
-  icon,
-  image,
-}))
-
 export const defaultDepartmentImage = '/images/Picture.png'

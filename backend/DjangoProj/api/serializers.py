@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import (
     Tender, StaffMember, Vacancy, JobApplication, Branch, WorkSchedule, RequiredExperience,
     JobType, AntiCorruptionDocument, AntiCorruptionDocumentCategory, AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription,
-    Competition, CompetitionResult, StaffReserveInfo, StaffReservePosition, YouthInfo, PracticeApplication,
+    Competition, CompetitionResult, StaffReserveInfo, StaffReservePosition, StaffReserveDocument, VacancyDocument, WorkPartner, YouthInfo, PracticeApplication,
     TrainingEvent, TrainingFeedback, NewsPost, Department, Deputy,
 )
 
@@ -157,6 +157,22 @@ class BranchesGlobalSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class WorkPartnerSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = WorkPartner
+        fields = ['id', 'name', 'url', 'image', 'order']
+
+    def get_image(self, obj):
+        if obj.logo_file:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.logo_file.url)
+            return obj.logo_file.url
+        return obj.logo_path
+
+
 class FeedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feedback
@@ -217,6 +233,38 @@ class StaffReservePositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = StaffReservePosition
         fields = ['id', 'title', 'description', 'order']
+
+
+class StaffReserveDocumentSerializer(serializers.ModelSerializer):
+    link = serializers.SerializerMethodField()
+
+    class Meta:
+        model = StaffReserveDocument
+        fields = ['id', 'name', 'link', 'order', 'created_at']
+
+    def get_link(self, obj):
+        if obj.file:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.file.url)
+            return obj.file.url
+        return None
+
+
+class VacancyDocumentSerializer(serializers.ModelSerializer):
+    link = serializers.SerializerMethodField()
+
+    class Meta:
+        model = VacancyDocument
+        fields = ['id', 'name', 'link', 'order', 'created_at']
+
+    def get_link(self, obj):
+        if obj.file:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.file.url)
+            return obj.file.url
+        return None
 
 
 class StaffReserveInfoSerializer(serializers.ModelSerializer):

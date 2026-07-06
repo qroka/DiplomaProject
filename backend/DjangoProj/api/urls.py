@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import (
     hello, portal_search, tenders, competitions, competition_results, staff_members, vacancies, vacancy_detail,
-    vacancy_filters, apply, anti_corruption_info, anti_corruption_documents, submit_corruption_report, branches_global,
-    submit_feedback, vacancy_subscribe, staff_reserve_info, youth_info, submit_practice_application,
+    vacancy_filters, apply, anti_corruption_info, anti_corruption_documents, submit_corruption_report, branches_global, work_partners,
+    submit_feedback, vacancy_subscribe, staff_reserve_info, staff_reserve_documents, vacancy_documents, youth_info, submit_practice_application,
     training_events, submit_training_feedback, news_posts, news_post_detail, departments, department_detail, deputies,
 )
 
@@ -12,7 +12,9 @@ urlpatterns = [
     path('tenders/', tenders),
     path('competitions/', competitions),
     path('competition-results/', competition_results),
+    path('vacancy-documents/', vacancy_documents),
     path('staff-reserve/', staff_reserve_info),
+    path('staff-reserve/documents/', staff_reserve_documents),
     path('youth/', youth_info),
     path('youth/practice-apply/', submit_practice_application),
     path('training-events/', training_events),
@@ -29,6 +31,7 @@ urlpatterns = [
     path('anti-corruption-documents/', anti_corruption_documents),
     path('submit-corruption-report/', submit_corruption_report),
     path('branches-global/', branches_global),
+    path('work-partners/', work_partners),
     path('departments/<slug:slug>/', department_detail),
     path('departments/', departments),
     path('deputies/', deputies),

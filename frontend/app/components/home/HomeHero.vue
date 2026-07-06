@@ -25,20 +25,31 @@
           Вакансии, кадровый резерв и развитие для тех, кто работает на жителей Сургутского района — рядом с домом, с понятными условиями и предсказуемым ростом.
         </p>
 
-        <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
+        <div class="flex w-full flex-col items-center gap-3">
+          <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
+            <UButton
+              label="Стать частью команды"
+              to="/vacancies"
+              icon="i-lucide-briefcase"
+              size="xl"
+              class="w-full justify-center rounded-full sm:w-auto"
+            />
+            <UButton
+              label="Узнать больше"
+              to="/about"
+              color="neutral"
+              variant="subtle"
+              trailing-icon="i-lucide-arrow-up-right"
+              size="xl"
+              class="w-full justify-center rounded-full sm:w-auto"
+            />
+          </div>
           <UButton
-            label="Стать частью команды"
-            to="/vacancies"
-            icon="i-lucide-briefcase"
-            size="xl"
-            class="w-full justify-center rounded-full sm:w-auto"
-          />
-          <UButton
-            label="Узнать больше"
-            to="/about"
+            label="Обратная связь"
+            to="/feedback"
+            icon="i-lucide-message-square"
             color="neutral"
-            variant="subtle"
-            trailing-icon="i-lucide-arrow-up-right"
+            variant="outline"
             size="xl"
             class="w-full justify-center rounded-full sm:w-auto"
           />

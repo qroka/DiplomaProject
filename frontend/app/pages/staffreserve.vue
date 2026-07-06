@@ -120,6 +120,16 @@ const positions = computed(() => info.value?.positions ?? [])
     </DsContentSection>
 
     <DsContentSection
+      title="Документы"
+      description="Нормативные и информационные материалы о формировании и работе кадрового резерва администрации Сургутского района."
+      overline="Материалы"
+      heading-id="reserve-documents"
+      spacing="lg"
+    >
+      <StaffReserveDocumentsList />
+    </DsContentSection>
+
+    <DsContentSection
       title="Результаты конкурсов"
       description="Архив завершённых конкурсов на формирование кадрового резерва: постановление о проведении и постановление о результатах в виде прикреплённых файлов."
       overline="Архив"

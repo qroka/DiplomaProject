@@ -5,11 +5,12 @@ from .models import (
     Tender, ContactStaffMember, HonorBoardStaffMember, Vacancy, JobApplication, Branch,
     WorkSchedule, RequiredExperience, JobType, WorkingHours, AntiCorruptionDocument,
     AntiCorruptionDocumentCategory, AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription,
-    Competition, CompetitionResult, StaffReserveInfo, StaffReservePosition, YouthInfo,
+    Competition, CompetitionResult, StaffReserveInfo, StaffReservePosition, StaffReserveDocument, VacancyDocument, WorkPartner, YouthInfo,
     PracticeApplication, TrainingEvent, TrainingFeedback, NewsPost, Department, Deputy,
     DeputyDepartment,
 )
 from .adminsite import custom_admin_site
+from .admin_auth import register_auth_models
 
 
 STAFF_MEMBER_FORM_FIELDS = [
@@ -142,6 +143,14 @@ class BranchesGlobalAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
+class WorkPartnerAdmin(admin.ModelAdmin):
+    list_display = ['name', 'url', 'order', 'is_active', 'created_at']
+    list_editable = ['order', 'is_active']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['name', 'url']
+    fields = ['name', 'url', 'logo_file', 'logo_path', 'order', 'is_active']
+
+
 class VacancySubscriptionAdmin(admin.ModelAdmin):
     list_display = ['name', 'email', 'branch_display', 'is_active', 'created_at']
     list_filter = ['is_active', 'created_at']
@@ -181,6 +190,22 @@ class StaffReservePositionAdmin(admin.ModelAdmin):
     list_filter = ['is_active', 'created_at']
     search_fields = ['title', 'description']
     fields = ['title', 'description', 'order', 'is_active']
+
+
+class StaffReserveDocumentAdmin(admin.ModelAdmin):
+    list_display = ['name', 'order', 'is_active', 'created_at']
+    list_editable = ['order', 'is_active']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['name']
+    fields = ['name', 'file', 'order', 'is_active']
+
+
+class VacancyDocumentAdmin(admin.ModelAdmin):
+    list_display = ['name', 'order', 'is_active', 'created_at']
+    list_editable = ['order', 'is_active']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['name']
+    fields = ['name', 'file', 'order', 'is_active']
 
 
 class YouthInfoAdmin(admin.ModelAdmin):
@@ -272,6 +297,7 @@ custom_admin_site.register(AntiCorruptionDocument, AntiCorruptionDocumentAdmin)
 custom_admin_site.register(AntiCorruptionInfo, AntiCorruptionInfoAdmin)
 custom_admin_site.register(CorruptionReport, CorruptionReportAdmin)
 custom_admin_site.register(BranchesGlobal, BranchesGlobalAdmin)
+custom_admin_site.register(WorkPartner, WorkPartnerAdmin)
 
 
 class FeedbackAdmin(admin.ModelAdmin):
@@ -285,6 +311,8 @@ custom_admin_site.register(Competition, CompetitionAdmin)
 custom_admin_site.register(CompetitionResult, CompetitionResultAdmin)
 custom_admin_site.register(StaffReserveInfo, StaffReserveInfoAdmin)
 custom_admin_site.register(StaffReservePosition, StaffReservePositionAdmin)
+custom_admin_site.register(StaffReserveDocument, StaffReserveDocumentAdmin)
+custom_admin_site.register(VacancyDocument, VacancyDocumentAdmin)
 custom_admin_site.register(YouthInfo, YouthInfoAdmin)
 custom_admin_site.register(PracticeApplication, PracticeApplicationAdmin)
 custom_admin_site.register(TrainingEvent, TrainingEventAdmin)
@@ -292,3 +320,5 @@ custom_admin_site.register(TrainingFeedback, TrainingFeedbackAdmin)
 custom_admin_site.register(NewsPost, NewsPostAdmin)
 custom_admin_site.register(Department, DepartmentAdmin)
 custom_admin_site.register(Deputy, DeputyAdmin)
+
+register_auth_models(custom_admin_site)

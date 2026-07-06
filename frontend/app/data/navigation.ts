@@ -115,14 +115,12 @@ export interface SocialLink {
   image?: string
 }
 
-/** Официальные соцсети администрации Сургутского района (из t.me/mysurgutdistrict) */
+/** Официальные соцсети HR-портала администрации Сургутского района */
 export const socialLinks: SocialLink[] = [
-  { label: 'ВКонтакте', to: 'https://vk.com/mysurgutdistrict', icon: 'i-simple-icons-vk' },
-  { label: 'Telegram', to: 'https://t.me/mysurgutdistrict', icon: 'i-simple-icons-telegram' },
-  { label: 'Одноклассники', to: 'https://ok.ru/group/62232614142167', icon: 'i-simple-icons-odnoklassniki' },
+  { label: 'ВКонтакте', to: 'https://vk.com/hradmsr', icon: 'i-simple-icons-vk' },
   {
     label: 'MAX',
-    to: 'https://max.ru/id8617011350_gos',
+    to: 'https://max.ru/join/bjPxpiPjAkD8_jk7eHTtAM8RQSKgshB4moGTlOm5Ggc',
     icon: 'i-custom-max-messenger',
     image: '/Icons/max.svg',
   },

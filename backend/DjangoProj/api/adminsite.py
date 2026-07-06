@@ -13,13 +13,18 @@ class CustomAdminSite(AdminSite):
         all_models = api_app['models']
 
         groups = {
+            'Пользователи': {
+                'app_label': 'users_group',
+                'models': ['User', 'Group'],
+                'superuser_only': True,
+            },
             'Главная': {
                 'app_label': 'main_page_group',
-                'models': ['NewsPost'],
+                'models': ['NewsPost', 'WorkPartner'],
             },
             'Вакансии': {
                 'app_label': 'vacancies_group',
-                'models': ['Vacancy', 'JobApplication', 'VacancySubscription', 'WorkSchedule',
+                'models': ['Vacancy', 'VacancyDocument', 'JobApplication', 'VacancySubscription', 'WorkSchedule',
                            'RequiredExperience', 'JobType', 'WorkingHours'],
             },
             'Сотрудники': {
@@ -36,7 +41,7 @@ class CustomAdminSite(AdminSite):
             },
             'Кадровый резерв': {
                 'app_label': 'staff_reserve_group',
-                'models': ['StaffReserveInfo', 'StaffReservePosition'],
+                'models': ['StaffReserveInfo', 'StaffReservePosition', 'StaffReserveDocument'],
             },
             'Молодёжь': {
                 'app_label': 'youth_group',
@@ -58,14 +63,31 @@ class CustomAdminSite(AdminSite):
                 'app_label': 'branches_group',
                 'models': ['BranchesGlobal'],
             },
+            'Обратная связь': {
+                'app_label': 'feedback_group',
+                'models': ['Feedback'],
+            },
         }
+
+        auth_app = next((a for a in app_list if a['app_label'] == 'auth'), None)
+        auth_models = auth_app['models'] if auth_app else []
 
         new_app_list = []
         for name, config in groups.items():
-            group_models = [
-                m for m in all_models
-                if m['object_name'] in config['models']
-            ]
+            if config.get('superuser_only') and not request.user.is_superuser:
+                continue
+
+            if config['app_label'] == 'users_group':
+                group_models = [
+                    m for m in auth_models
+                    if m['object_name'] in config['models']
+                ]
+            else:
+                group_models = [
+                    m for m in all_models
+                    if m['object_name'] in config['models']
+                ]
+
             if group_models:
                 new_app_list.append({
                     'name': name,

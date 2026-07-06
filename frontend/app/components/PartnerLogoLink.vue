@@ -9,7 +9,7 @@
     <div class="flex h-14 w-full items-center justify-center">
       <img
         :src="logo.image"
-        :alt="logo.alt"
+        :alt="logo.name"
         width="56"
         height="56"
         loading="lazy"
@@ -18,7 +18,7 @@
     </div>
 
     <span class="text-sm font-medium leading-snug text-highlighted">
-      {{ logo.alt }}
+      {{ logo.name }}
     </span>
   </NuxtLink>
 </template>
@@ -28,7 +28,7 @@ defineProps<{
   logo: {
     url: string
     image: string
-    alt: string
+    name: string
   }
 }>()
 

@@ -189,6 +189,35 @@ class BranchesGlobal(models.Model):
         return self.name
 
 
+class WorkPartner(models.Model):
+    name = models.CharField('Название', max_length=255)
+    url = models.CharField('Ссылка', max_length=500)
+    logo_file = models.ImageField(
+        'Логотип (файл)',
+        upload_to='partners/logos/',
+        blank=True,
+        null=True,
+        help_text='Загрузите PNG, SVG или JPG. Имеет приоритет над путём к статичному файлу.',
+    )
+    logo_path = models.CharField(
+        'Логотип (путь на сайте)',
+        max_length=500,
+        blank=True,
+        help_text='Например /Icons/i-custom-fss.svg — используется, если файл не загружен.',
+    )
+    order = models.PositiveIntegerField('Порядок', default=0)
+    is_active = models.BooleanField('Показывать на главной', default=True)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Партнёр'
+        verbose_name_plural = 'С нами работают'
+        ordering = ['order', 'name']
+
+    def __str__(self):
+        return self.name
+
+
 class AntiCorruptionDocumentCategory(models.Model):
     slug = models.SlugField('Код вкладки', max_length=50, unique=True)
     tab_label = models.CharField('Название вкладки', max_length=120)
@@ -469,6 +498,46 @@ class StaffReservePosition(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class StaffReserveDocument(models.Model):
+    name = models.CharField('Название', max_length=255)
+    file = models.FileField('Файл', upload_to='staff_reserve/documents/')
+    is_active = models.BooleanField(
+        'Активен',
+        default=True,
+        help_text='Неактивные документы не публикуются на сайте',
+    )
+    order = models.PositiveIntegerField('Порядок', default=0)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Документ кадрового резерва'
+        verbose_name_plural = 'Документы кадрового резерва'
+        ordering = ['order', '-created_at']
+
+    def __str__(self):
+        return self.name
+
+
+class VacancyDocument(models.Model):
+    name = models.CharField('Название', max_length=255)
+    file = models.FileField('Файл', upload_to='vacancies/documents/')
+    is_active = models.BooleanField(
+        'Активен',
+        default=True,
+        help_text='Неактивные документы не публикуются на сайте',
+    )
+    order = models.PositiveIntegerField('Порядок', default=0)
+    created_at = models.DateTimeField('Дата создания', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Документ раздела «Вакансии»'
+        verbose_name_plural = 'Документы раздела «Вакансии»'
+        ordering = ['order', '-created_at']
+
+    def __str__(self):
+        return self.name
 
 
 class YouthInfo(models.Model):

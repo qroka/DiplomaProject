@@ -9,7 +9,7 @@ from django.db.models import Q
 from .models import (
     Tender, Vacancy, StaffMember, WorkSchedule, RequiredExperience, JobType,
     AntiCorruptionDocument, AntiCorruptionDocumentCategory, AntiCorruptionInfo, CorruptionReport, BranchesGlobal, Feedback, VacancySubscription,
-    Competition, CompetitionResult, StaffReserveInfo, YouthInfo, PracticeApplication,
+    Competition, CompetitionResult, StaffReserveInfo, StaffReserveDocument, VacancyDocument, WorkPartner, YouthInfo, PracticeApplication,
     TrainingEvent, TrainingFeedback, NewsPost, Department, Deputy,
 )
 from .serializers import (
@@ -17,8 +17,8 @@ from .serializers import (
     JobApplicationSerializer, WorkScheduleSerializer,
     RequiredExperienceSerializer, JobTypeSerializer,
     AntiCorruptionDocumentSerializer, AntiCorruptionDocumentCategorySerializer, AntiCorruptionInfoSerializer, CorruptionReportSerializer,
-    BranchesGlobalSerializer, FeedbackSerializer, VacancySubscriptionSerializer,
-    CompetitionSerializer, CompetitionResultSerializer, StaffReserveInfoSerializer,
+    BranchesGlobalSerializer, WorkPartnerSerializer, FeedbackSerializer, VacancySubscriptionSerializer,
+    CompetitionSerializer, CompetitionResultSerializer, StaffReserveInfoSerializer, StaffReserveDocumentSerializer, VacancyDocumentSerializer,
     YouthInfoSerializer, PracticeApplicationSerializer,
     TrainingEventSerializer, TrainingFeedbackSerializer, NewsPostSerializer,
     DepartmentSerializer, DeputySerializer,
@@ -84,6 +84,28 @@ def portal_search(request):
 
     if len(documents) < limit:
         remaining = limit - len(documents)
+        for item in VacancyDocument.objects.filter(is_active=True, name__icontains=query).values('id', 'name')[:remaining]:
+            documents.append({
+                'kind': 'vacancy_document',
+                'id': item['id'],
+                'title': item['name'],
+                'section': 'Вакансии — документы',
+                'to': '/vacancies#vacancies-documents',
+            })
+
+    if len(documents) < limit:
+        remaining = limit - len(documents)
+        for item in StaffReserveDocument.objects.filter(is_active=True, name__icontains=query).values('id', 'name')[:remaining]:
+            documents.append({
+                'kind': 'staff_reserve_document',
+                'id': item['id'],
+                'title': item['name'],
+                'section': 'Кадровый резерв — документы',
+                'to': '/staffreserve#reserve-documents',
+            })
+
+    if len(documents) < limit:
+        remaining = limit - len(documents)
         for item in AntiCorruptionDocument.objects.filter(name__icontains=query).values('id', 'name')[:remaining]:
             documents.append({
                 'kind': 'anti_corruption',
@@ -121,6 +143,20 @@ def competitions(request):
 def staff_reserve_info(request):
     info = StaffReserveInfo.get_solo()
     serializer = StaffReserveInfoSerializer(info)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def staff_reserve_documents(request):
+    items = StaffReserveDocument.objects.filter(is_active=True)
+    serializer = StaffReserveDocumentSerializer(items, many=True, context={'request': request})
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def vacancy_documents(request):
+    items = VacancyDocument.objects.filter(is_active=True)
+    serializer = VacancyDocumentSerializer(items, many=True, context={'request': request})
     return Response(serializer.data)
 
 
@@ -383,6 +419,13 @@ def submit_corruption_report(request):
 def branches_global(request):
     items = BranchesGlobal.objects.all()
     serializer = BranchesGlobalSerializer(items, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def work_partners(request):
+    items = WorkPartner.objects.filter(is_active=True)
+    serializer = WorkPartnerSerializer(items, many=True, context={'request': request})
     return Response(serializer.data)
 
 

@@ -115,6 +115,16 @@ function clearOrgFilter() {
     </DsContentSection>
 
     <DsContentSection
+      title="Документы"
+      description="Нормативные и информационные материалы о поступлении на муниципальную службу и работе с вакансиями администрации Сургутского района."
+      overline="Материалы"
+      heading-id="vacancies-documents"
+      spacing="lg"
+    >
+      <VacancyDocumentsList />
+    </DsContentSection>
+
+    <DsContentSection
       title="Связанные разделы"
       description="Конкурсы на замещение должностей и программа кадрового резерва администрации Сургутского района"
       overline="Карьера"

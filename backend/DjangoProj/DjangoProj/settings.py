@@ -4,11 +4,11 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-yx26n2*h9^w#2$6*hwhs$4$$0st-f@136a+k-*l)_5-k%rab$&'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-yx26n2*h9^w#2$6*hwhs$4$$0st-f@136a+k-*l)_5-k%rab$&')
 
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com', '172.17.30.36', 'hr.admsr.ru']
 
 
 # Application definition
@@ -132,6 +132,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "https://diploma-project-k4pygafxg-vlads-projects-76ef279f.vercel.app",
     "https://diploma-project-gamma.vercel.app",
+    "http://172.17.30.36",
+    "https://hr.admsr.ru",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -139,4 +141,6 @@ CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = [
     "https://diploma-project-k4pygafxg-vlads-projects-76ef279f.vercel.app",
     "https://diploma-project-gamma.vercel.app",
+    "http://172.17.30.36",
+    "https://hr.admsr.ru",
 ]
