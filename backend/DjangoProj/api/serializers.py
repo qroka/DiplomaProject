@@ -404,11 +404,27 @@ class DepartmentSerializer(serializers.ModelSerializer):
 
 
 class DeputySerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
     departmentSlugs = serializers.SerializerMethodField()
 
     class Meta:
         model = Deputy
         fields = ['role', 'surname', 'name', 'patronymic', 'image', 'departmentSlugs']
+
+    def get_image(self, obj):
+        value = (obj.image or '').strip()
+        if not value:
+            return ''
+        if value.startswith(('http://', 'https://')):
+            return value
+        if value.startswith('/media/'):
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(value)
+            return value
+        if not value.startswith('/'):
+            value = f'/{value}'
+        return value
 
     def get_departmentSlugs(self, obj):
         return list(

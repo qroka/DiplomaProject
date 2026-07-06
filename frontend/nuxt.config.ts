@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     public: {
       apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL !== undefined
         ? process.env.NUXT_PUBLIC_API_BASE_URL
-        : 'http://localhost:8000',
+        : (process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000'),
       esiaFeedbackUrl: process.env.NUXT_PUBLIC_ESIA_FEEDBACK_URL || 'https://pos.gosuslugi.ru/landing/'
     }
   },
@@ -20,6 +20,11 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/a11y'
   ],
+
+  // Статика на nginx без Nitro/IPX — NuxtImg должен отдавать прямые URL
+  image: {
+    provider: 'none',
+  },
 
   vite: {
     optimizeDeps: {

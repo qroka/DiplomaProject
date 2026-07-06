@@ -1,10 +1,20 @@
-"""Pack deployment archives for hr.admsr.ru (scenario A — no db/media)."""
+"""Pack deployment archives for hr.admsr.ru.
+
+Scenario A (default): code + wheels + frontend only.
+Scenario B: also pack deploy_db_sqlite.zip and deploy_media.zip.
+
+Usage:
+  python deploy/pack_deploy.py          # scenario A
+  python deploy/pack_deploy.py --with-data   # scenario B
+"""
+import argparse
 import os
 import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DEPLOY = ROOT / "deploy"
+BACKEND_DIR = ROOT / "backend" / "DjangoProj"
 
 BACKEND_EXCLUDE_NAMES = {"db.sqlite3", "media", "data.json", "__pycache__", "venv", "staticfiles"}
 
@@ -33,13 +43,48 @@ def assert_no_backslashes(zip_path: Path) -> None:
             raise AssertionError(f"backslash paths found in {zip_path.name}: {bad[:5]}")
 
 
+def pack_db_sqlite(dest_zip: Path) -> None:
+    db_path = BACKEND_DIR / "db.sqlite3"
+    if not db_path.exists():
+        raise FileNotFoundError(f"Missing {db_path}")
+    with zipfile.ZipFile(dest_zip, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.write(db_path, "db.sqlite3")
+    assert_no_backslashes(dest_zip)
+    print(f"OK {dest_zip.name}: 1 file, {dest_zip.stat().st_size / 1024 / 1024:.1f} MB")
+
+
+def pack_media(dest_zip: Path) -> None:
+    media_dir = BACKEND_DIR / "media"
+    if not media_dir.is_dir():
+        raise FileNotFoundError(f"Missing {media_dir}")
+    base = BACKEND_DIR.resolve()
+    count = 0
+    with zipfile.ZipFile(dest_zip, "w", zipfile.ZIP_DEFLATED) as zf:
+        for root, _dirs, files in os.walk(media_dir):
+            for f in files:
+                full = os.path.join(root, f)
+                rel = os.path.relpath(full, base)
+                zf.write(full, rel.replace(os.sep, "/"))
+                count += 1
+    assert_no_backslashes(dest_zip)
+    print(f"OK {dest_zip.name}: {count} files, {dest_zip.stat().st_size / 1024 / 1024:.1f} MB")
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Pack hr.admsr.ru deploy archives")
+    parser.add_argument(
+        "--with-data",
+        action="store_true",
+        help="Include deploy_db_sqlite.zip and deploy_media.zip (scenario B)",
+    )
+    args = parser.parse_args()
+
     DEPLOY.mkdir(exist_ok=True)
 
     # 1. Backend code
     backend_zip = DEPLOY / "deploy_backend_code.zip"
     n = zip_dir(
-        ROOT / "backend" / "DjangoProj",
+        BACKEND_DIR,
         backend_zip,
         BACKEND_EXCLUDE_NAMES,
     )
@@ -69,6 +114,10 @@ def main() -> None:
     fcount = zip_dir(public_dir, frontend_zip, set())
     assert_no_backslashes(frontend_zip)
     print(f"OK {frontend_zip.name}: {fcount} files, {frontend_zip.stat().st_size / 1024 / 1024:.1f} MB")
+
+    if args.with_data:
+        pack_db_sqlite(DEPLOY / "deploy_db_sqlite.zip")
+        pack_media(DEPLOY / "deploy_media.zip")
 
     print("\nAll archives ready in deploy/")
     for z in sorted(DEPLOY.glob("deploy_*.zip")):

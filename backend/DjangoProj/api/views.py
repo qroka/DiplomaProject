@@ -448,7 +448,7 @@ def deputies(request):
     items = Deputy.objects.filter(is_published=True).prefetch_related(
         'deputy_departments__department'
     )
-    serializer = DeputySerializer(items, many=True)
+    serializer = DeputySerializer(items, many=True, context={'request': request})
     return Response(serializer.data)
 
 

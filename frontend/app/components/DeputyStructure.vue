@@ -63,17 +63,20 @@
 
         >
 
-          <UAvatar
-
+          <img
+            v-if="deputy.image"
             :src="deputy.image"
-
             :alt="deputyFullName(deputy)"
-
-            :size="deputyAvatarSize"
-
-            class="shrink-0 ring-2 ring-default"
-
-          />
+            class="size-12 shrink-0 rounded-full object-cover ring-2 ring-default"
+            loading="lazy"
+          >
+          <div
+            v-else
+            class="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary ring-2 ring-default"
+            aria-hidden="true"
+          >
+            {{ deputy.name.charAt(0) }}{{ deputy.surname.charAt(0) }}
+          </div>
 
 
 
@@ -117,17 +120,20 @@
 
         <div class="flex items-start gap-4">
 
-          <UAvatar
-
+          <img
+            v-if="selectedDeputy.image"
             :src="selectedDeputy.image"
-
             :alt="deputyFullName(selectedDeputy)"
-
-            class="size-24 shrink-0 ring-2 ring-default"
-
-            :ui="{ root: 'size-24' }"
-
-          />
+            class="size-24 shrink-0 rounded-full object-cover ring-2 ring-default"
+            loading="lazy"
+          >
+          <div
+            v-else
+            class="flex size-24 shrink-0 items-center justify-center rounded-full bg-primary/10 text-lg font-semibold text-primary ring-2 ring-default"
+            aria-hidden="true"
+          >
+            {{ selectedDeputy.name.charAt(0) }}{{ selectedDeputy.surname.charAt(0) }}
+          </div>
 
 
 
@@ -276,12 +282,6 @@ withDefaults(defineProps<{
 
 
 const selectedIndex = ref(0)
-
-
-
-const deputyAvatarSize = 'xl' as const
-
-
 
 const { data: deputiesData, pending } = await useDeputiesList()
 
